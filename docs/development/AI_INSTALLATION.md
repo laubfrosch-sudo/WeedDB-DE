@@ -102,31 +102,56 @@ For custom use in your own scripts, you would generally:
 
 **For this project, the interaction is already provided by the terminal tool you are using.**
 
-### Open-Source Models (via Ollama)
+### OpenCode - Your AI Coding Assistant
 
-With **Ollama**, you can run powerful open-source models (like Llama 3, Code Llama) directly on your own machine. This is an excellent way to have a local AI assistant in your terminal.
+**OpenCode** is the primary AI tool for interacting with this project. It provides specialized support for software development and database management.
 
-1.  **Install Ollama**:
-    *   **macOS**: Download the app from [ollama.com](https://ollama.com) or use Homebrew: `brew install ollama`.
-    *   **Windows**: Download the `.exe` installer from [ollama.com](https://ollama.com).
-    *   **Linux**: Run the installation script: `curl -fsSL https://ollama.com/install.sh | sh`.
+#### Why OpenCode?
+- **Code Specialized**: Optimized for programming and technical tasks
+- **Project Context**: Knows the WeedDB structure and available scripts
+- **Direct Terminal Integration**: Works seamlessly with your local files
+- **Security**: Local processing without cloud dependencies
 
-2.  **Download and Run a Model**: After installation, you can pull a model of your choice. `llama3` is a great starting point.
-    ```bash
-    # Downloads the model (on first run) and starts a chat session
-    ollama run llama3
-    ```
+#### Using OpenCode:
+1. **Launch OpenCode** in your terminal
+2. **Navigate to project**: `cd /path/to/WeedDB`
+3. **Ask for help**: "How do I add a new product?" or "Update all prices"
 
-3.  **Use the Model**: You can now use Ollama in your terminal at any time for general questions or code analysis.
+#### Example Interactions:
+```bash
+# Add product
+opencode: "Add the product 'Blue Dream' to the database"
+
+# Query database
+opencode: "Show me the 5 most expensive products"
+
+# Code analysis
+opencode: "Optimize the add_product.py script"
+```
+
+### Grok Code - Alternative AI Support
+
+**Grok Code** provides alternative AI support with a focus on explanatory and helpful coding.
+
+#### Grok Code Features:
+- **Explanatory Answers**: Detailed explanations of code and concepts
+- **Broad Knowledge**: Comprehensive knowledge across programming languages
+- **Interactive Help**: Step-by-step guidance
+- **Code Generation**: Automatic creation of code snippets
+
+#### Grok Code for WeedDB:
+- **Database Queries**: "How do I create a SQL query for all Indica strains?"
+- **Script Optimization**: "Improve the performance of update_prices.py"
+- **Troubleshooting**: "Why isn't the scraping working?"
 
 ---
 
 ## Step 4: Putting It All Together
 
 After following these steps, your system is fully configured. You can now:
-- Run the project's Python scripts (e.g., `python3 update_all_products.py`).
-- Interact with the integrated AI assistant to manage the database.
-- Use `Ollama` for local AI tasks.
+- Run the project's Python scripts (e.g., `python3 scripts/update_prices.py`).
+- Interact with **OpenCode** to manage the database and develop code.
+- Use **Grok Code** as alternative AI support for complex questions.
 
 For more details on how to interact with the assistant for this specific project, see the `INSTRUCTIONS.md` file.
 

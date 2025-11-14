@@ -102,31 +102,56 @@ Für die eigene Nutzung in Skripten würdest du:
 
 **Für dieses Projekt ist die Interaktion bereits durch das verwendete Terminal-Tool gegeben.**
 
-### Open-Source-Modelle (via Ollama)
+### OpenCode - Dein KI-Coding-Assistent
 
-Mit **Ollama** kannst du leistungsstarke Open-Source-Modelle (wie Llama 3, Code Llama) direkt auf deinem eigenen Computer ausführen. Dies ist eine exzellente Möglichkeit, einen lokalen KI-Assistenten im Terminal zu haben.
+**OpenCode** ist das primäre KI-Tool für die Interaktion mit diesem Projekt. Es bietet spezialisierte Unterstützung für Softwareentwicklung und Datenbank-Management.
 
-1.  **Ollama installieren**:
-    *   **macOS**: Lade die App von [ollama.com](https://ollama.com) herunter oder nutze Homebrew: `brew install ollama`.
-    *   **Windows**: Lade die `.exe`-Datei von [ollama.com](https://ollama.com) herunter.
-    *   **Linux**: Führe das Installations-Skript aus: `curl -fsSL https://ollama.com/install.sh | sh`.
+#### Warum OpenCode?
+- **Spezialisiert auf Code**: Optimiert für Programmierung und technische Aufgaben
+- **Projekt-Kontext**: Kennt die WeedDB-Struktur und verfügbare Scripts
+- **Direkte Terminal-Integration**: Arbeitet nahtlos mit deinen lokalen Dateien
+- **Sicherheit**: Lokale Verarbeitung ohne Cloud-Abhängigkeiten
 
-2.  **Ein Modell herunterladen und ausführen**: Nach der Installation kannst du ein Modell deiner Wahl herunterladen. `llama3` ist ein guter Startpunkt.
-    ```bash
-    # Lädt das Modell herunter (beim ersten Mal) und startet eine Chat-Sitzung
-    ollama run llama3
-    ```
+#### OpenCode verwenden:
+1. **Starte OpenCode** in deinem Terminal
+2. **Navigiere zum Projekt**: `cd /path/to/WeedDB`
+3. **Frage nach Hilfe**: "Wie füge ich ein neues Produkt hinzu?" oder "Aktualisiere alle Preise"
 
-3.  **Modell nutzen**: Du kannst Ollama nun jederzeit im Terminal für allgemeine Fragen oder zur Code-Analyse verwenden.
+#### Beispiel-Interaktionen:
+```bash
+# Produkt hinzufügen
+opencode: "Füge das Produkt 'Blue Dream' zur Datenbank hinzu"
+
+# Datenbank abfragen
+opencode: "Zeige mir die 5 teuersten Produkte"
+
+# Code-Analyse
+opencode: "Optimiere das add_product.py Script"
+```
+
+### Grok Code - Alternative KI-Unterstützung
+
+**Grok Code** bietet eine alternative KI-Unterstützung mit Fokus auf erklärendem und hilfreichem Coding.
+
+#### Grok Code Features:
+- **Erklärende Antworten**: Detaillierte Erklärungen von Code und Konzepten
+- **Breites Wissen**: Umfassende Kenntnisse in verschiedenen Programmiersprachen
+- **Interaktive Hilfe**: Schritt-für-Schritt Anleitungen
+- **Code-Generierung**: Automatische Erstellung von Code-Snippets
+
+#### Grok Code für WeedDB:
+- **Datenbank-Abfragen**: "Wie erstelle ich eine SQL-Abfrage für alle Indica-Sorten?"
+- **Script-Optimierung**: "Verbessere die Performance von update_prices.py"
+- **Fehlerbehebung**: "Warum funktioniert das Scraping nicht?"
 
 ---
 
 ## Schritt 4: Alles zusammenführen
 
 Nachdem du diese Schritte befolgt hast, ist dein System vollständig eingerichtet. Du kannst nun:
-- Die Python-Skripte im Projekt ausführen (`python3 update_all_products.py` etc.).
-- Mit dem integrierten KI-Assistenten interagieren, um die Datenbank zu verwalten.
-- `Ollama` für lokale KI-Aufgaben nutzen.
+- Die Python-Skripte im Projekt ausführen (`python3 scripts/update_prices.py` etc.).
+- Mit **OpenCode** interagieren, um die Datenbank zu verwalten und Code zu entwickeln.
+- **Grok Code** als alternative KI-Unterstützung für komplexe Fragen nutzen.
 
 Weitere Details zur Interaktion mit dem Assistenten findest du in der `ANLEITUNG.md`.
 
