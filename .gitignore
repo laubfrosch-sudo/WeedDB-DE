@@ -1,1 +1,13 @@
+# macOS
 .DS_Store
+
+# Database
+WeedDB.db
+
+# Logs
+*.log
+update_log.txt
+
+# Python cache
+.mypy_cache/
+__pycache__/
