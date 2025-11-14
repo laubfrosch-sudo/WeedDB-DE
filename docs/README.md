@@ -104,13 +104,13 @@ Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)
 
 ## 📖 Documentation
 
-- **`docs/CLAUDE.md`** - Complete technical documentation and architecture (for Claude AI)
-- **`docs/GEMINI.md`** - Technical documentation (for Gemini AI)
-- **`docs/AGENTS.md`** - Comprehensive AI assistant guidelines
+- **`docs/ai-assistants/CLAUDE.md`** - Complete technical documentation and architecture (for Claude AI)
+- **`docs/ai-assistants/GEMINI.md`** - Technical documentation (for Gemini AI)
+- **`docs/ai-assistants/AGENTS.md`** - Comprehensive AI assistant guidelines
 - **`docs/QUERY_EXAMPLES.md`** - SQL query examples for price analysis (60+ examples)
 - **`INSTRUCTIONS.md`** (English) / **`ANLEITUNG.md`** (Deutsch) - Usage instructions
 - **`data/schema.sql`** - Database schema definition
-- **`docs/SORTEN_ÜBERSICHT.md`** - Auto-generated product overview (run `generate_overview.py`)
+- **`docs/generated/SORTEN_ÜBERSICHT.md`** - Auto-generated product overview (run `generate_overview.py`)
 - **`scripts/fix_producers.py`** - Auto-recovery script for missing producer data (v1.4.0)
 
 ---
@@ -164,7 +164,7 @@ After adding or updating products, generate the overview markdown file:
 ```bash
 python3 generate_overview.py
 ```
-This creates/updates `docs/SORTEN_ÜBERSICHT.md` with:
+This creates/updates `docs/generated/SORTEN_ÜBERSICHT.md` with:
 - Best-of list (highest THC, best price, community favorite, etc.)
 - Complete product table sorted by review count
 - Direct links to all products on shop.dransay.com
@@ -337,7 +337,7 @@ ORDER BY pr.category, pr.price_per_g"
 
 ## 📖 Dokumentation
 
-- **`docs/CLAUDE.md`** - Vollständige technische Dokumentation
+- **`docs/ai-assistants/CLAUDE.md`** - Vollständige technische Dokumentation
 - **`docs/QUERY_EXAMPLES.md`** - SQL-Abfrage-Beispiele für Preisanalysen
 - **`ANLEITUNG.md`** (Deutsch) / **`INSTRUCTIONS.md`** (Englisch) - Nutzungsanleitung
 - **`data/schema.sql`** - Datenbankschema-Definition
@@ -390,7 +390,7 @@ Nach dem Hinzufügen oder Aktualisieren von Produkten, generiere die Übersichts
 ```bash
 python3 generate_overview.py
 ```
-Dies erstellt/aktualisiert `docs/SORTEN_ÜBERSICHT.md` mit:
+Dies erstellt/aktualisiert `docs/generated/SORTEN_ÜBERSICHT.md` mit:
 - Bestenliste (höchster THC, bester Preis, Community-Liebling, etc.)
 - Vollständige Produkttabelle sortiert nach Bewertungsanzahl
 - Direkte Links zu allen Produkten auf shop.dransay.com

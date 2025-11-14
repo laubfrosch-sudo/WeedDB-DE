@@ -1,10 +1,8 @@
-# CLAUDE.md
+# WeedDB Project
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-**IMPORTANT FOR AI ASSISTANTS:** When editing this file (CLAUDE.md), always synchronize the corresponding instructions in GEMINI.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
+**IMPORTANT FOR AI ASSISTANTS:** When editing this file (GEMINI.md), always synchronize the corresponding instructions in CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 
 **VERSION 1.4.0 UPDATE:** Enhanced batch processing, auto-recovery features, and improved data extraction reliability.
 
@@ -147,20 +145,6 @@ Running `add_product.py` with an existing product ID will update the product inf
 - Pharmacies are identified by unique name
 - Producer records are created with INSERT OR IGNORE (won't duplicate)
 
-## WebFetch Configuration
-
-The repository includes pre-configured permission for shop.dransay.com in `.claude/settings.local.json`:
-
-```json
-{
-  "permissions": {
-    "allow": ["WebFetch(domain:shop.dransay.com)"]
-  }
-}
-```
-
-This allows automated fetching of product data without manual approval for each request.
-
 ### Bulk Operations
 
 **Update all products in database:**
@@ -172,18 +156,11 @@ This script:
 - Re-scrapes prices for each product
 - Shows progress and provides summary
 
-**Add multiple products from file (Enhanced in v1.4.0):**
+**Add multiple products from file:**
 ```bash
 python3 add_products_batch.py example_products.txt --yes
 ```
 File format: one product name per line (see `data/example_products.txt`)
-- **New in v1.4.0**: Processes products individually with 3-second pauses to avoid timeouts
-
-**Fix missing producer data (New in v1.4.0):**
-```bash
-python3 fix_producers.py
-```
-Automatically corrects missing producer information by re-scraping product pages.
 
 ### Querying Price Data
 
@@ -245,109 +222,60 @@ pip3 install playwright mypy
 python3 -m playwright install chromium
 ```
 
-**Files:**
-- `data/schema.sql` - Database schema (run once to create DB)
-- `add_product.py` - Main script to scrape and add/update individual products
-- `update_all_products.py` - Bulk update script for all products
-- `add_batch_products.py` - Batch script to add multiple new products from a list of product IDs
-- `debug_scrape.py` - Debug utility to inspect page structure when extraction fails
-- `WeedDB.db` - SQLite database (auto-created)
-
-**First-time setup:**
+**Database setup:**
 ```bash
-# Install dependencies
-pip3 install playwright mypy
-python3 -m playwright install chromium
-
-# Create database
 sqlite3 WeedDB.db < schema.sql
-
-# Add first product
-python3 add_product.py 'sourdough'
 ```
 
 ## Type Safety
 
-All Python code uses **strict type annotations** (Python 3.9+ compatible):
-- Functions have fully typed signatures with `Optional`, `Dict`, `List`, `Tuple` from `typing`
+All Python code uses **strict type annotations**:
 - Run type checker: `python3 -m mypy *.py --strict`
-- Type checking ensures correct function usage and prevents runtime errors
+- Ensures correct function usage and prevents runtime errors
 
-## Common Database Queries
+## Common Tasks
+
+### Add New Product
+```bash
+python3 add_product.py 'product_name'
+```
+
+### Update All Products
+```bash
+python3 update_prices.py
+```
+
+### Generate Overview
+```bash
+python3 generate_overview.py
+```
+
+### Batch Add Products
+```bash
+python3 add_products_batch.py example_products.txt --yes
+```
+
+## Database Queries
 
 **View all products with enhanced data:**
 ```sql
-sqlite3 WeedDB.db "SELECT
-  p.name, p.genetics, p.thc_percent || '%' as THC,
-  p.rating || '★' as Rating, p.review_count as Reviews,
-  pr.name as Producer
+SELECT p.name, p.genetics, p.thc_percent || '%' as THC,
+       p.rating || '★' as Rating, p.review_count as Reviews,
+       pr.name as Producer
 FROM products p
 LEFT JOIN producers pr ON p.producer_id = pr.id
-ORDER BY p.rating DESC"
-```
-
-**Find products by terpene profile:**
-```sql
-sqlite3 WeedDB.db "SELECT DISTINCT p.name, p.genetics,
-  GROUP_CONCAT(t.name, ', ') as terpenes
-FROM products p
-JOIN product_terpenes pt ON p.id = pt.product_id
-JOIN terpenes t ON pt.terpene_id = t.id
-WHERE t.name = 'Myrcen'
-GROUP BY p.id"
-```
-
-**Find products by therapeutic use:**
-```sql
-sqlite3 WeedDB.db "SELECT DISTINCT p.name, p.genetics, p.thc_percent,
-  GROUP_CONCAT(tu.name, ', ') as uses
-FROM products p
-JOIN product_therapeutic_uses ptu ON p.id = ptu.product_id
-JOIN therapeutic_uses tu ON ptu.therapeutic_use_id = tu.id
-WHERE tu.name = 'chronic pain'
-GROUP BY p.id
-ORDER BY p.rating DESC"
-```
-
-**Find products with specific effects:**
-```sql
-sqlite3 WeedDB.db "SELECT p.name, p.genetics, p.rating,
-  GROUP_CONCAT(e.name, ', ') as effects
-FROM products p
-JOIN product_effects pe ON p.id = pe.product_id
-JOIN effects e ON pe.effect_id = e.id
-WHERE e.name IN ('relaxing', 'pain relief')
-GROUP BY p.id
-ORDER BY p.rating DESC"
+ORDER BY p.rating DESC;
 ```
 
 **Current prices by category:**
 ```sql
-sqlite3 WeedDB.db "SELECT p.name, pr.category, pr.price_per_g, ph.name as pharmacy
+SELECT p.name, pr.category, pr.price_per_g, ph.name as pharmacy
 FROM products p
 JOIN prices pr ON p.id = pr.product_id
 JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-WHERE pr.timestamp = (SELECT MAX(timestamp) FROM prices WHERE product_id = p.id AND category = pr.category)
-ORDER BY p.name, pr.category"
-```
-
-**Price history for a product (by category):**
-```sql
-sqlite3 WeedDB.db "SELECT pr.timestamp, pr.category, ph.name, pr.price_per_g
-FROM prices pr
-JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-WHERE pr.product_id = 973
-ORDER BY pr.timestamp DESC, pr.category"
-```
-
-**Find cheapest products overall:**
-```sql
-sqlite3 WeedDB.db "SELECT p.name, MIN(pr.price_per_g) as min_price, ph.name as pharmacy, pr.category
-FROM products p
-JOIN prices pr ON p.id = pr.product_id
-JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-GROUP BY p.id
-ORDER BY min_price"
+WHERE pr.timestamp = (SELECT MAX(timestamp) FROM prices
+                      WHERE product_id = p.id AND category = pr.category)
+ORDER BY p.name, pr.category;
 ```
 
 ## Architecture Notes
@@ -355,7 +283,7 @@ ORDER BY min_price"
 ### Data Model
 - **SQLite database** with simple product and price tracking
 - **Product ID as PRIMARY KEY**: Uses shop.dransay.com's product ID
-- **Category-based price tracking**: Two price entries per scrape (top/all)
+- **Category-based price tracking**: Two price entries per scrape (top/all categories)
 - **Historical price tracking**: Never delete prices, always INSERT new entries with timestamps
 - **Automatic de-duplication**: `INSERT OR IGNORE` for pharmacies
 
@@ -377,6 +305,53 @@ ORDER BY min_price"
 - **Real pharmacy names**: Stores actual pharmacy names instead of generic placeholders
 - **Simplified scraping**: No need to parse multiple pharmacy cards - website does the filtering
 - **Price history preservation**: Re-running script adds new timestamped entries for trend analysis
+
+## Key Scripts and Their Functions
+
+### Core Scripts
+
+**add_product.py** - Main script to scrape and add/update individual products
+```bash
+python3 add_product.py <product_name>
+```
+- Searches shop.dransay.com for product
+- Scrapes product details (name, URL, THC%, genetics, ratings, etc.)
+- Extracts cheapest prices from two categories: "top" and "all" pharmacies
+- Stores complete product data with all attributes
+- Creates historical price entries
+
+**update_prices.py** - Bulk update script for all products
+```bash
+python3 update_prices.py
+```
+- Fetches all products from database
+- Re-scrapes prices for each product
+- Updates price history while preserving existing data
+
+**add_products_batch.py** - Batch script to add multiple products (Enhanced in v1.4.0)
+```bash
+python3 add_products_batch.py example_products.txt --yes
+```
+- Reads product names from file (one per line)
+- Processes each product individually with 3-second pauses to avoid timeouts
+- Use --yes flag to skip confirmation prompt
+- **New in v1.4.0**: Single-product batches for maximum reliability
+
+**fix_producers.py** - Auto-recovery script for missing producer data (New in v1.4.0)
+```bash
+python3 fix_producers.py
+```
+- Automatically scans and corrects missing producer information
+- Re-scrapes product pages to identify manufacturers
+- Updates database with corrected producer relationships
+
+**generate_overview.py** - Creates product overview markdown
+```bash
+python3 generate_overview.py
+```
+- Generates SORTEN_ÜBERSICHT.md from database
+- Creates best-of lists and complete product tables
+- Includes direct links to shop.dransay.com
 
 ## Troubleshooting
 
@@ -416,97 +391,11 @@ ORDER BY min_price"
      ```
   5. Regenerate overview: `python3 generate_overview.py`
 
-## Database Queries
-
-**For comprehensive query examples, see `QUERY_EXAMPLES.md`** - includes multi-pharmacy price comparison, product search by terpenes/effects, statistics, and advanced analytics.
-
-**Open SQLite CLI:**
-```bash
-sqlite3 WeedDB.db
-```
-
-**Useful CLI commands:**
-- `.schema` - Show all table definitions
-- `.tables` - List all tables and views
-- `.mode column` - Format output as columns
-- `.headers on` - Show column headers
-- `.width 30 10 10 10` - Set column widths for better formatting
-
-**Get database statistics:**
-```sql
-sqlite3 WeedDB.db "SELECT
-  COUNT(*) as Total,
-  COUNT(CASE WHEN genetics = 'Indica' THEN 1 END) as Indica,
-  COUNT(CASE WHEN genetics = 'Sativa' THEN 1 END) as Sativa,
-  COUNT(CASE WHEN genetics = 'Hybrid' THEN 1 END) as Hybrid,
-  COUNT(DISTINCT producer_id) as Producers,
-  ROUND(AVG(thc_percent), 1) as 'Avg THC%',
-  ROUND(AVG(rating), 2) as 'Avg Rating'
-FROM products"
-```
-
-**List all pharmacies with statistics:**
-```sql
-sqlite3 WeedDB.db "SELECT
-  ph.name as Pharmacy,
-  COUNT(DISTINCT pr.product_id) as Products,
-  ROUND(MIN(pr.price_per_g), 2) as 'Min €/g',
-  ROUND(AVG(pr.price_per_g), 2) as 'Avg €/g'
-FROM pharmacies ph
-LEFT JOIN prices pr ON ph.id = pr.pharmacy_id
-GROUP BY ph.id
-ORDER BY COUNT(DISTINCT pr.product_id) DESC"
-```
-
-**Multi-pharmacy price comparison (NEW):**
-```sql
-sqlite3 WeedDB.db "SELECT
-  product_name,
-  pharmacy_count as 'Pharmacies',
-  min_price || '€' as 'Cheapest',
-  max_price || '€' as 'Most Expensive',
-  price_spread || '€' as 'Price Difference'
-FROM product_price_stats
-WHERE pharmacy_count > 1
-ORDER BY price_spread DESC
-LIMIT 10"
-```
-
-**Top 10 cheapest pharmacies overall:**
-```sql
-sqlite3 WeedDB.db "SELECT
-  pharmacy_name,
-  products_offered as 'Products',
-  avg_price_per_g || '€' as 'Avg Price',
-  times_cheapest as '# Times Cheapest'
-FROM pharmacy_price_ranking
-LIMIT 10"
-```
-
-**Find products by therapeutic use with prices:**
-```sql
-sqlite3 WeedDB.db "SELECT
-  p.name,
-  p.genetics,
-  p.thc_percent || '%' as THC,
-  p.rating || '★' as Rating,
-  MIN(pr.price_per_g) as 'Min €/g',
-  ph.name as Pharmacy
-FROM products p
-JOIN product_therapeutic_uses ptu ON p.id = ptu.product_id
-JOIN therapeutic_uses tu ON ptu.therapeutic_use_id = tu.id
-LEFT JOIN prices pr ON p.id = pr.product_id
-LEFT JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-WHERE tu.name = 'insomnia'
-GROUP BY p.id
-ORDER BY p.rating DESC"
-```
-
 ---
 
 ## Dynamische Übersichtsdateien
 
-**Wichtiger Hinweis:** Die Datei `docs/SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert. 
+**Wichtiger Hinweis:** Die Datei `docs/generated/SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert.
 
 **Nach dem Hinzufügen oder Aktualisieren von Produkten MUSS das Skript ausgeführt werden:**
 

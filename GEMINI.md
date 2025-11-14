@@ -1,1 +1,1 @@
-docs/GEMINI.md
+docs/ai-assistants/GEMINI.md

@@ -1,1 +1,1 @@
-docs/SORTEN_ÜBERSICHT.md
+docs/generated/SORTEN_ÜBERSICHT.md

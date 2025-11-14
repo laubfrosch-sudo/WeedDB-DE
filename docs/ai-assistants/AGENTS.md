@@ -1,10 +1,12 @@
-# WeedDB Project
+# AGENTS.md
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
-**IMPORTANT FOR AI ASSISTANTS:** When editing this file (GEMINI.md), always synchronize the corresponding instructions in CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
+**IMPORTANT FOR AI ASSISTANTS:** When editing this file (AGENTS.md), always synchronize the corresponding instructions in GEMINI.md and CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 
 **VERSION 1.4.0 UPDATE:** Enhanced batch processing, auto-recovery features, and improved data extraction reliability.
+
+This file provides guidance to AI Agents (OpenCode, Claude, Gemini, etc.) when working with code in this repository.
 
 ## Project Overview
 
@@ -63,122 +65,86 @@ WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrit
 - Stores only the cheapest price for each category at each timestamp
 - Enables price trend analysis over time
 
-### Price Tracking Strategy
+## Key Scripts and Their Functions
 
-The database stores **only the cheapest price** for each product in two categories:
+### Core Scripts
 
-1. **Top Pharmacies** (`category='top'`) - Best price among curated "top" pharmacies
-2. **All Pharmacies** (`category='all'`) - Best price across all available pharmacies
-
-This approach minimizes storage while capturing the most relevant price information. Each scrape creates two new price entries with the current cheapest pharmacy name and price for each category.
-
-## Data Collection from shop.dransay.com
-
-### Workflow for Adding Products
-
-**Use the `add_product.py` script** to automatically scrape and add products by product name:
-
+**add_product.py** - Main script to scrape and add/update individual products
 ```bash
 python3 add_product.py <product_name>
 ```
+- Searches shop.dransay.com for product
+- Scrapes product details (name, URL, THC%, genetics, ratings, etc.)
+- Extracts cheapest prices from two categories: "top" and "all" pharmacies
+- Stores complete product data with all attributes
+- Creates historical price entries
 
-**Examples:**
-```bash
-python3 add_product.py 'sourdough'
-python3 add_product.py 'gelato'
-python3 add_product.py 'wedding cake'
-```
-
-### How the Script Works
-
-The script uses a **two-category approach** to find the best prices:
-
-**Step-by-Step Process:**
-
-1. **Search for Product** - Searches shop.dransay.com for the product name
-2. **For "Top Pharmacies" (vendorId=top)**:
-   - Navigates to product page with `vendorId=top` parameter
-   - Extracts the cheapest pharmacy name and price shown (site automatically displays cheapest)
-   - Stores: pharmacy name, price, category='top'
-3. **For "All Pharmacies" (vendorId=all)**:
-   - Navigates to product page with `vendorId=all` parameter
-   - Extracts the cheapest pharmacy name and price shown
-   - Stores: pharmacy name, price, category='all'
-4. **Database Insert**:
-   - Creates product record (ID, name, URL)
-   - Creates pharmacy records if they don't exist
-   - Inserts two price entries (one for each category) with timestamps
-
-**Key Features:**
-
-- **Minimal Storage**: Only 2 price entries per product per scrape
-- **Real Pharmacy Names**: Actual pharmacy names (e.g., "Paracelsus Apotheke") instead of generic placeholders
-- **Automatic Comparison**: The website's `vendorId` parameter automatically shows the cheapest option
-- **Historical Tracking**: Re-running the script adds new timestamped entries, preserving price history
-- **Clean Output**: Shows exactly which pharmacy has the best price in each category
-
-**Example Output:**
-```
-=== Scraping Top Pharmacies ===
-🔍 Searching for 'sourdough' (top)
-   ✅ Found product
-   🌐 Loading product page (top)
-   💰 Sanvivo Cannabis Apotheke (=Senftenauer): €6.77/g
-
-=== Scraping All Pharmacies ===
-🔍 Searching for 'sourdough' (all)
-   ✅ Found product
-   🌐 Loading product page (all)
-   💰 Paracelsus Apotheke: €5.69/g
-```
-
-### Duplicate Prevention
-
-Use `product_id` (from shop.dransay.com) as the PRIMARY KEY in products table. The same strain may appear with different IDs if it's from different producers or batches.
-
-Running `add_product.py` with an existing product ID will update the product info and add a new price entry (historical tracking).
-
-### Data Integrity Rules
-
-- Price history is preserved - never delete old prices, always INSERT new ones
-- When re-adding a product, `last_updated` timestamp is updated
-- Pharmacies are identified by unique name
-- Producer records are created with INSERT OR IGNORE (won't duplicate)
-
-### Bulk Operations
-
-**Update all products in database:**
+**update_prices.py** - Bulk update script for all products
 ```bash
 python3 update_prices.py
 ```
-This script:
-- Fetches all products from the database
+- Fetches all products from database
 - Re-scrapes prices for each product
-- Shows progress and provides summary
+- Updates price history while preserving existing data
 
-**Add multiple products from file:**
+**add_products_batch.py** - Batch script to add multiple products (Enhanced in v1.4.0)
 ```bash
 python3 add_products_batch.py example_products.txt --yes
 ```
-File format: one product name per line (see `data/example_products.txt`)
+- Reads product names from file (one per line)
+- Processes each product individually with 3-second pauses to avoid timeouts
+- **New in v1.4.0**: Single-product batches for maximum reliability
 
-### Querying Price Data
-
-**View prices for a specific product:**
-
+**fix_producers.py** - Auto-recovery script for missing producer data (New in v1.4.0)
 ```bash
-sqlite3 WeedDB.db "SELECT p.name, pr.price_per_g, pr.category, ph.name as pharmacy, pr.timestamp
-FROM products p
-JOIN prices pr ON p.id = pr.product_id
-JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-WHERE p.name LIKE '%sourdough%'
-ORDER BY pr.category, pr.price_per_g"
+python3 fix_producers.py
+```
+- Automatically scans and corrects missing producer information
+- Re-scrapes product pages to identify manufacturers
+- Updates database with corrected producer relationships
+
+**generate_overview.py** - Creates product overview markdown
+```bash
+python3 generate_overview.py
+```
+- Generates SORTEN_ÜBERSICHT.md from database
+- Creates best-of lists and complete product tables
+- Includes direct links to shop.dransay.com
+
+### Data Collection Process
+
+The add_product.py script uses a comprehensive scraping approach:
+
+1. **Search for Product** - Searches shop.dransay.com for the product name
+2. **Extract Product Details**:
+   - Product name from `<h1>` element
+   - THC%, CBD% percentages
+   - Genetics (Indica/Sativa/Hybrid)
+   - Rating and review count
+   - Producer information
+   - Terpene profile
+   - Effects and therapeutic uses
+   - Stock level and irradiation status
+3. **Price Extraction (Two Categories)**:
+   - **Top Pharmacies** (`vendorId=top`): Cheapest among curated top pharmacies
+   - **All Pharmacies** (`vendorId=all`): Cheapest across all available pharmacies
+4. **Database Storage**:
+   - Complete product record with all attributes
+   - Pharmacy records (created if needed)
+   - Two price entries per scrape (top + all categories)
+   - Historical price tracking with timestamps
+
+## Dependencies and Setup
+
+**Required Python packages:**
+```bash
+pip3 install playwright mypy
+python3 -m playwright install chromium
 ```
 
-**Example output:**
-```
-Sourdough|5.69|all|Paracelsus Apotheke|2025-11-14 18:56:24
-Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)|2025-11-14 18:56:24
+**Database setup:**
+```bash
+sqlite3 WeedDB.db < schema.sql
 ```
 
 ## Prerequisites
@@ -214,19 +180,6 @@ Before setting up WeedDB, ensure you have the following software installed on yo
 **Browser Engine** (installed via Playwright):
 - Chromium - Headless browser for rendering JavaScript pages
 
-## Dependencies and Setup
-
-**Required Python packages:**
-```bash
-pip3 install playwright mypy
-python3 -m playwright install chromium
-```
-
-**Database setup:**
-```bash
-sqlite3 WeedDB.db < schema.sql
-```
-
 ## Type Safety
 
 All Python code uses **strict type annotations**:
@@ -252,7 +205,7 @@ python3 generate_overview.py
 
 ### Batch Add Products
 ```bash
-python3 add_products_batch.py example_products.txt --yes
+python3 add_products_batch.py example_products.txt
 ```
 
 ## Database Queries
@@ -283,7 +236,7 @@ ORDER BY p.name, pr.category;
 ### Data Model
 - **SQLite database** with simple product and price tracking
 - **Product ID as PRIMARY KEY**: Uses shop.dransay.com's product ID
-- **Category-based price tracking**: Two price entries per scrape (top/all categories)
+- **Category-based price tracking**: Two price entries per scrape (top/all)
 - **Historical price tracking**: Never delete prices, always INSERT new entries with timestamps
 - **Automatic de-duplication**: `INSERT OR IGNORE` for pharmacies
 
@@ -306,52 +259,46 @@ ORDER BY p.name, pr.category;
 - **Simplified scraping**: No need to parse multiple pharmacy cards - website does the filtering
 - **Price history preservation**: Re-running script adds new timestamped entries for trend analysis
 
-## Key Scripts and Their Functions
+## File Structure
 
-### Core Scripts
+- `data/schema.sql` - Database schema definition
+- `add_product.py` - Individual product scraping/addition
+- `update_prices.py` - Bulk price updates
+- `add_products_batch.py` - Batch product addition
+- `generate_overview.py` - Overview markdown generation
+- `WeedDB.db` - SQLite database (auto-created)
+- `data/example_products.txt` - Sample product list for batch processing
+- `docs/generated/SORTEN_ÜBERSICHT.md` - Generated product overview (auto-updated)
 
-**add_product.py** - Main script to scrape and add/update individual products
-```bash
-python3 add_product.py <product_name>
-```
-- Searches shop.dransay.com for product
-- Scrapes product details (name, URL, THC%, genetics, ratings, etc.)
-- Extracts cheapest prices from two categories: "top" and "all" pharmacies
-- Stores complete product data with all attributes
-- Creates historical price entries
+## Important Notes
 
-**update_prices.py** - Bulk update script for all products
-```bash
-python3 update_prices.py
-```
-- Fetches all products from database
-- Re-scrapes prices for each product
-- Updates price history while preserving existing data
+- **Price History**: Never delete old prices, always INSERT new entries
+- **Product ID**: Uses shop.dransay.com's product ID as PRIMARY KEY
+- **Category System**: Two price categories - "top" and "all" pharmacies
+- **WebFetch Permission**: Pre-configured for shop.dransay.com in `.claude/settings.local.json`
+- **Type Safety**: All scripts must pass `mypy --strict` checking
+- **Overview Generation**: Run `generate_overview.py` after database changes to update SORTEN_ÜBERSICHT.md
+- **CRITICAL**: The overview is only as current as the last database update and script execution!
 
-**add_products_batch.py** - Batch script to add multiple products (Enhanced in v1.4.0)
-```bash
-python3 add_products_batch.py example_products.txt --yes
-```
-- Reads product names from file (one per line)
-- Processes each product individually with 3-second pauses to avoid timeouts
-- Use --yes flag to skip confirmation prompt
-- **New in v1.4.0**: Single-product batches for maximum reliability
+---
 
-**fix_producers.py** - Auto-recovery script for missing producer data (New in v1.4.0)
-```bash
-python3 fix_producers.py
-```
-- Automatically scans and corrects missing producer information
-- Re-scrapes product pages to identify manufacturers
-- Updates database with corrected producer relationships
+## Dynamische Übersichtsdateien
 
-**generate_overview.py** - Creates product overview markdown
+**Wichtiger Hinweis:** Die Datei `docs/generated/SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert.
+
+**Nach dem Hinzufügen oder Aktualisieren von Produkten MUSS das Skript ausgeführt werden:**
+
 ```bash
 python3 generate_overview.py
 ```
-- Generates SORTEN_ÜBERSICHT.md from database
-- Creates best-of lists and complete product tables
-- Includes direct links to shop.dransay.com
+
+Das Skript erstellt eine sortierte Übersicht aller Produkte mit:
+- Bestenliste (höchster THC, bester Preis, Community-Liebling, etc.)
+- Vollständige Produkttabelle sortiert nach Bewertungsanzahl
+- Direkte Links zu allen Produktseiten auf shop.dransay.com
+- Automatischen Timestamp der letzten Aktualisierung
+
+**WICHTIG:** Die Übersicht ist nur so aktuell wie die Daten in der Datenbank und die letzte Ausführung des Skripts!
 
 ## Troubleshooting
 
@@ -390,23 +337,3 @@ python3 generate_overview.py
      sqlite3 WeedDB.db "INSERT INTO prices (product_id, pharmacy_id, price_per_g, category, timestamp) VALUES ({product_id}, (SELECT id FROM pharmacies WHERE name = 'Correct Pharmacy Name'), {price}, '{category}', datetime('now'));"
      ```
   5. Regenerate overview: `python3 generate_overview.py`
-
----
-
-## Dynamische Übersichtsdateien
-
-**Wichtiger Hinweis:** Die Datei `docs/SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert.
-
-**Nach dem Hinzufügen oder Aktualisieren von Produkten MUSS das Skript ausgeführt werden:**
-
-```bash
-python3 generate_overview.py
-```
-
-Das Skript erstellt eine sortierte Übersicht aller Produkte mit:
-- Bestenliste (höchster THC, bester Preis, Community-Liebling, etc.)
-- Vollständige Produkttabelle sortiert nach Bewertungsanzahl
-- Direkte Links zu allen Produktseiten auf shop.dransay.com
-- Automatischen Timestamp der letzten Aktualisierung
-
-**WICHTIG:** Die Übersicht ist nur so aktuell wie die Daten in der Datenbank und die letzte Ausführung des Skripts!

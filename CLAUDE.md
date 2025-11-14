@@ -1,1 +1,1 @@
-docs/CLAUDE.md
+docs/ai-assistants/CLAUDE.md
