@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:shop.dransay.com)",
+      "Bash(python3:*)",
+      "Bash(sqlite3:*)",
+      "Bash(while read id)",
+      "Bash(do echo \"Füge Produkt $id hinzu...\" python3 add_product.py \"https://shop.dransay.com/product/placeholder/$id\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
