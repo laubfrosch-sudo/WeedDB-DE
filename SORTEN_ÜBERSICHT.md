@@ -1,7 +1,7 @@
 # Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
 Diese Übersicht wird automatisch aus der `WeedDB.db` Datenbank generiert.
-**Letzte Aktualisierung:** 14.11.2025 19:51
+**Letzte Aktualisierung:** 14.11.2025 20:20
 
 Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
 
@@ -32,7 +32,7 @@ Sorten, die in einer der Top-Kategorien die besten sind, sind in der folgenden T
 
 | Name | Hersteller | THC (%) | Genetik | Bewertung | Reviews | Günstigster Preis (€/g) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [Sourdough](https://shop.dransay.com/product/p/973) 🏆 **Am populärsten** | N/A | 29.0 | N/A | 4.0 | 1832 | 5.69 |
+| [Sourdough](https://shop.dransay.com/product/p/973) 🏆 **Am populärsten** | Pedanios | 29.0 | Indica | 4.0 | 1832 | 5.69 |
 | [Jet Fuel Gelato](https://shop.dransay.com/product/p/8) 🏆 **Günstigster Preis** | N/A | 22.0 | N/A | 3.8 | 1791 | 3.83 |
 | [Black Cherry Punch](https://shop.dransay.com/product/p/698) | N/A | 22.0 | N/A | 4.1 | 1559 | 4.13 |
 | [Chemango Kush](https://shop.dransay.com/product/p/953) 🏆 **Höchster THC-Gehalt** | N/A | 31.0 | N/A | 4.1 | 1336 | 7.2 |

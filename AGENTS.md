@@ -1,8 +1,8 @@
-# OPENCODE.md
+# AGENTS.md
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
-This file provides guidance to OpenCode when working with code in this repository.
+This file provides guidance to AI Agents (OpenCode, Claude, Gemini, etc.) when working with code in this repository.
 
 ## Project Overview
 
@@ -201,6 +201,7 @@ ORDER BY p.name, pr.category;
 - **WebFetch Permission**: Pre-configured for shop.dransay.com in `.claude/settings.local.json`
 - **Type Safety**: All scripts must pass `mypy --strict` checking
 - **Overview Generation**: Run `generate_overview.py` after database changes to update SORTEN_ÜBERSICHT.md
+- **CRITICAL**: The overview is only as current as the last database update and script execution!
 
 ## Troubleshooting
 

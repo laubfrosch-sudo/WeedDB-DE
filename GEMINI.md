@@ -115,7 +115,9 @@ python3 add_products_batch.py example_products.txt
 
 ## Dynamische Übersichtsdateien
 
-**Wichtiger Hinweis:** Die Datei `SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert. Nach dem Hinzufügen oder Aktualisieren von Produkten sollte das Skript ausgeführt werden:
+**Wichtiger Hinweis:** Die Datei `SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert. 
+
+**Nach dem Hinzufügen oder Aktualisieren von Produkten MUSS das Skript ausgeführt werden:**
 
 ```bash
 python3 generate_overview.py
@@ -125,6 +127,9 @@ Das Skript erstellt eine sortierte Übersicht aller Produkte mit:
 - Bestenliste (höchster THC, bester Preis, Community-Liebling, etc.)
 - Vollständige Produkttabelle sortiert nach Bewertungsanzahl
 - Direkte Links zu allen Produktseiten auf shop.dransay.com
+- Automatischen Timestamp der letzten Aktualisierung
+
+**WICHTIG:** Die Übersicht ist nur so aktuell wie die Daten in der Datenbank und die letzte Ausführung des Skripts!
 
 ## Key Scripts and Their Functions
 

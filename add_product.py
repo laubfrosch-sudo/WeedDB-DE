@@ -49,40 +49,49 @@ async def _scrape_product_details_from_card(page: Page, product_card_locator: Lo
 
         print(f"   Debug: Card has {len(lines)} lines of text")
 
-        # Parse the structured text
+        # Parse the structured text with better pattern matching
         # Pattern: genetics, THC%, CBD%, Name, Variant, Rating, (Reviews), ...
         found_cbd = False
         for i, line in enumerate(lines):
-            # Genetics (Indica/Sativa/Hybrid)
+            print(f"   Debug line {i}: '{line}'")
+            
+            # Genetics (Indica/Sativa/Hybrid) - more flexible matching
             if line in ['Indica', 'Sativa', 'Hybrid', 'Hybrid-Sativa', 'Hybrid-Indica']:
                 product_data['genetics'] = line
+                print(f"   ✅ Found genetics: {line}")
 
-            # THC percentage
-            thc_match = re.match(r'THC\s+(\d+(?:\.\d+)?)%', line)
+            # THC percentage - more flexible pattern
+            thc_match = re.search(r'THC\s*(\d+(?:\.\d+)?)%', line)
             if thc_match:
                 product_data['thc_percent'] = float(thc_match.group(1))
+                print(f"   ✅ Found THC: {thc_match.group(1)}%")
 
-            # CBD percentage
-            cbd_match = re.match(r'CBD\s+(\d+(?:\.\d+)?)%', line)
+            # CBD percentage - more flexible pattern
+            cbd_match = re.search(r'CBD\s*(\d+(?:\.\d+)?)%', line)
             if cbd_match:
                 product_data['cbd_percent'] = float(cbd_match.group(1))
                 found_cbd = True
+                print(f"   ✅ Found CBD: {cbd_match.group(1)}%")
                 # Name comes right after CBD
                 if i + 1 < len(lines):
                     product_data['name'] = lines[i + 1]
+                    print(f"   ✅ Found name: {lines[i + 1]}")
                 # Variant comes after name
                 if i + 2 < len(lines):
                     product_data['variant'] = lines[i + 2]
+                    print(f"   ✅ Found variant: {lines[i + 2]}")
 
-            # Rating (decimal number like 4.0)
+            # Rating (decimal number like 4.0) - be more specific
             rating_match = re.match(r'^(\d+\.\d+)$', line)
-            if rating_match and 'rating' not in product_data:
+            if rating_match and 'rating' not in product_data and i > 2:  # Not first lines
                 product_data['rating'] = float(rating_match.group(1))
+                print(f"   ✅ Found rating: {rating_match.group(1)}")
 
             # Review count (pattern like "(1832+)")
             review_match = re.match(r'\((\d+)\+?\)', line)
             if review_match:
                 product_data['review_count'] = int(review_match.group(1))
+                print(f"   ✅ Found review count: {review_match.group(1)}")
 
         # If name not found, use fallback
         if 'name' not in product_data and len(lines) > 3:
@@ -96,7 +105,13 @@ async def _scrape_product_details_from_card(page: Page, product_card_locator: Lo
         if product_data.get('variant'):
             variant_parts = product_data['variant'].split()
             if variant_parts:
-                product_data['producer_name'] = variant_parts[0]
+                potential_producer = variant_parts[0]
+                # Only set as producer if it looks like a brand name (not just numbers/codes)
+                if len(potential_producer) > 2 and not potential_producer.replace('/', '').replace('-', '').isdigit():
+                    product_data['producer_name'] = potential_producer
+                    print(f"   ✅ Found producer: {potential_producer}")
+                else:
+                    print(f"   ⚠ Skipping potential producer: {potential_producer} (looks like code)")
 
     except Exception as e:
         print(f"   ⚠ Error parsing card text: {e}")
@@ -167,111 +182,162 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
     product_details['url'] = product_url
     product_details['category'] = vendor_id
 
-    # Extract product info from page
+    # Extract product info from page with better selectors
     try:
         page_content = await page.content()
+        print(f"   📄 Extracting product details from page")
 
         # Extract detailed product information
         try:
             # Product name
             title_elem = page.locator('h1').first
             product_details['name'] = await title_elem.inner_text()
-        except:
+            print(f"   ✅ Product name: {product_details['name']}")
+        except Exception as e:
+            print(f"   ⚠ Could not extract product name: {e}")
             product_details['name'] = product_name.title()
 
-        # Extract product details from the page
-        # Look for THC/CBD percentages
+        # Get all text content for parsing
         try:
-            thc_elements = await page.locator(r'text=/THC\s+\d+\.?\d*%/').all()
-            for elem in thc_elements:
-                thc_text = await elem.inner_text()
-                thc_match = re.search(r'THC\s+(\d+(?:\.\d+)?)%', thc_text)
-                if thc_match:
+            body_text = await page.locator('body').inner_text()
+            lines = [line.strip() for line in body_text.split('\n') if line.strip()]
+            print(f"   📄 Page has {len(lines)} lines of text")
+            
+            # Parse through all text for better extraction
+            for i, line in enumerate(lines):
+                # Genetics detection - only set once and prefer first occurrence
+                if line in ['Indica', 'Sativa', 'Hybrid', 'Hybrid-Sativa', 'Hybrid-Indica']:
+                    if 'genetics' not in product_details:
+                        product_details['genetics'] = line
+                        print(f"   ✅ Found genetics: {line}")
+
+                # THC percentage
+                thc_match = re.search(r'THC\s*(\d+(?:\.\d+)?)%', line)
+                if thc_match and 'thc_percent' not in product_details:
                     product_details['thc_percent'] = float(thc_match.group(1))
-                    break
-        except:
-            pass
+                    print(f"   ✅ Found THC: {thc_match.group(1)}%")
 
-        try:
-            cbd_elements = await page.locator(r'text=/CBD\s+\d+\.?\d*%/').all()
-            for elem in cbd_elements:
-                cbd_text = await elem.inner_text()
-                cbd_match = re.search(r'CBD\s+(\d+(?:\.\d+)?)%', cbd_text)
-                if cbd_match:
+                # CBD percentage  
+                cbd_match = re.search(r'CBD\s*(\d+(?:\.\d+)?)%', line)
+                if cbd_match and 'cbd_percent' not in product_details:
                     product_details['cbd_percent'] = float(cbd_match.group(1))
+                    print(f"   ✅ Found CBD: {cbd_match.group(1)}%")
+
+                # Rating and reviews
+                rating_review_match = re.search(r'(\d+\.\d+)\s*\((\d+)\+?\)', line)
+                if rating_review_match and 'rating' not in product_details:
+                    product_details['rating'] = float(rating_review_match.group(1))
+                    product_details['review_count'] = int(rating_review_match.group(2))
+                    print(f"   ✅ Found rating: {rating_review_match.group(1)} ({rating_review_match.group(2)} reviews)")
+
+                # Producer/variant from URL pattern or text
+                if 'Pedanios' in line or 'Aphria' in line or 'Aurora' in line:
+                    if 'variant' not in product_details:
+                        product_details['variant'] = line
+                        producer_name = line.split()[0] if line.split() else line
+                        if len(producer_name) > 2:
+                            product_details['producer_name'] = producer_name
+                            print(f"   ✅ Found producer/variant: {producer_name}")
+
+        except Exception as e:
+            print(f"   ⚠ Error parsing page text: {e}")
+
+        # Fallback: Try specific selectors for missing data
+        if 'genetics' not in product_details:
+            try:
+                genetics_elements = await page.locator(r'text=/^(Indica|Sativa|Hybrid|Hybrid-Sativa|Hybrid-Indica)$/').all()
+                for elem in genetics_elements:
+                    genetics_text = await elem.inner_text()
+                    if genetics_text in ['Indica', 'Sativa', 'Hybrid', 'Hybrid-Sativa', 'Hybrid-Indica']:
+                        product_details['genetics'] = genetics_text
+                        print(f"   ✅ Found genetics via selector: {genetics_text}")
+                        break
+            except:
+                pass
+
+        # Extract producer from URL if still missing
+        if 'producer_name' not in product_details and product_url:
+            url_parts = product_url.lower().split('/')
+            for part in url_parts:
+                if 'pedanios' in part:
+                    product_details['producer_name'] = 'Pedanios'
+                    print(f"   ✅ Found producer from URL: Pedanios")
                     break
-        except:
-            pass
-
-        # Extract genetics
-        try:
-            genetics_elements = await page.locator(r'text=/^(Indica|Sativa|Hybrid|Hybrid-Sativa|Hybrid-Indica)$/').all()
-            for elem in genetics_elements:
-                genetics_text = await elem.inner_text()
-                if genetics_text in ['Indica', 'Sativa', 'Hybrid', 'Hybrid-Sativa', 'Hybrid-Indica']:
-                    product_details['genetics'] = genetics_text
+                elif 'aphria' in part:
+                    product_details['producer_name'] = 'Aphria'
+                    print(f"   ✅ Found producer from URL: Aphria")
                     break
-        except:
-            pass
 
-        # Extract rating and review count
-        try:
-            # Look for rating patterns like "4.2 (183+)"
-            rating_elements = await page.locator(r'text=/\d+\.\d+\s*\(\d+\+?\)/').all()
-            for elem in rating_elements:
-                rating_text = await elem.inner_text()
-                rating_match = re.search(r'(\d+\.\d+)\s*\((\d+)\+?\)', rating_text)
-                if rating_match:
-                    product_details['rating'] = float(rating_match.group(1))
-                    product_details['review_count'] = int(rating_match.group(2))
-                    break
-        except:
-            pass
-
-        # Extract producer/variant info
-        try:
-            # Look for variant information in product details
-            variant_elements = await page.locator('[class*="variant"], [class*="producer"], [data-testid*="variant"]').all()
-            for elem in variant_elements:
-                variant_text = await elem.inner_text()
-                if '/' in variant_text and any(char.isdigit() for char in variant_text):
-                    product_details['variant'] = variant_text
-                    # Extract producer name (usually first word)
-                    producer_name = variant_text.split()[0]
-                    if len(producer_name) > 2:
-                        product_details['producer_name'] = producer_name
-                    break
-        except:
-            pass
-
-        # Find pharmacy name and price
-        # Look for elements containing "Apotheke"
-        apotheke_elements = await page.locator('text=/Apotheke/').all()
-
+        # Find pharmacy name and price with better selectors
         pharmacy_name = None
         price_per_g = None
 
-        for elem in apotheke_elements:
-            try:
-                elem_text = await elem.inner_text()
-                parent = elem.locator('..')
-                parent_text = await parent.inner_text()
+        print(f"   🔍 Starting pharmacy/price extraction...")
+        try:
+            # Method 1: Look for price elements with €/g pattern
+            price_elements = await page.locator(r'text=/€\s*\d+\.\d+\s*\/\s*g/').all()
+            print(f"   🔍 Found {len(price_elements)} price elements")
+            
+            for price_elem in price_elements:
+                try:
+                    price_text = await price_elem.inner_text()
+                    price_match = re.search(r'€\s*(\d+\.\d+)\s*/\s*g', price_text)
+                    if price_match:
+                        price_per_g = float(price_match.group(1))
+                        print(f"   💰 Found price: €{price_per_g}/g")
+                        
+                        # Look for nearby pharmacy name
+                        parent = price_elem.locator('..')
+                        parent_text = await parent.inner_text()
+                        
+                        # Search for Apotheke in parent text
+                        pharmacy_match = re.search(r'([^\n]*Apotheke[^\n]*)', parent_text)
+                        if pharmacy_match:
+                            pharmacy_name = pharmacy_match.group(1).strip()
+                            print(f"   🏥 Found pharmacy: {pharmacy_name}")
+                            break
+                        else:
+                            # Try broader search for Apotheke
+                            apotheke_elements = await page.locator('text=/Apotheke/').all()
+                            for apo_elem in apotheke_elements:
+                                apo_text = await apo_elem.inner_text()
+                                if 'Apotheke' in apo_text and len(apo_text.strip()) > 8:
+                                    pharmacy_name = apo_text.strip()
+                                    print(f"   🏥 Found pharmacy via search: {pharmacy_name}")
+                                    break
+                            
+                            if pharmacy_name:
+                                break
+                except:
+                    continue
 
-                # Extract pharmacy name
-                pharmacy_match = re.search(r'([^\n]+Apotheke[^\n]*)', elem_text)
-                if pharmacy_match:
-                    pharmacy_name = pharmacy_match.group(1).strip()
-
-                # Extract price from parent
-                price_match = re.search(r'€\s*(\d+\.\d+)\s*/\s*g', parent_text)
-                if price_match:
-                    price_per_g = float(price_match.group(1))
-
-                if pharmacy_name and price_per_g:
+            # Method 2: If no price found, try different approach
+            if not price_per_g:
+                print(f"   🔍 Trying alternative price extraction...")
+                body_text = await page.locator('body').inner_text()
+                
+                # Find all price patterns
+                price_matches = re.finditer(r'€\s*(\d+\.\d+)\s*/\s*g', body_text)
+                for match in price_matches:
+                    price_per_g = float(match.group(1))
+                    print(f"   💰 Found price via text search: €{price_per_g}/g")
+                    
+                    # Look for Apotheke near this price
+                    start_pos = max(0, match.start() - 200)
+                    end_pos = match.end() + 200
+                    context = body_text[start_pos:end_pos]
+                    
+                    pharmacy_match = re.search(r'([^\n]*Apotheke[^\n]*)', context)
+                    if pharmacy_match:
+                        pharmacy_name = pharmacy_match.group(1).strip()
+                        print(f"   🏥 Found pharmacy near price: {pharmacy_name}")
+                        break
+                    
+                    # If we found a price, break after first one
                     break
 
-            except:
-                continue
+        except Exception as e:
+            print(f"   ⚠ Error during pharmacy/price extraction: {e}")
 
         product_details['cheapest_pharmacy_name'] = pharmacy_name
         product_details['cheapest_price_per_g'] = price_per_g
@@ -284,6 +350,96 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
     except Exception as e:
         print(f"   ⚠ Error extracting details: {e}")
         product_details['cheapest_pharmacy_name'] = None
+        product_details['cheapest_price_per_g'] = None
+
+        # Find pharmacy name and price with better selectors
+        pharmacy_name = None
+        price_per_g = None
+
+        print(f"   🔍 Starting pharmacy/price extraction...")
+        try:
+            # Method 1: Look for price elements with €/g pattern
+            price_elements = await page.locator(r'text=/€\s*\d+\.\d+\s*\/\s*g/').all()
+            print(f"   🔍 Found {len(price_elements)} price elements")
+            
+            for price_elem in price_elements:
+                try:
+                    price_text = await price_elem.inner_text()
+                    price_match = re.search(r'€\s*(\d+\.\d+)\s*/\s*g', price_text)
+                    if price_match:
+                        price_per_g = float(price_match.group(1))
+                        print(f"   💰 Found price: €{price_per_g}/g")
+                        
+                        # Look for nearby pharmacy name
+                        parent = price_elem.locator('..')
+                        parent_text = await parent.inner_text()
+                        
+                        # Search for Apotheke in parent text
+                        pharmacy_match = re.search(r'([^\n]*Apotheke[^\n]*)', parent_text)
+                        if pharmacy_match:
+                            pharmacy_name = pharmacy_match.group(1).strip()
+                            print(f"   🏥 Found pharmacy: {pharmacy_name}")
+                            break
+                        else:
+                            # Try broader search for Apotheke
+                            apotheke_elements = await page.locator('text=/Apotheke/').all()
+                            for apo_elem in apotheke_elements:
+                                apo_text = await apo_elem.inner_text()
+                                if 'Apotheke' in apo_text and len(apo_text.strip()) > 8:
+                                    pharmacy_name = apo_text.strip()
+                                    print(f"   🏥 Found pharmacy via search: {pharmacy_name}")
+                                    break
+                            
+                            if pharmacy_name:
+                                break
+                except:
+                    continue
+
+            # Method 2: If no price found, try different approach
+            if not price_per_g:
+                print(f"   🔍 Trying alternative price extraction...")
+                body_text = await page.locator('body').inner_text()
+                
+                # Find all price patterns
+                price_matches = re.finditer(r'€\s*(\d+\.\d+)\s*/\s*g', body_text)
+                for match in price_matches:
+                    price_per_g = float(match.group(1))
+                    print(f"   💰 Found price via text search: €{price_per_g}/g")
+                    
+                    # Look for Apotheke near this price
+                    start_pos = max(0, match.start() - 200)
+                    end_pos = match.end() + 200
+                    context = body_text[start_pos:end_pos]
+                    
+                    pharmacy_match = re.search(r'([^\n]*Apotheke[^\n]*)', context)
+                    if pharmacy_match:
+                        pharmacy_name = pharmacy_match.group(1).strip()
+                        print(f"   🏥 Found pharmacy near price: {pharmacy_name}")
+                        break
+                    
+                    # If we found a price, break after first one
+                    break
+
+        except Exception as e:
+            print(f"   ⚠ Error during pharmacy/price extraction: {e}")
+
+        product_details['cheapest_pharmacy_name'] = pharmacy_name
+        product_details['cheapest_price_per_g'] = price_per_g
+
+        if pharmacy_name and price_per_g:
+            print(f"   💰 {pharmacy_name}: €{price_per_g}/g")
+        else:
+            print(f"   ⚠ Could not extract pharmacy/price")
+            # Ensure defaults exist
+            if not pharmacy_name:
+                product_details['cheapest_pharmacy_name'] = None
+            if not price_per_g:
+                product_details['cheapest_price_per_g'] = None
+
+    # Ensure all required fields exist
+    if 'cheapest_pharmacy_name' not in product_details:
+        product_details['cheapest_pharmacy_name'] = None
+    if 'cheapest_price_per_g' not in product_details:
         product_details['cheapest_price_per_g'] = None
 
     return product_details
