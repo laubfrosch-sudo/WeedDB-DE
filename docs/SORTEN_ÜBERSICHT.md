@@ -1,7 +1,11 @@
+<div align="center">
+  <img src="../assets/icons/WeedDB.jpeg" alt="WeedDB Logo" width="300"/>
+</div>
+
 # Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
 Diese Übersicht wird automatisch aus der `../data/WeedDB.db` Datenbank generiert.
-**Letzte Aktualisierung:** 14.11.2025 23:21
+**Letzte Aktualisierung:** 15.11.2025 00:04
 
 Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
 

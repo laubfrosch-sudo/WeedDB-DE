@@ -1,3 +1,13 @@
+---
+created: 2024-04-01
+updated: 2025-11-15
+version: 1.5.0
+author: laubfrosch-sudo
+status: stable
+description: Universal guidelines for all AI assistants working with WeedDB
+related_docs: [CLAUDE.md, GEMINI.md]
+---
+
 # AGENTS.md
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)

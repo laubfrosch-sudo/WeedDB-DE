@@ -1,4 +1,16 @@
-# How to Interact with the AI Assistant (v1.4.0)
+---
+created: 2024-02-01
+updated: 2025-11-15
+version: 1.5.0
+author: laubfrosch-sudo
+status: stable
+language: en
+target_audience: All Users
+description: Guide for interacting with AI assistants (Claude/Gemini) to manage WeedDB
+sync_with: ANLEITUNG.md
+---
+
+# How to Interact with the AI Assistant (v1.5.0)
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
@@ -88,6 +100,9 @@ You can also request changes to the structure and content of the overview file.
 
 **Example Prompts:**
 
-*   `Can you somehow highlight the strains in the overview that are the best in any category?`
-*   `Also, add a link to the correct page for the strain in the "Best of" list.`
-*   `The remaining strains in the main table should also have links.`
+*   `Create a separate overview for Indica strains only, sorted by THC content.`
+*   `Add a column showing the top-3 terpenes for each strain.`
+*   `Show producer/manufacturer information in the overview.`
+*   `Create a price comparison table with the 3 cheapest pharmacies per product.`
+*   `Group strains by genetics (Indica/Sativa/Hybrid) in separate tables.`
+*   `Add a column for therapeutic uses/medical applications.`

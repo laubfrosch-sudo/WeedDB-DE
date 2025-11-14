@@ -1,6 +1,22 @@
+---
+created: 2024-01-15
+updated: 2025-11-15
+version: 1.5.0
+author: laubfrosch-sudo
+status: stable
+description: Technical documentation and guidelines for Gemini AI when working with WeedDB
+sync_with: CLAUDE.md, docs/ai-assistants/GEMINI.md
+---
+
+<div align="center">
+  <img src="docs/assets/icons/WeedDB.jpeg" alt="WeedDB Logo" width="300"/>
+</div>
+
 # WeedDB Project
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+
+> *Logo created with Google Gemini*
 
 **IMPORTANT FOR AI ASSISTANTS:** When editing this file (GEMINI.md), always synchronize the corresponding instructions in CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 

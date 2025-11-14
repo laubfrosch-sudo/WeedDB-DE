@@ -1,14 +1,65 @@
+---
+created: 2024-01-15
+updated: 2025-11-15
+version: 1.5.0
+author: laubfrosch-sudo
+status: stable
+description: Technical documentation and guidelines for Claude AI when working with WeedDB
+sync_with: GEMINI.md, docs/ai-assistants/CLAUDE.md
+---
+
+<div align="center">
+  <img src="../assets/icons/WeedDB.jpeg" alt="WeedDB Logo" width="300"/>
+</div>
+
 # CLAUDE.md
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> *Logo created with Google Gemini*
+
 **IMPORTANT FOR AI ASSISTANTS:** When editing this file (CLAUDE.md), always synchronize the corresponding instructions in GEMINI.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 
 **VERSION 1.4.0 UPDATE:** Enhanced batch processing, auto-recovery features, and improved data extraction reliability.
 
 **OBSIDIAN INTEGRATION:** This repository is optimized for Obsidian.md knowledge management with structured folders, cross-links, and navigation guides.
+
+## 📝 Documentation Metadata Policy
+
+**CRITICAL FOR AI ASSISTANTS:** When editing ANY Markdown file in this repository, you **MUST** update the YAML frontmatter:
+
+1. **Update the `updated` field** to today's date (YYYY-MM-DD format)
+2. **Verify the `version` field** matches the current WeedDB version (1.5.0)
+3. **Check the `status` field** (stable/draft/deprecated)
+
+**Example:**
+```yaml
+---
+created: 2024-01-15
+updated: 2025-11-15  # ← Update this to TODAY'S date!
+version: 1.5.0        # ← Verify this matches current WeedDB version
+status: stable
+---
+```
+
+**Full guidelines:** See `docs/DOCUMENTATION_MAINTENANCE.md`
+
+**Files that require frontmatter metadata:**
+- ✅ All files in `docs/user-guides/`
+- ✅ All files in `docs/ai-assistants/`
+- ✅ All files in `docs/development/`
+- ✅ README.md, START.md, CLAUDE.md, GEMINI.md
+- ✅ ANLEITUNG.md, INSTRUCTIONS.md
+- ❌ Auto-generated files (`docs/generated/SORTEN_ÜBERSICHT.md`)
+- ❌ Python scripts (*.py), SQL files, data files
+
+**When syncing CLAUDE.md ↔ GEMINI.md:**
+- Both files must have the **same** `updated` date
+- Both files must have the **same** `version` number
+
+---
 
 ## Project Overview
 

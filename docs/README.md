@@ -1,8 +1,24 @@
-# WeedDB v1.4.0
+---
+created: 2024-01-15
+updated: 2025-11-15
+version: 1.5.0
+author: laubfrosch-sudo
+status: stable
+description: WeedDB - Cannabis Preis-Tracking Datenbank für den deutschen medizinischen Markt
+repository: https://github.com/laubfrosch-sudo/WeedDB
+---
+
+<div align="center">
+  <img src="docs/assets/icons/WeedDB.jpeg" alt="WeedDB Logo" width="300"/>
+</div>
+
+# WeedDB v1.5.0
 
 A comprehensive cannabis product price tracking database for the German market. Scrapes and manages product data from `shop.dransay.com` with intelligent price comparison across pharmacy categories.
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+
+> *Logo created with Google Gemini*
 
 ---
 

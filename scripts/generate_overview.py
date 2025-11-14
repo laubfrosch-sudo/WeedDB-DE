@@ -106,7 +106,11 @@ def generate_overview_markdown(products: List[Dict[str, Any]], best: Dict[str, D
 
     now = datetime.now().strftime('%d.%m.%Y %H:%M')
 
-    md = f"""# Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
+    md = f"""<div align="center">
+  <img src="../assets/icons/WeedDB.jpeg" alt="WeedDB Logo" width="300"/>
+</div>
+
+# Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
 Diese Übersicht wird automatisch aus der `../data/WeedDB.db` Datenbank generiert.
 **Letzte Aktualisierung:** {now}

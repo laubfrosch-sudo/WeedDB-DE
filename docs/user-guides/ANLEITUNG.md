@@ -1,4 +1,16 @@
-# Anleitung zur Interaktion mit dem KI-Assistenten (v1.4.0)
+---
+created: 2024-02-01
+updated: 2025-11-15
+version: 1.5.0
+author: laubfrosch-sudo
+status: stable
+language: de
+target_audience: Alle User
+description: Anleitung zur Interaktion mit KI-Assistenten (Claude/Gemini) für WeedDB-Verwaltung
+sync_with: INSTRUCTIONS.md
+---
+
+# Anleitung zur Interaktion mit dem KI-Assistenten (v1.5.0)
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
@@ -88,6 +100,9 @@ Du kannst auch Wünsche zur Gestaltung der Übersicht äußern.
 
 **Beispiel-Anweisung:**
 
-*   `Kannst du in der Übersicht die Sorten highlighten, die in irgendeiner Kategorie am besten sind?`
-*   `Füge der Bestenliste auch Links zu den jeweiligen Produktseiten hinzu.`
-*   `Die restlichen Sorten in der großen Tabelle sollten auch alle Links haben.`
+*   `Erstelle eine separate Übersicht nur für Indica-Sorten, sortiert nach THC-Gehalt.`
+*   `Füge eine Spalte für die Top-3 Terpene zu jeder Sorte hinzu.`
+*   `Zeige in der Übersicht auch die Hersteller-Information an.`
+*   `Erstelle eine Preisvergleichs-Tabelle mit den günstigsten 3 Apotheken pro Produkt.`
+*   `Gruppiere die Sorten nach Genetik (Indica/Sativa/Hybrid) in separaten Tabellen.`
+*   `Füge eine Spalte mit therapeutischen Anwendungen hinzu.`
