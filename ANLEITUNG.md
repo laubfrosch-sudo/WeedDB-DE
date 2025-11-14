@@ -14,6 +14,17 @@ Du kannst Fragen in natürlicher Sprache stellen, um Informationen aus der Daten
 *   `Zeig mir die Top 5 Sorten mit dem höchsten THC-Gehalt.`
 *   `Was ist die URL für "Grape Face"?`
 *   `Welche Sorten haben einen erdigen Geschmack und wirken entspannend?`
+*   **NEU:** `Vergleiche die Preise für "Gelato" über alle Apotheken.`
+*   **NEU:** `Welche Apotheke hat insgesamt die günstigsten Preise?`
+*   **NEU:** `Zeig mir Produkte mit den größten Preisunterschieden zwischen Apotheken.`
+
+**Erweiterte Abfragen:**
+
+Für umfassende SQL-Abfrage-Beispiele (60+ Beispiele), siehe `QUERY_EXAMPLES.md`. Dies umfasst:
+- Multi-Apotheken-Preisvergleiche
+- Produktsuche nach Terpenen, Effekten und therapeutischen Anwendungen
+- Statistiken und Analysen
+- Best-Value-Berechnungen (THC-zu-Preis-Verhältnis)
 
 ## 2. Daten aktualisieren und verwalten
 

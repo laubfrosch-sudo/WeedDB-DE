@@ -4,6 +4,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**IMPORTANT FOR AI ASSISTANTS:** When editing this file (CLAUDE.md), always synchronize the corresponding instructions in GEMINI.md. Both files must remain consistent regarding schema definitions, dependencies, and core functionality.
+
 ## Project Overview
 
 WeedDB is a cannabis product database that tracks medical cannabis strains and their prices across multiple pharmacies (Versandapotheken) in Germany. The primary data source is shop.dransay.com, which aggregates cannabis product listings from various licensed pharmacies.
@@ -41,13 +43,13 @@ WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrit
 - `id`, `name` (UNIQUE)
 
 **product_effects** - Links products to effects (Many-to-Many)
-- `product_id`, `effect_id`, `strength` (0-3, optional)
+- `product_id`, `effect_id`, `strength` (0-4, optional)
 
 **therapeutic_uses** - Master list of medical applications
 - `id`, `name` (UNIQUE)
 
 **product_therapeutic_uses** - Links products to therapeutic uses (Many-to-Many)
-- `product_id`, `therapeutic_use_id`, `strength` (0-3, optional)
+- `product_id`, `therapeutic_use_id`, `strength` (0-4, optional)
 
 **pharmacies** - German Versandapotheken
 - `id`, `name` (UNIQUE), `location`
@@ -61,6 +63,13 @@ WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrit
 **current_prices** - Latest price for each product-pharmacy combination
 
 **cheapest_current_prices** - Current lowest price per product with pharmacy info
+
+**Multi-Pharmacy Analysis Views** (NEW):
+- **product_pharmacy_prices** - All prices per product with pharmacy details and ranking (last 7 days)
+- **product_price_stats** - Price statistics per product (min, max, avg, spread, pharmacy count)
+- **pharmacy_price_ranking** - Pharmacy ranking by average price and how often they're cheapest
+
+See `QUERY_EXAMPLES.md` for comprehensive query examples and use cases.
 
 ## Data Collection from shop.dransay.com
 
@@ -100,20 +109,23 @@ python3 add_product.py "https://shop.dransay.com/product/black-cherry-punch-enua
    - **Terpenes**: Limonen, Linalool, Caryophyllen, Myrcen, Pinen, Humulen, Terpinolen
    - **Effects**: relaxing, euphoric, sedative, uplifting, creative, focused, pain relief, anti-inflammatory, anxiety relief
    - **Therapeutic uses**: chronic pain, anxiety, depression, insomnia, inflammation, stress, PTSD, ADHD, appetite loss, nausea, migraine, arthritis, Parkinson, epilepsy
-   - Featured pharmacy name and price per gram
+   - **ALL pharmacy prices**: Extracts prices from ALL pharmacies on the page (not just the cheapest)
 3. **Inserts into database**:
    - Creates/updates product record with all extracted data
    - Creates producer record (auto-extracted or from parameter)
    - Links terpenes, effects, and therapeutic uses via junction tables
-   - Creates pharmacy record and inserts price with timestamp
-4. **Automatic duplicate handling**: If product ID already exists, updates the record and adds new price entry
+   - Creates pharmacy records for ALL pharmacies found
+   - **Inserts ALL prices** with timestamps - enabling comprehensive price comparison
+4. **Automatic duplicate handling**: If product ID already exists, updates the record and adds new price entries for all pharmacies
 
 **Important Notes:**
 
-- **Featured Pharmacy Only**: The script extracts only the featured/cheapest pharmacy shown on the product page
-- Historical pricing is preserved - re-running the script adds a new price entry with current timestamp
+- **Multi-Pharmacy Price Tracking**: The script now extracts prices from ALL pharmacies displayed on the page with `vendorId=all`, not just the cheapest one
+- Multiple scraping strategies are used to find all pharmacy listings (vendor cards, price elements with nearby pharmacy names)
+- Historical pricing is preserved - re-running the script adds new price entries for all pharmacies with current timestamp
 - Producer name and origin are optional parameters - if not provided, the script attempts to extract from page title
 - Terpenes, effects, and therapeutic uses are automatically extracted by keyword matching in page content
+- Output shows top 5 cheapest pharmacies sorted by price
 
 ### Duplicate Prevention
 
@@ -326,10 +338,11 @@ ORDER BY pr.timestamp"
 - **Concurrent processing**: `update_all_products.py` uses ThreadPoolExecutor (5 workers) for bulk updates
 
 ### Key Design Decisions
-- **Featured pharmacy only**: Only tracks the featured/cheapest pharmacy per product (intentional simplification)
+- **Multi-pharmacy price tracking**: Tracks ALL pharmacies displayed on product pages (using `vendorId=all`), enabling comprehensive price comparison across the German market
+- **Multi-strategy scraping**: Uses multiple DOM selectors and approaches to find all pharmacy listings (vendor cards, price elements with context)
 - **Many-to-many via junction tables**: Enables flexible queries like "all products with Myrcen terpene"
 - **Keyword-based extraction**: Terpenes, effects, and therapeutic uses extracted by matching known keywords in page text
-- **Price history preservation**: Historical pricing enables trend analysis without separate archival process
+- **Price history preservation**: Historical pricing enables trend analysis without separate archival process - each scrape adds new price entries for all pharmacies
 
 ## Troubleshooting
 
@@ -351,6 +364,8 @@ ORDER BY pr.timestamp"
 
 ## Database Queries
 
+**For comprehensive query examples, see `QUERY_EXAMPLES.md`** - includes multi-pharmacy price comparison, product search by terpenes/effects, statistics, and advanced analytics.
+
 **Open SQLite CLI:**
 ```bash
 sqlite3 WeedDB.db
@@ -358,9 +373,10 @@ sqlite3 WeedDB.db
 
 **Useful CLI commands:**
 - `.schema` - Show all table definitions
-- `.tables` - List all tables
+- `.tables` - List all tables and views
 - `.mode column` - Format output as columns
 - `.headers on` - Show column headers
+- `.width 30 10 10 10` - Set column widths for better formatting
 
 **Get database statistics:**
 ```sql
@@ -386,6 +402,31 @@ FROM pharmacies ph
 LEFT JOIN prices pr ON ph.id = pr.pharmacy_id
 GROUP BY ph.id
 ORDER BY COUNT(DISTINCT pr.product_id) DESC"
+```
+
+**Multi-pharmacy price comparison (NEW):**
+```sql
+sqlite3 WeedDB.db "SELECT
+  product_name,
+  pharmacy_count as 'Pharmacies',
+  min_price || '€' as 'Cheapest',
+  max_price || '€' as 'Most Expensive',
+  price_spread || '€' as 'Price Difference'
+FROM product_price_stats
+WHERE pharmacy_count > 1
+ORDER BY price_spread DESC
+LIMIT 10"
+```
+
+**Top 10 cheapest pharmacies overall:**
+```sql
+sqlite3 WeedDB.db "SELECT
+  pharmacy_name,
+  products_offered as 'Products',
+  avg_price_per_g || '€' as 'Avg Price',
+  times_cheapest as '# Times Cheapest'
+FROM pharmacy_price_ranking
+LIMIT 10"
 ```
 
 **Find products by therapeutic use with prices:**

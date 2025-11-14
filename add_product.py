@@ -8,7 +8,7 @@ import sys
 import re
 import sqlite3
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional, Tuple
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 
 def extract_product_id_from_url(url: str) -> Optional[int]:
@@ -204,24 +204,88 @@ def scrape_product_data(url: str) -> Optional[Dict[str, Any]]:
             except Exception as e:
                 print(f"   ⚠ Therapeutic use extraction failed: {e}")
 
-            # Extract featured pharmacy name and price
+            # Extract ALL pharmacy prices (vendorId=all shows all pharmacies)
+            product_data['pharmacy_prices'] = []
             try:
-                # Look for price per gram display
-                price_elem = page.locator('text=/€\\s*\\d+\\.\\d+\\s*\\/\\s*g/').first
-                price_text = price_elem.inner_text()
-                price_match = re.search(r'€\s*(\d+\.\d+)', price_text)
-                product_data['price_per_g'] = float(price_match.group(1)) if price_match else None
+                # Strategy 1: Look for vendor cards/sections with price info
+                # Try multiple selectors to find pharmacy listings
+                vendor_sections = page.locator('[data-testid*="vendor-card"], [class*="vendor-card"], [class*="pharmacy-option"]').all()
 
-                # Try to find pharmacy name (often in a select/dropdown or label nearby)
-                try:
-                    pharmacy_elem = page.locator('[data-testid*="vendor"], [class*="pharmacy"], [class*="vendor"]').first
-                    product_data['pharmacy_name'] = pharmacy_elem.inner_text().strip().split('\n')[0]
-                except:
-                    product_data['pharmacy_name'] = None
+                if not vendor_sections:
+                    # Strategy 2: Look for price elements and nearby pharmacy names
+                    price_elements = page.locator('text=/€\\s*\\d+\\.\\d+\\s*\\/\\s*g/').all()
 
-            except:
-                product_data['price_per_g'] = None
+                    for price_elem in price_elements:
+                        try:
+                            price_text = price_elem.inner_text()
+                            price_match = re.search(r'€\s*(\d+\.\d+)', price_text)
+                            if not price_match:
+                                continue
+                            price_per_g = float(price_match.group(1))
+
+                            # Try to find pharmacy name near the price element
+                            # Look in parent containers
+                            parent = price_elem.locator('xpath=ancestor::div[contains(@class, "vendor") or contains(@class, "pharmacy") or contains(@data-testid, "vendor")]').first
+                            pharmacy_text = parent.inner_text() if parent else None
+
+                            if pharmacy_text:
+                                # Extract pharmacy name (first line usually)
+                                pharm_name = pharmacy_text.strip().split('\n')[0].strip()
+                                # Clean up common suffixes
+                                pharm_name = re.sub(r'\s*€.*$', '', pharm_name)  # Remove price info
+
+                                if pharm_name and len(pharm_name) > 2:
+                                    product_data['pharmacy_prices'].append((pharm_name, price_per_g))
+                        except Exception:
+                            continue
+                else:
+                    # Process vendor sections
+                    for section in vendor_sections:
+                        try:
+                            section_text = section.inner_text()
+                            # Extract pharmacy name
+                            lines = section_text.strip().split('\n')
+                            pharmacy_name = lines[0].strip() if lines else None
+
+                            # Extract price
+                            price_match = re.search(r'€\s*(\d+\.\d+)', section_text)
+                            if pharmacy_name and price_match:
+                                price_per_g = float(price_match.group(1))
+                                # Type narrowing: pharmacy_name is str here due to the if condition
+                                product_data['pharmacy_prices'].append((pharmacy_name, price_per_g))
+                        except Exception:
+                            continue
+
+                # If no pharmacies found with advanced strategies, fallback to featured pharmacy
+                if not product_data['pharmacy_prices']:
+                    try:
+                        price_elem = page.locator('text=/€\\s*\\d+\\.\\d+\\s*\\/\\s*g/').first
+                        price_text = price_elem.inner_text()
+                        price_match = re.search(r'€\s*(\d+\.\d+)', price_text)
+                        if price_match:
+                            price_per_g = float(price_match.group(1))
+
+                            # Try to find pharmacy name
+                            try:
+                                pharmacy_elem = page.locator('[data-testid*="vendor"], [class*="pharmacy"], [class*="vendor"]').first
+                                pharmacy_name = pharmacy_elem.inner_text().strip().split('\n')[0]
+                                product_data['pharmacy_prices'].append((pharmacy_name, price_per_g))
+                            except:
+                                # Use generic name if not found
+                                product_data['pharmacy_prices'].append(("Featured Pharmacy", price_per_g))
+                    except Exception:
+                        pass
+
+            except Exception as e:
+                print(f"   ⚠ Pharmacy price extraction failed: {e}")
+
+            # Keep legacy single pharmacy fields for backward compatibility
+            if product_data['pharmacy_prices']:
+                product_data['pharmacy_name'] = product_data['pharmacy_prices'][0][0]
+                product_data['price_per_g'] = product_data['pharmacy_prices'][0][1]
+            else:
                 product_data['pharmacy_name'] = None
+                product_data['price_per_g'] = None
 
             browser.close()
 
@@ -240,9 +304,17 @@ def scrape_product_data(url: str) -> Optional[Dict[str, Any]]:
             if product_data.get('therapeutic_uses'):
                 print(f"   Therapeutic: {', '.join(product_data['therapeutic_uses'][:3])}...")
 
-            print(f"\n💰 Featured Pharmacy:")
-            print(f"   {product_data.get('pharmacy_name', 'N/A')}")
-            print(f"   €{product_data.get('price_per_g', 'N/A')}/g")
+            print(f"\n💰 Pharmacy Prices ({len(product_data.get('pharmacy_prices', []))} pharmacies found):")
+            if product_data.get('pharmacy_prices'):
+                # Sort by price ascending
+                sorted_prices = sorted(product_data['pharmacy_prices'], key=lambda x: x[1])
+                for i, (pharmacy, price) in enumerate(sorted_prices[:5], 1):  # Show top 5
+                    marker = "🏆" if i == 1 else f"  {i}."
+                    print(f"   {marker} {pharmacy}: €{price:.2f}/g")
+                if len(sorted_prices) > 5:
+                    print(f"   ... and {len(sorted_prices) - 5} more")
+            else:
+                print(f"   No pharmacy prices found")
 
             return product_data
 
@@ -298,8 +370,24 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]], producer_name: 
             datetime.now()
         ))
 
-        # Insert pharmacy and price (if available)
-        if product_data.get('pharmacy_name') and product_data.get('price_per_g'):
+        # Insert ALL pharmacy prices (if available)
+        pharmacy_prices_list = product_data.get('pharmacy_prices', [])
+        if pharmacy_prices_list:
+            for pharmacy_name, price_per_g in pharmacy_prices_list:
+                # Insert pharmacy if not exists
+                cursor.execute("INSERT OR IGNORE INTO pharmacies (name) VALUES (?)", (pharmacy_name,))
+                cursor.execute("SELECT id FROM pharmacies WHERE name = ?", (pharmacy_name,))
+                pharmacy_result = cursor.fetchone()
+                if pharmacy_result:
+                    pharmacy_id = pharmacy_result[0]
+
+                    # Insert price entry with current timestamp
+                    cursor.execute("""
+                        INSERT INTO prices (product_id, pharmacy_id, price_per_g, timestamp)
+                        VALUES (?, ?, ?, ?)
+                    """, (product_data['id'], pharmacy_id, price_per_g, datetime.now()))
+        # Fallback to legacy single pharmacy field if no pharmacy_prices list
+        elif product_data.get('pharmacy_name') and product_data.get('price_per_g'):
             cursor.execute("INSERT OR IGNORE INTO pharmacies (name) VALUES (?)",
                           (product_data['pharmacy_name'],))
             cursor.execute("SELECT id FROM pharmacies WHERE name = ?",
@@ -350,27 +438,35 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]], producer_name: 
                               (product_data['id'], use_id))
 
         conn.commit()
-        print(f"\n✅ Successfully added '{product_data['name']}' to database")
 
-        # Show what was inserted
+        # Count how many prices were inserted
+        prices_inserted = len(pharmacy_prices_list) if pharmacy_prices_list else (1 if product_data.get('pharmacy_name') else 0)
+        print(f"\n✅ Successfully added '{product_data['name']}' to database")
+        print(f"   📊 Inserted {prices_inserted} pharmacy price(s)")
+
+        # Show what was inserted with all current prices
         cursor.execute("""
             SELECT p.name, p.genetics, p.thc_percent, p.rating,
                    ph.name as pharmacy, pr.price_per_g
             FROM products p
-            LEFT JOIN prices pr ON p.id = pr.product_id
-            LEFT JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-            WHERE p.id = ?
-            ORDER BY pr.timestamp DESC
-            LIMIT 1
+            JOIN prices pr ON p.id = pr.product_id
+            JOIN pharmacies ph ON pr.pharmacy_id = ph.id
+            WHERE p.id = ? AND pr.timestamp >= datetime('now', '-1 minute')
+            ORDER BY pr.price_per_g ASC
         """, (product_data['id'],))
 
-        result = cursor.fetchone()
-        if result:
-            print(f"   Product: {result[0]} ({result[1]})")
-            print(f"   THC: {result[2]}%")
-            print(f"   Rating: {result[3]}★")
-            if result[4] and result[5]:
-                print(f"   Price: €{result[5]}/g at {result[4]}")
+        results = cursor.fetchall()
+        if results:
+            first_result = results[0]
+            print(f"   Product: {first_result[0]} ({first_result[1]})")
+            print(f"   THC: {first_result[2]}%")
+            print(f"   Rating: {first_result[3]}★")
+            print(f"   Prices stored:")
+            for i, result in enumerate(results[:5], 1):
+                marker = "🏆" if i == 1 else f"     {i}."
+                print(f"   {marker} €{result[5]:.2f}/g at {result[4]}")
+            if len(results) > 5:
+                print(f"      ... and {len(results) - 5} more")
 
         conn.close()
         return True

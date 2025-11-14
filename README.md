@@ -16,8 +16,8 @@ This project scrapes and manages cannabis product data from `shop.dransay.com`.
 
 2.  **Install Dependencies**
     ```bash
-    pip3 install playwright
-    python3 -m playwright install
+    pip3 install playwright mypy
+    python3 -m playwright install chromium
     ```
 
 3.  **Initialize Database**
@@ -34,7 +34,16 @@ This project scrapes and manages cannabis product data from `shop.dransay.com`.
     python3 update_all_products.py
     ```
 
-For more detailed information, please see `INSTRUCTIONS.md` (English) or `ANLEITUNG.md` (Deutsch).
+5.  **Query the Database**
+    ```bash
+    sqlite3 WeedDB.db
+    ```
+    See `QUERY_EXAMPLES.md` for comprehensive SQL query examples!
+
+For more detailed information, please see:
+- `QUERY_EXAMPLES.md` - SQL query examples for price comparison and analytics
+- `INSTRUCTIONS.md` (English) or `ANLEITUNG.md` (Deutsch) - Usage instructions
+- `CLAUDE.md` - Complete technical documentation
 
 ---
 ---
@@ -57,8 +66,8 @@ Dieses Projekt dient dem Scrapen und Verwalten von Cannabis-Produktdaten von `sh
 
 2.  **Abhängigkeiten installieren**
     ```bash
-    pip3 install playwright
-    python3 -m playwright install
+    pip3 install playwright mypy
+    python3 -m playwright install chromium
     ```
 
 3.  **Datenbank initialisieren**
@@ -75,4 +84,13 @@ Dieses Projekt dient dem Scrapen und Verwalten von Cannabis-Produktdaten von `sh
     python3 update_all_products.py
     ```
 
-Für detailliertere Informationen siehe `INSTRUCTIONS.md` (Englisch) oder `ANLEITUNG.md` (Deutsch).
+5.  **Datenbank abfragen**
+    ```bash
+    sqlite3 WeedDB.db
+    ```
+    Siehe `QUERY_EXAMPLES.md` für umfassende SQL-Abfrage-Beispiele!
+
+Für detailliertere Informationen siehe:
+- `QUERY_EXAMPLES.md` - SQL-Abfrage-Beispiele für Preisvergleich und Analysen
+- `INSTRUCTIONS.md` (Englisch) oder `ANLEITUNG.md` (Deutsch) - Nutzungsanleitung
+- `CLAUDE.md` - Vollständige technische Dokumentation

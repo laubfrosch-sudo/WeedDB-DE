@@ -14,6 +14,17 @@ You can ask questions in natural language to get information from the database. 
 *   `Show me the top 5 strains with the highest THC content.`
 *   `What is the URL for "Grape Face"?`
 *   `Which strains have an earthy taste and a relaxing effect?`
+*   **NEW:** `Compare prices for "Gelato" across all pharmacies.`
+*   **NEW:** `Which pharmacy has the cheapest prices overall?`
+*   **NEW:** `Show me products with the biggest price differences between pharmacies.`
+
+**Advanced Queries:**
+
+For comprehensive SQL query examples (60+ examples), see `QUERY_EXAMPLES.md`. This includes:
+- Multi-pharmacy price comparisons
+- Product search by terpenes, effects, and therapeutic uses
+- Statistics and analytics
+- Best value calculations (THC-to-price ratio)
 
 ## 2. Updating and Managing Data
 
