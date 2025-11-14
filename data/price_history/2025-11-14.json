@@ -1,7 +1,35 @@
 {
   "export_type": "current_snapshot",
   "snapshot_date": "2025-11-14",
-  "export_timestamp": "2025-11-14T23:37:53.087432",
+  "export_timestamp": "2025-11-14T23:41:35.876490",
+  "system_version": "1.4.0",
+  "export_metadata": {
+    "user": "lars",
+    "hostname": "Mac",
+    "python_version": "3.9.6",
+    "working_directory": "/Users/lars/Desktop/Claude/WeedDB/scripts",
+    "command_line": "export_price_history.py"
+  },
+  "data_quality": {
+    "total_products": 25,
+    "total_prices": 45,
+    "unique_pharmacies": 17,
+    "price_range": {
+      "min": 3.5,
+      "max": 9.48,
+      "avg": 5.85
+    },
+    "categories_count": {
+      "top": 22,
+      "all": 23
+    }
+  },
+  "changes_since_last_export": {
+    "new_products": [],
+    "price_changes": [],
+    "new_pharmacies": [],
+    "last_export_date": null
+  },
   "products": {
     "Amnesia Haze Cake": {
       "all": {
@@ -278,5 +306,10 @@
         "timestamp": "2025-11-14 23:36:48.026395"
       }
     }
+  },
+  "data_integrity": {
+    "md5_checksum": "33c60980be67daec2467c849e1a3bdca",
+    "data_size_bytes": 6154,
+    "validation_status": "valid"
   }
 }

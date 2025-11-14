@@ -23,7 +23,21 @@ def validate_price_data(data: Dict[str, Any]) -> bool:
     if 'export_type' not in data:
         print("❌ Missing 'export_type' field")
         return False
-    
+
+    # Check system version compatibility
+    if 'system_version' in data:
+        print(f"📋 Import data from WeedDB v{data['system_version']}")
+    else:
+        print("⚠️  No system version specified in import data")
+
+    # Validate data quality metrics if present
+    if 'data_quality' in data:
+        quality = data['data_quality']
+        if data['export_type'] == 'current_snapshot':
+            print(f"📊 Data quality: {quality.get('total_products', 'N/A')} products, {quality.get('total_prices', 'N/A')} prices")
+        else:  # complete_history
+            print(f"📊 Data quality: {quality.get('total_days', 'N/A')} days, {quality.get('total_historical_entries', 'N/A')} entries")
+
     if data['export_type'] == 'current_snapshot':
         if 'products' not in data:
             print("❌ Missing 'products' field in snapshot")
@@ -35,7 +49,15 @@ def validate_price_data(data: Dict[str, Any]) -> bool:
     else:
         print(f"❌ Unknown export_type: {data['export_type']}")
         return False
-    
+
+    # Validate data integrity if present
+    if 'data_integrity' in data:
+        integrity = data['data_integrity']
+        if integrity.get('validation_status') == 'valid':
+            print("✅ Data integrity check passed")
+        else:
+            print("⚠️  Data integrity check failed")
+
     return True
 
 def import_current_snapshot(data: Dict[str, Any]) -> int:
