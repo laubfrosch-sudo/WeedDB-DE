@@ -2,6 +2,13 @@
 
 Dieser Ordner enthält die vollständige Dokumentation für das WeedDB-Projekt.
 
+**🎯 Obsidian-optimiert:** Diese Dokumentationsstruktur ist speziell für [Obsidian.md](https://obsidian.md/) designed mit:
+- Cross-links für Navigation
+- Tags für Kategorisierung
+- Templates für Konsistenz
+- Assets für Medien
+- Persönliche Notizen-Unterstützung
+
 ## 📁 Ordner-Struktur
 
 ### ai-assistants/

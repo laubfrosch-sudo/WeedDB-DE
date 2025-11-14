@@ -6,7 +6,46 @@
 
 **VERSION 1.4.0 UPDATE:** Enhanced batch processing, auto-recovery features, and improved data extraction reliability.
 
+**OBSIDIAN OPTIMIZATION:** This repository is fully optimized for Obsidian.md knowledge management. The folder structure, cross-links, and documentation are designed for seamless Obsidian integration.
+
 This file provides guidance to AI Agents (OpenCode, Claude, Gemini, etc.) when working with code in this repository.
+
+## Obsidian Integration
+
+This repository is fully optimized for [Obsidian.md](https://obsidian.md/) knowledge management:
+
+### Folder Structure for AI Agents
+```
+WeedDB/
+├── 🔗 *.md (symbolic links to docs/)
+├── 📁 .obsidian/ - Obsidian configuration
+├── 📁 data/ - Database and price history
+├── 📁 docs/ - Documentation (Obsidian vault)
+│   ├── _README.md - Main navigation hub
+│   ├── ai-assistants/ - AI-specific docs
+│   ├── user-guides/ - User documentation
+│   ├── development/ - Technical docs
+│   ├── generated/ - Auto-generated reports
+│   ├── assets/ - Media files
+│   ├── templates/ - Reusable snippets
+│   └── notes/ - Personal notes
+├── 📁 scripts/ - Python automation
+└── 📁 CHANGELOG/ - Version history
+```
+
+### Working with Obsidian Structure
+- **Navigation**: Use `_README.md` files in each folder for orientation
+- **Cross-links**: Follow `[[link]]` syntax for document connections
+- **Tags**: Search using `#tag` system for categorization
+- **Templates**: Use `docs/templates/` for consistent documentation
+- **Assets**: Store media in `docs/assets/` with subfolders
+
+### AI Agent Guidelines
+1. **Respect Structure**: Maintain the logical folder organization
+2. **Use Templates**: Leverage existing templates for new documentation
+3. **Cross-link**: Create meaningful connections between related documents
+4. **Tag Appropriately**: Use relevant tags for discoverability
+5. **Update Navigation**: Keep `_README.md` files current
 
 ## Project Overview
 
@@ -259,22 +298,37 @@ ORDER BY p.name, pr.category;
 - **Simplified scraping**: No need to parse multiple pharmacy cards - website does the filtering
 - **Price history preservation**: Re-running script adds new timestamped entries for trend analysis
 
-## File Structure
+## File Structure (Obsidian-Optimized)
 
+**Root Level (Symbolic Links):**
+- `README.md` → `docs/README.md` - Main project documentation
+- `AGENTS.md` → `docs/ai-assistants/AGENTS.md` - AI assistant guidelines
+- `CLAUDE.md` → `docs/ai-assistants/CLAUDE.md` - Claude-specific docs
+- `GEMINI.md` → `docs/ai-assistants/GEMINI.md` - Gemini-specific docs
+- `SORTEN_ÜBERSICHT.md` → `docs/generated/SORTEN_ÜBERSICHT.md` - Product overview
+
+**Core Folders:**
+- `data/` - Database and price history (see `data/_README.md`)
+- `docs/` - Complete documentation vault (see `docs/_README.md`)
+- `scripts/` - Python automation scripts (see `scripts/_README.md`)
+- `CHANGELOG/` - Version history (see `CHANGELOG/_README.md`)
+- `.obsidian/` - Obsidian workspace configuration
+
+**Key Files:**
 - `data/schema.sql` - Database schema definition
-- `add_product.py` - Individual product scraping/addition
-- `update_prices.py` - Bulk price updates
-- `add_products_batch.py` - Batch product addition
-- `generate_overview.py` - Overview markdown generation
-- `WeedDB.db` - SQLite database (auto-created)
+- `scripts/add_product.py` - Individual product scraping/addition
+- `scripts/update_prices.py` - Bulk price updates
+- `scripts/add_products_batch.py` - Batch product addition
+- `scripts/generate_overview.py` - Overview markdown generation
+- `data/WeedDB.db` - SQLite database (auto-created)
 - `data/example_products.txt` - Sample product list for batch processing
-- `docs/generated/SORTEN_ÜBERSICHT.md` - Generated product overview (auto-updated)
 
 ## Important Notes
 
 - **Price History**: Never delete old prices, always INSERT new entries
 - **Product ID**: Uses shop.dransay.com's product ID as PRIMARY KEY
 - **Category System**: Two price categories - "top" and "all" pharmacies
+- **Obsidian Integration**: Repository optimized for Obsidian.md with `_README.md` navigation files
 - **WebFetch Permission**: Pre-configured for shop.dransay.com in `.claude/settings.local.json`
 - **Type Safety**: All scripts must pass `mypy --strict` checking
 - **Overview Generation**: Run `generate_overview.py` after database changes to update SORTEN_ÜBERSICHT.md
