@@ -1,6 +1,6 @@
-# WeedDB Project
+# WeedDB v1.4.0
 
-A cannabis product price tracking database for the German market. Scrapes and manages product data from `shop.dransay.com` with smart price comparison across pharmacy categories.
+A comprehensive cannabis product price tracking database for the German market. Scrapes and manages product data from `shop.dransay.com` with intelligent price comparison across pharmacy categories.
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
@@ -8,13 +8,16 @@ A cannabis product price tracking database for the German market. Scrapes and ma
 
 ## 🌟 Features
 
-- **Smart Price Tracking**: Automatically finds the cheapest pharmacy in two categories:
+- **🧠 Intelligent Price Tracking**: Automatically finds the cheapest pharmacy in two categories:
   - 🏆 **Top Pharmacies** - Curated selection of trusted pharmacies
   - 🌍 **All Pharmacies** - Complete market overview
-- **Real Pharmacy Names**: Stores actual pharmacy names (e.g., "Paracelsus Apotheke")
-- **Historical Data**: Track price changes over time
-- **Minimal Storage**: Only 2 price entries per product per scrape
-- **SQLite Database**: Fast, portable, zero-configuration
+- **🏥 Real Pharmacy Names**: Stores actual pharmacy names (e.g., "Paracelsus Apotheke")
+- **📈 Historical Data**: Track price changes over time with full audit trail
+- **💾 Optimized Storage**: Only 2 price entries per product per scrape
+- **⚡ SQLite Database**: Fast, portable, zero-configuration
+- **🔄 Batch Processing**: Reliable bulk operations with timeout protection
+- **🔧 Auto-Recovery**: Automatic correction of missing data
+- **📊 Smart Analytics**: Best-value calculations and market insights
 
 ---
 
@@ -48,6 +51,15 @@ python3 add_product.py 'sourdough'
 🔍 Searching for 'sourdough' (top)
    ✅ Found product
    🌐 Loading product page (top)
+   ✅ Product name: Sourdough
+   ✅ Found genetics: Indica
+   ✅ Found THC: 29.0%
+   ✅ Found CBD: 1.0%
+   ✅ Found rating: 4.0 (1832 reviews)
+   ✅ Found producer: Aurora Cannabis
+   ✅ Found country: Canada
+   🔍 Method 0: Trying 'Buying from' section...
+   📄 Found buying section
    💰 Sanvivo Cannabis Apotheke (=Senftenauer): €6.77/g
 
 === Scraping All Pharmacies ===
@@ -92,13 +104,14 @@ Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)
 
 ## 📖 Documentation
 
-- **`CLAUDE.md`** - Complete technical documentation and architecture (for Claude)
-- **`GEMINI.md`** - Technical documentation (for Gemini)
-- **`OPENCODE.md`** - Technical documentation (for OpenCode)
-- **`QUERY_EXAMPLES.md`** - SQL query examples for price analysis
+- **`CLAUDE.md`** - Complete technical documentation and architecture (for Claude AI)
+- **`GEMINI.md`** - Technical documentation (for Gemini AI)
+- **`AGENTS.md`** - Comprehensive AI assistant guidelines
+- **`QUERY_EXAMPLES.md`** - SQL query examples for price analysis (60+ examples)
 - **`INSTRUCTIONS.md`** (English) / **`ANLEITUNG.md`** (Deutsch) - Usage instructions
 - **`schema.sql`** - Database schema definition
 - **`SORTEN_ÜBERSICHT.md`** - Auto-generated product overview (run `generate_overview.py`)
+- **`fix_producers.py`** - Auto-recovery script for missing producer data (v1.4.0)
 
 ---
 
@@ -124,11 +137,12 @@ python3 update_prices.py
 ```
 This script:
 - Fetches all products from the database
-- Re-scrapes prices for each product
-- Shows progress (e.g., `[5/10]`)
-- Provides summary of successful/failed updates
+- Re-scrapes prices for each product with improved reliability
+- Shows detailed progress with batch processing
+- Provides comprehensive summary of successful/failed updates
+- **New in v1.4.0**: Enhanced error handling and recovery
 
-### Add Multiple Products from File
+### Add Multiple Products from File (Recommended Method)
 Create a text file with product names (one per line):
 ```bash
 # Create products.txt
@@ -138,10 +152,12 @@ wedding cake
 amnesia haze
 EOF
 
-# Run batch addition
-python3 add_products_batch.py products.txt
+# Run batch addition (processes in small batches of 2 to avoid timeouts)
+python3 add_products_batch.py products.txt --yes
 ```
 See `example_products.txt` for file format.
+
+**Note**: The script automatically processes products in batches of 2 with pauses between batches to avoid timeouts and overwhelming the website.
 
 ### Generate Product Overview
 After adding or updating products, generate the overview markdown file:
@@ -152,6 +168,18 @@ This creates/updates `SORTEN_ÜBERSICHT.md` with:
 - Best-of list (highest THC, best price, community favorite, etc.)
 - Complete product table sorted by review count
 - Direct links to all products on shop.dransay.com
+- **New in v1.4.0**: Enhanced producer information and data completeness
+
+### Fix Missing Data (New in v1.4.0)
+Automatically correct missing producer information:
+```bash
+python3 fix_producers.py
+```
+This script:
+- Scans products with missing producer data
+- Re-scrapes product pages to find producer information
+- Updates the database with corrected data
+- Provides detailed progress reporting
 
 ### View All Products in Database
 ```bash
@@ -184,7 +212,7 @@ LIMIT 10"
 
 ## 📊 Database Schema
 
-**Complete 3NF Schema** (defined in `schema.sql`):
+**Complete 3NF Schema** (defined in `schema.sql`) with enhanced data integrity:
 
 ```sql
 products (
@@ -194,11 +222,14 @@ products (
     genetics TEXT,                 -- Indica/Sativa/Hybrid
     thc_percent REAL,             -- THC percentage
     cbd_percent REAL,             -- CBD percentage
-    producer_id INTEGER,          -- Foreign key to producers
+    producer_id INTEGER,          -- Foreign key to producers (enhanced in v1.4.0)
     stock_level INTEGER,          -- Current stock units
     rating REAL,                  -- User rating (e.g., 4.1)
     review_count INTEGER,         -- Number of reviews
     irradiation TEXT,             -- Yes/No
+    country TEXT,                 -- Country of origin (added in v1.3.0)
+    effects TEXT,                 -- Reported effects (added in v1.3.0)
+    complaints TEXT,              -- Medical complaints (added in v1.3.0)
     url TEXT UNIQUE,              -- Product URL
     created_at DATETIME,
     last_updated DATETIME,
@@ -207,7 +238,7 @@ products (
 
 producers (
     id INTEGER PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL,     -- Producer name
+    name TEXT UNIQUE NOT NULL,     -- Producer name (24+ known producers in v1.4.0)
     origin TEXT                   -- Country of origin
 )
 
@@ -227,10 +258,6 @@ prices (
     FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (pharmacy_id) REFERENCES pharmacies(id)
 )
-
--- Additional tables for terpenes, effects, and therapeutic uses
-terpenes, product_terpenes, effects, product_effects, 
-therapeutic_uses, product_therapeutic_uses
 ```
 
 ---

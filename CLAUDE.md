@@ -4,7 +4,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**IMPORTANT FOR AI ASSISTANTS:** When editing this file (CLAUDE.md), always synchronize the corresponding instructions in GEMINI.md. Both files must remain consistent regarding schema definitions, dependencies, and core functionality.
+**IMPORTANT FOR AI ASSISTANTS:** When editing this file (CLAUDE.md), always synchronize the corresponding instructions in GEMINI.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
+
+**VERSION 1.4.0 UPDATE:** Enhanced batch processing, auto-recovery features, and improved data extraction reliability.
 
 ## Project Overview
 
@@ -27,6 +29,9 @@ WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrit
 - `rating` - User rating (e.g., 4.1)
 - `review_count` - Number of reviews (e.g., 312)
 - `irradiation` - Yes/No
+- `country` - Country of origin
+- `effects` - Reported effects (e.g., "entspannend, schmerzlindernd")
+- `complaints` - Reported complaints/conditions it helps with (e.g., "Schlafstörungen, chronische Schmerzen")
 - `url` - Product URL (UNIQUE)
 - `created_at`, `last_updated` - Timestamps
 
@@ -167,11 +172,18 @@ This script:
 - Re-scrapes prices for each product
 - Shows progress and provides summary
 
-**Add multiple products from file:**
+**Add multiple products from file (Enhanced in v1.4.0):**
 ```bash
-python3 add_products_batch.py example_products.txt
+python3 add_products_batch.py example_products.txt --yes
 ```
 File format: one product name per line (see `example_products.txt`)
+- **New in v1.4.0**: Processes products individually with 3-second pauses to avoid timeouts
+
+**Fix missing producer data (New in v1.4.0):**
+```bash
+python3 fix_producers.py
+```
+Automatically corrects missing producer information by re-scraping product pages.
 
 ### Querying Price Data
 
@@ -354,6 +366,7 @@ ORDER BY min_price"
   2. Product page with `vendorId` parameter → Extract cheapest pharmacy
 - **Data extraction strategy**:
   - **Product Name**: From page `<h1>` element
+  - **Producer, Country, Irradiation, Genetics, Effects, Complaints, THC, CBD, Rating, Review Count**: Extracted using specific Playwright selectors targeting visible elements on the product page. This replaces previous brittle methods like regex parsing of embedded JSON or general page text.
   - **Pharmacy Name**: Text search for "Apotheke" keyword in DOM
   - **Price**: Regex pattern `€\s*(\d+\.\d+)\s*/\s*g`
 - **Category differentiation**: Uses `vendorId=top` and `vendorId=all` URL parameters
@@ -381,6 +394,27 @@ ORDER BY min_price"
 - Pharmacy name extraction looks for "Apotheke" keyword in page text
 - If shop.dransay.com changes their page structure, selectors in `add_product.py` may need updating
 - Price pattern expects format: "€X.XX / g" or "€X.XX/g"
+
+**If producer or price data is incorrect in database:**
+- **Manual Correction Method**: When scraping fails to extract correct data, manually verify and update:
+  1. Check product page directly: `https://shop.dransay.com/product/p/{product_id}`
+  2. Identify correct producer from "Producer[Name]" section
+  3. Note correct price from "Buying from" section
+  4. Update database directly:
+     ```bash
+     # Add missing producer
+     sqlite3 WeedDB.db "INSERT OR IGNORE INTO producers (name) VALUES ('Correct Producer Name');"
+
+     # Update product producer_id
+     sqlite3 WeedDB.db "UPDATE products SET producer_id = (SELECT id FROM producers WHERE name = 'Correct Producer Name') WHERE id = {product_id};"
+
+     # Add missing pharmacy
+     sqlite3 WeedDB.db "INSERT OR IGNORE INTO pharmacies (name) VALUES ('Correct Pharmacy Name');"
+
+     # Add correct prices
+     sqlite3 WeedDB.db "INSERT INTO prices (product_id, pharmacy_id, price_per_g, category, timestamp) VALUES ({product_id}, (SELECT id FROM pharmacies WHERE name = 'Correct Pharmacy Name'), {price}, '{category}', datetime('now'));"
+     ```
+  5. Regenerate overview: `python3 generate_overview.py`
 
 ## Database Queries
 

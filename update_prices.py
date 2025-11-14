@@ -3,61 +3,193 @@
 Update prices for all products in the database.
 
 This script queries all existing products from the database and
-re-scrapes their prices by running add_product.py with the product name.
+re-scrapes only their prices, preserving all other product data.
 
 Usage:
     python3 update_prices.py
 """
 
 import sqlite3
-import subprocess
+import asyncio
 import sys
-from typing import List, Tuple
+from typing import List, Tuple, Optional, Dict, Any
+from datetime import datetime
+import re
+from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout, Page
 
-def get_all_products() -> List[Tuple[int, str]]:
-    """Fetch all products from database"""
+BASE_URL = "https://shop.dransay.com"
+
+def extract_product_id_from_url(url: str) -> Optional[int]:
+    """Extract product ID from dransay URL"""
+    match = re.search(r'/product/[^/]+/(\d+)', url)
+    return int(match.group(1)) if match else None
+
+def construct_search_url(product_name: str, vendor_id: str) -> str:
+    """Constructs a search URL for dransay.com"""
+    encoded_product_name = product_name.replace(' ', '%20')
+    return f"{BASE_URL}/products?vendorId={vendor_id}&deliveryMethod=shipping&filters=%7B%22topProducersLowPrice%22:false%7D&search={encoded_product_name}"
+
+async def scrape_price_for_product(page: Page, product_name: str, vendor_id: str) -> Optional[Dict[str, Any]]:
+    """
+    Scrape only the price and pharmacy for a specific product and category.
+    Returns minimal data needed for price update.
+    """
+    try:
+        # Step 1: Find product URL from search page
+        search_url = construct_search_url(product_name, vendor_id)
+        print(f"   🔍 Searching for '{product_name}' ({vendor_id})")
+
+        await page.goto(search_url, wait_until='networkidle', timeout=30000)
+
+        # Find product link
+        try:
+            await page.wait_for_selector('a[data-testid*="product-"]', timeout=30000)
+        except:
+            print(f"   ❌ No products found")
+            return None
+
+        product_links = await page.locator('a[data-testid*="product-"]').all()
+        product_url = None
+
+        for link in product_links:
+            try:
+                link_text = await link.inner_text()
+                if product_name.lower() in link_text.lower():
+                    href = await link.get_attribute('href')
+                    if href:
+                        product_url = f"{BASE_URL}{href}" if not href.startswith('http') else href
+                        print(f"   ✅ Found product")
+                        break
+            except:
+                continue
+
+        if not product_url:
+            print(f"   ❌ Product '{product_name}' not found")
+            return None
+
+        # Step 2: Navigate to product page with correct vendorId
+        if '?' in product_url:
+            full_product_url = f"{product_url}&vendorId={vendor_id}&deliveryMethod=shipping"
+        else:
+            full_product_url = f"{product_url}?vendorId={vendor_id}&deliveryMethod=shipping"
+
+        print(f"   🌐 Loading product page ({vendor_id})")
+
+        await page.goto(full_product_url, wait_until='networkidle', timeout=30000)
+        await page.wait_for_timeout(2000)
+
+        # Extract only price and pharmacy
+        pharmacy_name = None
+        price_per_g = None
+
+        print(f"   🔍 Extracting pharmacy and price...")
+        try:
+            # Look for "Buying from" section which contains pharmacy and price
+            buying_from_text = await page.locator('text=/Buying from/').inner_text()
+            print(f"   📄 Found buying section")
+
+            # Extract pharmacy name - look for text after "Buying from"
+            pharmacy_match = re.search(r'Buying from\s*(.+?)(?:\s*€|\s*$)', buying_from_text)
+            if pharmacy_match:
+                pharmacy_name = pharmacy_match.group(1).strip()
+                print(f"   🏥 Found pharmacy: {pharmacy_name}")
+
+            # Extract price - look for €X.XX / g pattern in the buying section
+            price_match = re.search(r'€(\d+\.\d+)\s*/\s*g', buying_from_text)
+            if price_match:
+                price_per_g = float(price_match.group(1))
+                print(f"   💰 Found price: €{price_per_g}/g")
+
+        except Exception as e:
+            print(f"   ⚠ Error extracting from buying section: {e}")
+
+        if pharmacy_name and price_per_g:
+            print(f"   💰 {pharmacy_name}: €{price_per_g}/g")
+            return {
+                'pharmacy_name': pharmacy_name,
+                'price_per_g': price_per_g,
+                'category': vendor_id
+            }
+        else:
+            print(f"   ⚠ Could not extract pharmacy/price")
+            return None
+
+    except Exception as e:
+        print(f"   ❌ Error scraping price: {e}")
+        return None
+
+def get_all_products() -> List[Tuple[int, str, str]]:
+    """Fetch all products from database with their URLs"""
     conn = sqlite3.connect('WeedDB.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT id, name FROM products ORDER BY name")
+    cursor.execute("SELECT id, name, url FROM products ORDER BY name")
     products = cursor.fetchall()
 
     conn.close()
     return products
 
-def update_product_prices(product_name: str) -> bool:
-    """Update prices for a single product by calling add_product.py"""
+def update_product_price(product_id: int, pharmacy_name: str, price_per_g: float, category: str) -> bool:
+    """Update price for a specific product"""
+    conn = sqlite3.connect('WeedDB.db')
+    cursor = conn.cursor()
+
     try:
-        print(f"\n{'='*60}")
-        print(f"Updating: {product_name}")
-        print(f"{'='*60}")
+        # Insert or get pharmacy
+        cursor.execute("INSERT OR IGNORE INTO pharmacies (name) VALUES (?)", (pharmacy_name,))
+        cursor.execute("SELECT id FROM pharmacies WHERE name = ?", (pharmacy_name,))
+        pharmacy_result = cursor.fetchone()
+        if pharmacy_result:
+            pharmacy_id = pharmacy_result[0]
 
-        result = subprocess.run(
-            ['python3', 'add_product.py', product_name],
-            capture_output=True,
-            text=True,
-            timeout=120  # 2 minute timeout per product
-        )
+            # Insert new price entry
+            cursor.execute("""
+                INSERT INTO prices (product_id, pharmacy_id, price_per_g, category, timestamp)
+                VALUES (?, ?, ?, ?, ?)
+            """, (product_id, pharmacy_id, price_per_g, category, datetime.now()))
 
-        # Print output
-        if result.stdout:
-            print(result.stdout)
-
-        if result.returncode == 0:
-            print(f"✅ Successfully updated '{product_name}'")
+            conn.commit()
             return True
         else:
-            print(f"❌ Failed to update '{product_name}'")
-            if result.stderr:
-                print(f"Error: {result.stderr}")
             return False
 
-    except subprocess.TimeoutExpired:
-        print(f"⏱️ Timeout updating '{product_name}' (>2 minutes)")
+    except sqlite3.Error as e:
+        print(f"❌ Database error: {e}")
+        conn.rollback()
         return False
-    except Exception as e:
-        print(f"❌ Error updating '{product_name}': {e}")
-        return False
+    finally:
+        conn.close()
+
+async def update_product_prices(product_id: int, product_name: str) -> bool:
+    """Update prices for a single product by scraping both categories"""
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
+
+        success_count = 0
+
+        # Scrape for 'top' pharmacies
+        print(f"\n=== Updating Top Pharmacies ===")
+        top_data = await scrape_price_for_product(page, product_name, "top")
+        if top_data:
+            if update_product_price(product_id, top_data['pharmacy_name'], top_data['price_per_g'], top_data['category']):
+                success_count += 1
+                print(f"✅ Updated top price for '{product_name}'")
+            else:
+                print(f"❌ Failed to save top price for '{product_name}'")
+
+        # Scrape for 'all' pharmacies
+        print(f"\n=== Updating All Pharmacies ===")
+        all_data = await scrape_price_for_product(page, product_name, "all")
+        if all_data:
+            if update_product_price(product_id, all_data['pharmacy_name'], all_data['price_per_g'], all_data['category']):
+                success_count += 1
+                print(f"✅ Updated all price for '{product_name}'")
+            else:
+                print(f"❌ Failed to save all price for '{product_name}'")
+
+        await browser.close()
+        return success_count > 0
 
 def main() -> None:
     """Main function to update all products"""
@@ -74,7 +206,7 @@ def main() -> None:
 
     total = len(products)
     print(f"\n📦 Found {total} products in database")
-    print(f"⏱️  Estimated time: ~{total * 30} seconds ({total * 0.5:.1f} minutes)\n")
+    print(f"⏱️  Estimated time: ~{total * 15} seconds ({total * 0.25:.1f} minutes)\n")
 
     # Auto-confirm for automated execution
     print("🚀 Starting price update...")
@@ -83,13 +215,21 @@ def main() -> None:
     success_count = 0
     failed_products = []
 
-    for i, (product_id, product_name) in enumerate(products, 1):
-        print(f"\n[{i}/{total}] Processing...")
+    for i, (product_id, product_name, product_url) in enumerate(products, 1):
+        print(f"\n{'='*60}")
+        print(f"[{i}/{total}] Updating: {product_name}")
+        print(f"{'='*60}")
 
-        if update_product_prices(product_name):
-            success_count += 1
-        else:
+        try:
+            if asyncio.run(update_product_prices(product_id, product_name)):
+                success_count += 1
+                print(f"✅ Successfully updated prices for '{product_name}'")
+            else:
+                failed_products.append(product_name)
+                print(f"❌ Failed to update prices for '{product_name}'")
+        except Exception as e:
             failed_products.append(product_name)
+            print(f"❌ Error updating '{product_name}': {e}")
 
     # Print summary
     print("\n" + "="*60)

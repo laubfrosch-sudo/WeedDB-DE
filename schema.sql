@@ -21,6 +21,9 @@ CREATE TABLE IF NOT EXISTS products (
     rating REAL,  -- z.B. 4.1
     review_count INTEGER,  -- z.B. 312
     irradiation TEXT CHECK(irradiation IN ('Yes', 'No')),
+    country TEXT,
+    effects TEXT,
+    complaints TEXT,
     url TEXT NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

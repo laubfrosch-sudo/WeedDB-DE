@@ -80,21 +80,26 @@ def add_product(product_name: str) -> bool:
         return False
 
 def main() -> None:
-    """Main function to add batch products"""
-    if len(sys.argv) != 2:
-        print("Usage: python3 add_products_batch.py <product_names_file>")
+    if len(sys.argv) < 2:
+        print("Usage: python3 add_products_batch.py <product_names_file> [--yes]")
         print("\nExample:")
-        print("  python3 add_products_batch.py products.txt")
-        print("\nFile format: One product name per line")
+        print("  python3 add_products_batch.py example_products.txt")
+        print("  python3 add_products_batch.py example_products.txt --yes")
         sys.exit(1)
 
     filename = sys.argv[1]
+    auto_confirm = len(sys.argv) > 2 and sys.argv[2] == "--yes"
 
-    print("📊 WeedDB Batch Product Addition")
-    print("="*60)
+    filename = sys.argv[1]
+    auto_confirm = len(sys.argv) > 2 and sys.argv[2] == "--yes"
 
-    # Read product names
+    # Read product names from file
     product_names = read_product_names(filename)
+
+    if not product_names:
+        print("❌ No valid product names found in file")
+        print("💡 Make sure the file contains product names (one per line)")
+        sys.exit(1)
 
     if not product_names:
         print(f"❌ No products found in {filename}")
@@ -102,34 +107,54 @@ def main() -> None:
         sys.exit(1)
 
     total = len(product_names)
+    batch_size = 2
+    batches = (total + batch_size - 1) // batch_size
+    pause_time = 2 * (batches - 1) if batches > 1 else 0
+    estimated_time = total * 30 + pause_time
     print(f"\n📦 Found {total} products to add")
-    print(f"⏱️  Estimated time: ~{total * 30} seconds ({total * 0.5:.1f} minutes)\n")
+    print(f"📦 Processing in {batches} batches of {batch_size} products each")
+    print(f"⏱️  Estimated time: ~{estimated_time} seconds ({estimated_time / 60:.1f} minutes)\n")
 
     print("Products to add:")
     for i, name in enumerate(product_names, 1):
         print(f"  {i}. {name}")
 
-    # Confirm before proceeding
-    response = input("\nContinue with batch addition? [y/N]: ")
-    if response.lower() not in ['y', 'yes']:
-        print("❌ Cancelled by user")
-        sys.exit(0)
+    # Confirm before proceeding (unless --yes flag is used)
+    if not auto_confirm:
+        response = input("\nContinue with batch addition? [y/N]: ")
+        if response.lower() not in ['y', 'yes']:
+            print("❌ Cancelled by user")
+            sys.exit(0)
+    else:
+        print("✅ Auto-confirming batch addition (--yes flag used)")
 
-    # Add each product
+    # Add each product in very small batches to avoid timeouts
     success_count = 0
     failed_products = []
+    batch_size = 1  # Process one by one to maximize reliability
 
-    for i, product_name in enumerate(product_names, 1):
-        print(f"\n{'='*60}")
-        print(f"[{i}/{total}] Adding: {product_name}")
-        print(f"{'='*60}")
+    for i in range(0, total, batch_size):
+        batch = product_names[i:i+batch_size]
+        print(f"\n--- Processing batch {i//batch_size + 1}/{(total + batch_size - 1)//batch_size} ---")
 
-        if add_product(product_name):
-            success_count += 1
-            print(f"✅ Successfully added '{product_name}'")
-        else:
-            failed_products.append(product_name)
-            print(f"❌ Failed to add '{product_name}'")
+        for j, product_name in enumerate(batch, 1):
+            batch_index = i + j
+            print(f"\n{'='*60}")
+            print(f"[{batch_index}/{total}] Adding: {product_name}")
+            print(f"{'='*60}")
+
+            if add_product(product_name):
+                success_count += 1
+                print(f"✅ Successfully added '{product_name}'")
+            else:
+                failed_products.append(product_name)
+                print(f"❌ Failed to add '{product_name}'")
+
+        # Longer delay between batches to avoid overwhelming the system
+        if i + batch_size < total:
+            print("⏳ Longer pause between batches (3 seconds)...")
+            import time
+            time.sleep(3)
 
     # Print summary
     print("\n" + "="*60)

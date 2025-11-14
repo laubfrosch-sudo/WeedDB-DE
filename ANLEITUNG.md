@@ -1,8 +1,14 @@
-# Anleitung zur Interaktion mit dem KI-Assistenten
+# Anleitung zur Interaktion mit dem KI-Assistenten (v1.4.0)
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
 Dieses Dokument erklärt, wie du mit einem KI-Assistenten (wie Gemini oder Claude) in diesem Verzeichnis interagieren kannst, um die `WeedDB`-Datenbank zu nutzen, abzufragen und zu verwalten. Der Assistent kennt die Projektstruktur, die verfügbaren Skripte und das Datenbankschema.
+
+**Neuerungen in v1.4.0:**
+- Verbesserte Batch-Verarbeitung mit Timeout-Schutz
+- Automatische Datenkorrektur für fehlende Hersteller
+- Erweiterte Producer-Erkennung (24+ bekannte Hersteller)
+- Robuste Preis-Extraktion mit mehreren Fallback-Methoden
 
 ## 1. Datenbank abfragen
 
@@ -30,7 +36,7 @@ Für umfassende SQL-Abfrage-Beispiele (60+ Beispiele), siehe `QUERY_EXAMPLES.md`
 
 Der Assistent kann die Datenbank für dich pflegen, indem er die vorhandenen Skripte ausführt.
 
-### Alle Produkte aktualisieren
+### Alle Produkte aktualisieren (v1.4.0 Enhanced)
 
 Wenn die Preise oder andere Daten in der Datenbank veraltet sind, kannst du eine vollständige Aktualisierung anstoßen.
 
@@ -38,8 +44,14 @@ Wenn die Preise oder andere Daten in der Datenbank veraltet sind, kannst du eine
 
 *   `Passe jetzt alle Datensätze nochmal richtig an gemäß der richtigen Websites.`
 *   `Aktualisiere die komplette Datenbank.`
+*   `Führe eine vollständige Datenbank-Aktualisierung durch.`
 
-Der Assistent wird daraufhin das Skript `update_all_products.py` ausführen.
+Der Assistent wird daraufhin das Skript `update_prices.py` ausführen, das alle Produkte in kleinen Batches verarbeitet, um Timeouts zu vermeiden.
+
+**Neue Option in v1.4.0:**
+*   `Korrigiere fehlende Hersteller-Daten automatisch.`
+
+Führt das neue `fix_producers.py` Script aus, das automatisch fehlende Producer-Informationen korrigiert.
 
 ### Einzelne Produkte hinzufügen
 

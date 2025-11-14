@@ -29,7 +29,7 @@ def get_all_products_with_prices() -> List[Dict[str, Any]]:
             p.rating,
             p.review_count,
             p.url,
-            pr.name as producer_name,
+            COALESCE(pr.name, 'N/A') as producer_name,
             MIN(prices.price_per_g) as min_price
         FROM products p
         LEFT JOIN producers pr ON p.producer_id = pr.id
@@ -43,14 +43,14 @@ def get_all_products_with_prices() -> List[Dict[str, Any]]:
         products.append({
             'id': row[0],
             'name': row[1],
-            'genetics': row[2] or 'N/A',
-            'thc_percent': row[3],
-            'cbd_percent': row[4],
-            'rating': row[5],
-            'review_count': row[6],
+            'genetics': row[2] if row[2] else 'N/A',
+            'thc_percent': row[3] if row[3] is not None else None,
+            'cbd_percent': row[4] if row[4] is not None else None,
+            'rating': row[5] if row[5] is not None else None,
+            'review_count': row[6] if row[6] is not None else None,
             'url': row[7],
-            'producer_name': row[8] or 'N/A',
-            'min_price': row[9]
+            'producer_name': row[8] if row[8] else 'N/A',
+            'min_price': row[9] if row[9] is not None else None
         })
 
     conn.close()
