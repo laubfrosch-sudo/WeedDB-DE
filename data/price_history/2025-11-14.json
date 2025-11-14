@@ -1,0 +1,282 @@
+{
+  "export_type": "current_snapshot",
+  "snapshot_date": "2025-11-14",
+  "export_timestamp": "2025-11-14T23:37:53.087432",
+  "products": {
+    "Amnesia Haze Cake": {
+      "all": {
+        "price": 9.48,
+        "pharmacy": "CANNABIS4ME (=Dahlien-Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026030"
+      }
+    },
+    "Big Purple Dragon": {
+      "all": {
+        "price": 4.59,
+        "pharmacy": "3Leafs by Idris Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026140"
+      },
+      "top": {
+        "price": 4.88,
+        "pharmacy": "higreen! - Drei Hasen Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026148"
+      }
+    },
+    "Black Cherry Punch": {
+      "all": {
+        "price": 4.13,
+        "pharmacy": "3Leafs by Idris Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026156"
+      },
+      "top": {
+        "price": 4.65,
+        "pharmacy": "360Grad-Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026161"
+      }
+    },
+    "Blue Dream": {
+      "all": {
+        "price": 5.39,
+        "pharmacy": "Apotheke in der Römergalerie",
+        "timestamp": "2025-11-14 23:36:48.026168"
+      },
+      "top": {
+        "price": 5.99,
+        "pharmacy": "360Grad-Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026173"
+      }
+    },
+    "Blue Z": {
+      "all": {
+        "price": 7.08,
+        "pharmacy": "higreen! - Drei Hasen Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026179"
+      },
+      "top": {
+        "price": 7.08,
+        "pharmacy": "higreen! - Drei Hasen Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026184"
+      }
+    },
+    "Chemango Kush": {
+      "all": {
+        "price": 6.83,
+        "pharmacy": "Apotheke in der Römergalerie",
+        "timestamp": "2025-11-14 23:36:48.026190"
+      },
+      "top": {
+        "price": 7.2,
+        "pharmacy": "Jiroo (=Fritz Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026194"
+      }
+    },
+    "Crumbled Lime #27": {
+      "top": {
+        "price": 4.99,
+        "pharmacy": "Kronen Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026200"
+      }
+    },
+    "Farm Gas": {
+      "all": {
+        "price": 4.98,
+        "pharmacy": "3Leafs by Idris Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026206"
+      },
+      "top": {
+        "price": 5.98,
+        "pharmacy": "Sanvivo Cannabis Apotheke (=Senftenauer)",
+        "timestamp": "2025-11-14 23:36:48.026211"
+      }
+    },
+    "Frozen Lemon Haze": {
+      "all": {
+        "price": 7.29,
+        "pharmacy": "Apotheke in der Römergalerie",
+        "timestamp": "2025-11-14 23:36:48.026217"
+      },
+      "top": {
+        "price": 7.76,
+        "pharmacy": "higreen! - Drei Hasen Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026221"
+      }
+    },
+    "Gorilla Glue": {
+      "all": {
+        "price": 4.99,
+        "pharmacy": "3Leafs by Idris Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026227"
+      }
+    },
+    "Haymaker Haze": {
+      "all": {
+        "price": 8.38,
+        "pharmacy": "Malteser Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026233"
+      }
+    },
+    "Jet Fuel Gelato": {
+      "all": {
+        "price": 3.83,
+        "pharmacy": "svapo.de (=Schloss-Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026239"
+      },
+      "top": {
+        "price": 4.78,
+        "pharmacy": "higreen! - Drei Hasen Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026243"
+      }
+    },
+    "LA Animal": {
+      "all": {
+        "price": 6.99,
+        "pharmacy": "360Grad-Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026248"
+      },
+      "top": {
+        "price": 6.99,
+        "pharmacy": "360Grad-Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026252"
+      }
+    },
+    "Mac Doughnut": {
+      "top": {
+        "price": 4.99,
+        "pharmacy": "higreen! - Drei Hasen Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026258"
+      }
+    },
+    "Pineapple Express": {
+      "all": {
+        "price": 5.99,
+        "pharmacy": "360Grad-Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026264"
+      },
+      "top": {
+        "price": 5.99,
+        "pharmacy": "360Grad-Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026268"
+      }
+    },
+    "Pink Kush": {
+      "all": {
+        "price": 3.5,
+        "pharmacy": "SativaMedics (=Rosen-Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026274"
+      },
+      "top": {
+        "price": 4.94,
+        "pharmacy": "Cannovia (= Erlich Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026278"
+      }
+    },
+    "Platinum Girl Scout Cookies": {
+      "all": {
+        "price": 7.95,
+        "pharmacy": "Grafenberger-Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026284"
+      },
+      "top": {
+        "price": 7.95,
+        "pharmacy": "Grafenberger-Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026288"
+      }
+    },
+    "Polar Cookies": {
+      "all": {
+        "price": 7.36,
+        "pharmacy": "Grastheke (= St. Alexius Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026294"
+      },
+      "top": {
+        "price": 7.67,
+        "pharmacy": "Sanvivo Cannabis Apotheke (=Senftenauer)",
+        "timestamp": "2025-11-14 23:36:48.026298"
+      }
+    },
+    "Sour Sundae": {
+      "all": {
+        "price": 4.99,
+        "pharmacy": "KrautKurier (=Linden Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026303"
+      },
+      "top": {
+        "price": 4.99,
+        "pharmacy": "KrautKurier (=Linden Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026307"
+      }
+    },
+    "Sourdough": {
+      "all": {
+        "price": 5.69,
+        "pharmacy": "Paracelsus Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026313"
+      },
+      "top": {
+        "price": 6.77,
+        "pharmacy": "Sanvivo Cannabis Apotheke (=Senftenauer)",
+        "timestamp": "2025-11-14 23:36:48.026317"
+      }
+    },
+    "Sweets (Guava Gelato x Karma Sour Diesel BX2)": {
+      "all": {
+        "price": 4.15,
+        "pharmacy": "Apo420",
+        "timestamp": "2025-11-14 23:36:48.026323"
+      },
+      "top": {
+        "price": 4.15,
+        "pharmacy": "Apo420",
+        "timestamp": "2025-11-14 23:36:48.026327"
+      }
+    },
+    "Tropic Boom Popstars": {
+      "all": {
+        "price": 5.3,
+        "pharmacy": "Kronen Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026333"
+      },
+      "top": {
+        "price": 5.3,
+        "pharmacy": "Kronen Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026337"
+      }
+    },
+    "Tropic Thunder": {
+      "all": {
+        "price": 4.99,
+        "pharmacy": "higreen! - Drei Hasen Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026342"
+      },
+      "top": {
+        "price": 4.99,
+        "pharmacy": "higreen! - Drei Hasen Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026346"
+      }
+    },
+    "Ultra Dosed Candy": {
+      "all": {
+        "price": 5.99,
+        "pharmacy": "360Grad-Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026352"
+      },
+      "top": {
+        "price": 5.99,
+        "pharmacy": "360Grad-Apotheke - MYCANNABIS",
+        "timestamp": "2025-11-14 23:36:48.026356"
+      }
+    },
+    "Wedding Cake": {
+      "all": {
+        "price": 4.46,
+        "pharmacy": "3Leafs by Idris Apotheke",
+        "timestamp": "2025-11-14 23:36:48.026390"
+      },
+      "top": {
+        "price": 4.99,
+        "pharmacy": "Jiroo (=Fritz Apotheke)",
+        "timestamp": "2025-11-14 23:36:48.026395"
+      }
+    }
+  }
+}

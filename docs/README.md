@@ -160,6 +160,29 @@ See `data/example_products.txt` for file format.
 **Note**: The script automatically processes products in batches of 2 with pauses between batches to avoid timeouts and overwhelming the website.
 
 ### Generate Product Overview
+### Export Price History (New in v1.4.0)
+Export current prices or historical data in JSON format for external analysis:
+```bash
+python3 scripts/export_price_history.py  # Current snapshot
+python3 scripts/export_price_history.py --all  # Complete history
+```
+Creates JSON files in `data/price_history/` for easy integration with other tools.
+
+### Import Price History (New in v1.4.0)
+Import price data from JSON files:
+```bash
+python3 scripts/import_price_history.py data/price_history/2025-11-14.json
+```
+Supports both current snapshots and complete historical data.
+
+### Automatic Archiving (New in v1.4.0)
+Set up automatic daily price snapshots and cleanup:
+```bash
+python3 scripts/archive_prices.py  # Daily archiving
+python3 scripts/archive_prices.py --cleanup-days=365  # With custom retention
+```
+Perfect for cron jobs and automated backups.
+
 After adding or updating products, generate the overview markdown file:
 ```bash
 python3 generate_overview.py

@@ -457,3 +457,22 @@ SELECT * FROM my_indica_picks LIMIT 10;
 - **Case Sensitivity:** SQLite is case-insensitive for LIKE by default
 
 For more information, see `CLAUDE.md` or `INSTRUCTIONS.md`.
+# Price History Queries (v1.4.0)
+
+## Current Price Queries
+
+SELECT p.name, pr.price_per_g, pr.category, ph.name as pharmacy
+FROM products p
+JOIN prices pr ON p.id = pr.product_id
+LEFT JOIN pharmacies ph ON pr.pharmacy_id = ph.id
+WHERE pr.timestamp = (
+    SELECT MAX(timestamp) FROM prices
+    WHERE product_id = p.id AND category = pr.category
+);
+
+## Historical Price Queries
+
+SELECT DATE(ph.recorded_at) as date, p.name, ph.price_per_g, ph.category
+FROM price_history ph
+JOIN products p ON ph.product_id = p.id
+ORDER BY ph.recorded_at DESC;
