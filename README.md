@@ -92,10 +92,13 @@ Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)
 
 ## 📖 Documentation
 
-- **`CLAUDE.md`** - Complete technical documentation and architecture
+- **`CLAUDE.md`** - Complete technical documentation and architecture (for Claude)
+- **`GEMINI.md`** - Technical documentation (for Gemini)
+- **`OPENCODE.md`** - Technical documentation (for OpenCode)
 - **`QUERY_EXAMPLES.md`** - SQL query examples for price analysis
 - **`INSTRUCTIONS.md`** (English) / **`ANLEITUNG.md`** (Deutsch) - Usage instructions
 - **`schema.sql`** - Database schema definition
+- **`SORTEN_ÜBERSICHT.md`** - Auto-generated product overview (run `generate_overview.py`)
 
 ---
 
@@ -181,13 +184,31 @@ LIMIT 10"
 
 ## 📊 Database Schema
 
+**Complete 3NF Schema** (defined in `schema.sql`):
+
 ```sql
 products (
     id INTEGER PRIMARY KEY,        -- Product ID from shop.dransay.com
     name TEXT NOT NULL,            -- Product name
-    url TEXT UNIQUE,               -- Product URL
+    variant TEXT,                  -- Full variant descriptor
+    genetics TEXT,                 -- Indica/Sativa/Hybrid
+    thc_percent REAL,             -- THC percentage
+    cbd_percent REAL,             -- CBD percentage
+    producer_id INTEGER,          -- Foreign key to producers
+    stock_level INTEGER,          -- Current stock units
+    rating REAL,                  -- User rating (e.g., 4.1)
+    review_count INTEGER,         -- Number of reviews
+    irradiation TEXT,             -- Yes/No
+    url TEXT UNIQUE,              -- Product URL
     created_at DATETIME,
-    last_updated DATETIME
+    last_updated DATETIME,
+    FOREIGN KEY (producer_id) REFERENCES producers(id)
+)
+
+producers (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,     -- Producer name
+    origin TEXT                   -- Country of origin
 )
 
 pharmacies (
@@ -206,6 +227,10 @@ prices (
     FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (pharmacy_id) REFERENCES pharmacies(id)
 )
+
+-- Additional tables for terpenes, effects, and therapeutic uses
+terpenes, product_terpenes, effects, product_effects, 
+therapeutic_uses, product_therapeutic_uses
 ```
 
 ---

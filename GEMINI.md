@@ -38,15 +38,22 @@ See `QUERY_EXAMPLES.md` for comprehensive SQL query examples including:
 
 ## Building and Running
 
-This is a Python scripting project and does not have a traditional build step. The main requirements are Python 3 and the `playwright` library.
+This is a Python scripting project and does not have a traditional build step. The main requirements are Python 3 and `playwright` library.
 
 ### 1. Setup
 
-First, install the necessary Python libraries and browser binaries:
+First, install necessary Python libraries and browser binaries:
 
 ```bash
 # Install playwright and mypy (static type checker)
 pip3 install playwright mypy
+python3 -m playwright install chromium
+
+# Create database
+sqlite3 WeedDB.db < schema.sql
+
+# Add first product
+python3 add_product.py 'sourdough'
 
 # Download the necessary browser binaries (Chromium)
 python3 -m playwright install chromium
@@ -118,3 +125,40 @@ Das Skript erstellt eine sortierte Übersicht aller Produkte mit:
 - Bestenliste (höchster THC, bester Preis, Community-Liebling, etc.)
 - Vollständige Produkttabelle sortiert nach Bewertungsanzahl
 - Direkte Links zu allen Produktseiten auf shop.dransay.com
+
+## Key Scripts and Their Functions
+
+### Core Scripts
+
+**add_product.py** - Main script to scrape and add/update individual products
+```bash
+python3 add_product.py <product_name>
+```
+- Searches shop.dransay.com for product
+- Scrapes product details (name, URL, THC%, genetics, ratings, etc.)
+- Extracts cheapest prices from two categories: "top" and "all" pharmacies
+- Stores complete product data with all attributes
+- Creates historical price entries
+
+**update_prices.py** - Bulk update script for all products
+```bash
+python3 update_prices.py
+```
+- Fetches all products from database
+- Re-scrapes prices for each product
+- Updates price history while preserving existing data
+
+**add_products_batch.py** - Batch script to add multiple products
+```bash
+python3 add_products_batch.py example_products.txt
+```
+- Reads product names from file (one per line)
+- Processes each product with add_product.py logic
+
+**generate_overview.py** - Creates product overview markdown
+```bash
+python3 generate_overview.py
+```
+- Generates SORTEN_ÜBERSICHT.md from database
+- Creates best-of lists and complete product tables
+- Includes direct links to shop.dransay.com

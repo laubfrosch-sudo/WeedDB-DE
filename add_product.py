@@ -171,12 +171,78 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
     try:
         page_content = await page.content()
 
-        # Try to find product name in title or h1
+        # Extract detailed product information
         try:
+            # Product name
             title_elem = page.locator('h1').first
             product_details['name'] = await title_elem.inner_text()
         except:
             product_details['name'] = product_name.title()
+
+        # Extract product details from the page
+        # Look for THC/CBD percentages
+        try:
+            thc_elements = await page.locator(r'text=/THC\s+\d+\.?\d*%/').all()
+            for elem in thc_elements:
+                thc_text = await elem.inner_text()
+                thc_match = re.search(r'THC\s+(\d+(?:\.\d+)?)%', thc_text)
+                if thc_match:
+                    product_details['thc_percent'] = float(thc_match.group(1))
+                    break
+        except:
+            pass
+
+        try:
+            cbd_elements = await page.locator(r'text=/CBD\s+\d+\.?\d*%/').all()
+            for elem in cbd_elements:
+                cbd_text = await elem.inner_text()
+                cbd_match = re.search(r'CBD\s+(\d+(?:\.\d+)?)%', cbd_text)
+                if cbd_match:
+                    product_details['cbd_percent'] = float(cbd_match.group(1))
+                    break
+        except:
+            pass
+
+        # Extract genetics
+        try:
+            genetics_elements = await page.locator(r'text=/^(Indica|Sativa|Hybrid|Hybrid-Sativa|Hybrid-Indica)$/').all()
+            for elem in genetics_elements:
+                genetics_text = await elem.inner_text()
+                if genetics_text in ['Indica', 'Sativa', 'Hybrid', 'Hybrid-Sativa', 'Hybrid-Indica']:
+                    product_details['genetics'] = genetics_text
+                    break
+        except:
+            pass
+
+        # Extract rating and review count
+        try:
+            # Look for rating patterns like "4.2 (183+)"
+            rating_elements = await page.locator(r'text=/\d+\.\d+\s*\(\d+\+?\)/').all()
+            for elem in rating_elements:
+                rating_text = await elem.inner_text()
+                rating_match = re.search(r'(\d+\.\d+)\s*\((\d+)\+?\)', rating_text)
+                if rating_match:
+                    product_details['rating'] = float(rating_match.group(1))
+                    product_details['review_count'] = int(rating_match.group(2))
+                    break
+        except:
+            pass
+
+        # Extract producer/variant info
+        try:
+            # Look for variant information in product details
+            variant_elements = await page.locator('[class*="variant"], [class*="producer"], [data-testid*="variant"]').all()
+            for elem in variant_elements:
+                variant_text = await elem.inner_text()
+                if '/' in variant_text and any(char.isdigit() for char in variant_text):
+                    product_details['variant'] = variant_text
+                    # Extract producer name (usually first word)
+                    producer_name = variant_text.split()[0]
+                    if len(producer_name) > 2:
+                        product_details['producer_name'] = producer_name
+                    break
+        except:
+            pass
 
         # Find pharmacy name and price
         # Look for elements containing "Apotheke"

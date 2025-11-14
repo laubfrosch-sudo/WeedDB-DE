@@ -76,11 +76,8 @@ def main() -> None:
     print(f"\n📦 Found {total} products in database")
     print(f"⏱️  Estimated time: ~{total * 30} seconds ({total * 0.5:.1f} minutes)\n")
 
-    # Confirm before proceeding
-    response = input("Continue with price update? [y/N]: ")
-    if response.lower() not in ['y', 'yes']:
-        print("❌ Cancelled by user")
-        sys.exit(0)
+    # Auto-confirm for automated execution
+    print("🚀 Starting price update...")
 
     # Update each product
     success_count = 0
