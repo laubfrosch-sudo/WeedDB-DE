@@ -54,78 +54,80 @@ WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrit
 **pharmacies** - German Versandapotheken
 - `id`, `name` (UNIQUE), `location`
 
-**prices** - Historical price data
-- `id`, `product_id`, `pharmacy_id`, `price_per_g`, `timestamp`
+**prices** - Historical price data with category tracking
+- `id`, `product_id`, `pharmacy_id`, `price_per_g`, `category`, `timestamp`
+- `category` - Either "top" (top pharmacies) or "all" (all pharmacies)
+- Stores only the cheapest price for each category at each timestamp
 - Enables price trend analysis over time
 
-### Views for Common Queries
+### Price Tracking Strategy
 
-**current_prices** - Latest price for each product-pharmacy combination
+The database stores **only the cheapest price** for each product in two categories:
 
-**cheapest_current_prices** - Current lowest price per product with pharmacy info
+1. **Top Pharmacies** (`category='top'`) - Best price among curated "top" pharmacies
+2. **All Pharmacies** (`category='all'`) - Best price across all available pharmacies
 
-**Multi-Pharmacy Analysis Views** (NEW):
-- **product_pharmacy_prices** - All prices per product with pharmacy details and ranking (last 7 days)
-- **product_price_stats** - Price statistics per product (min, max, avg, spread, pharmacy count)
-- **pharmacy_price_ranking** - Pharmacy ranking by average price and how often they're cheapest
-
-See `QUERY_EXAMPLES.md` for comprehensive query examples and use cases.
+This approach minimizes storage while capturing the most relevant price information. Each scrape creates two new price entries with the current cheapest pharmacy name and price for each category.
 
 ## Data Collection from shop.dransay.com
 
-### Critical URL Format
-
-**Always use `vendorId=all` in the URL to see ALL pharmacies**, not just the cheapest:
-
-```
-https://shop.dransay.com/product/{product-name}/{product-id}?vendorId=all&deliveryMethod=shipping&filters=%7B%22topProducersLowPrice%22%3Afalse%7D
-```
-
-**Wrong approach:**
-- `vendorId=top` - Only shows pre-selected "top" pharmacies
-- Without `vendorId=all` - May filter out cheaper options
-
 ### Workflow for Adding Products
 
-**Use the `add_product.py` script** to automatically scrape and add products:
+**Use the `add_product.py` script** to automatically scrape and add products by product name:
 
 ```bash
-python3 add_product.py <product_url> [producer_name] [origin]
+python3 add_product.py <product_name>
 ```
 
-**Example:**
+**Examples:**
 ```bash
-python3 add_product.py "https://shop.dransay.com/product/black-cherry-punch-enua-221-bcp-ca/698" "enua Pharma" "Canada"
+python3 add_product.py 'sourdough'
+python3 add_product.py 'gelato'
+python3 add_product.py 'wedding cake'
 ```
 
-**What the script does:**
+### How the Script Works
 
-1. **Ensures correct URL format**: Automatically converts URL to use `vendorId=all`
-2. **Scrapes product data** using Playwright (headless browser):
-   - Product ID, name, variant, genetics (Indica/Sativa/Hybrid)
-   - THC%, CBD% percentages
-   - Rating and review count (extracted from JSON data in page)
-   - Producer name (extracted from HTML title tag)
-   - **Terpenes**: Limonen, Linalool, Caryophyllen, Myrcen, Pinen, Humulen, Terpinolen
-   - **Effects**: relaxing, euphoric, sedative, uplifting, creative, focused, pain relief, anti-inflammatory, anxiety relief
-   - **Therapeutic uses**: chronic pain, anxiety, depression, insomnia, inflammation, stress, PTSD, ADHD, appetite loss, nausea, migraine, arthritis, Parkinson, epilepsy
-   - **ALL pharmacy prices**: Extracts prices from ALL pharmacies on the page (not just the cheapest)
-3. **Inserts into database**:
-   - Creates/updates product record with all extracted data
-   - Creates producer record (auto-extracted or from parameter)
-   - Links terpenes, effects, and therapeutic uses via junction tables
-   - Creates pharmacy records for ALL pharmacies found
-   - **Inserts ALL prices** with timestamps - enabling comprehensive price comparison
-4. **Automatic duplicate handling**: If product ID already exists, updates the record and adds new price entries for all pharmacies
+The script uses a **two-category approach** to find the best prices:
 
-**Important Notes:**
+**Step-by-Step Process:**
 
-- **Multi-Pharmacy Price Tracking**: The script now extracts prices from ALL pharmacies displayed on the page with `vendorId=all`, not just the cheapest one
-- Multiple scraping strategies are used to find all pharmacy listings (vendor cards, price elements with nearby pharmacy names)
-- Historical pricing is preserved - re-running the script adds new price entries for all pharmacies with current timestamp
-- Producer name and origin are optional parameters - if not provided, the script attempts to extract from page title
-- Terpenes, effects, and therapeutic uses are automatically extracted by keyword matching in page content
-- Output shows top 5 cheapest pharmacies sorted by price
+1. **Search for Product** - Searches shop.dransay.com for the product name
+2. **For "Top Pharmacies" (vendorId=top)**:
+   - Navigates to product page with `vendorId=top` parameter
+   - Extracts the cheapest pharmacy name and price shown (site automatically displays cheapest)
+   - Stores: pharmacy name, price, category='top'
+3. **For "All Pharmacies" (vendorId=all)**:
+   - Navigates to product page with `vendorId=all` parameter
+   - Extracts the cheapest pharmacy name and price shown
+   - Stores: pharmacy name, price, category='all'
+4. **Database Insert**:
+   - Creates product record (ID, name, URL)
+   - Creates pharmacy records if they don't exist
+   - Inserts two price entries (one for each category) with timestamps
+
+**Key Features:**
+
+- **Minimal Storage**: Only 2 price entries per product per scrape
+- **Real Pharmacy Names**: Actual pharmacy names (e.g., "Paracelsus Apotheke") instead of generic placeholders
+- **Automatic Comparison**: The website's `vendorId` parameter automatically shows the cheapest option
+- **Historical Tracking**: Re-running the script adds new timestamped entries, preserving price history
+- **Clean Output**: Shows exactly which pharmacy has the best price in each category
+
+**Example Output:**
+```
+=== Scraping Top Pharmacies ===
+🔍 Searching for 'sourdough' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   💰 Sanvivo Cannabis Apotheke (=Senftenauer): €6.77/g
+
+=== Scraping All Pharmacies ===
+🔍 Searching for 'sourdough' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   💰 Paracelsus Apotheke: €5.69/g
+```
 
 ### Duplicate Prevention
 
@@ -156,33 +158,39 @@ This allows automated fetching of product data without manual approval for each 
 
 ### Bulk Operations
 
-**Update all existing products with latest data:**
-
+**Update all products in database:**
 ```bash
-python3 update_all_products.py
+python3 update_prices.py
 ```
-
 This script:
-- Processes all products in the database concurrently (5 at a time)
-- Re-scrapes each product page to get latest ratings, reviews, prices
-- Updates terpenes, effects, and therapeutic uses
-- Preserves price history by adding new entries
-- Takes approximately 1-2 minutes for 100 products
-- Outputs progress and summary statistics
+- Fetches all products from the database
+- Re-scrapes prices for each product
+- Shows progress and provides summary
 
-**Add multiple new products from a list:**
+**Add multiple products from file:**
+```bash
+python3 add_products_batch.py example_products.txt
+```
+File format: one product name per line (see `example_products.txt`)
+
+### Querying Price Data
+
+**View prices for a specific product:**
 
 ```bash
-python3 add_batch_products.py
+sqlite3 WeedDB.db "SELECT p.name, pr.price_per_g, pr.category, ph.name as pharmacy, pr.timestamp
+FROM products p
+JOIN prices pr ON p.id = pr.product_id
+JOIN pharmacies ph ON pr.pharmacy_id = ph.id
+WHERE p.name LIKE '%sourdough%'
+ORDER BY pr.category, pr.price_per_g"
 ```
 
-This script demonstrates batch addition of products:
-- Edit the `product_ids` list in the script with new product IDs from shop.dransay.com
-- Automatically generates placeholder URLs with product IDs
-- Processes products sequentially with error handling
-- Shows progress counter (e.g., [5/36])
-- Provides final summary of successful/failed additions
-- Example: Successfully added 36 new products in ~4 minutes
+**Example output:**
+```
+Sourdough|5.69|all|Paracelsus Apotheke|2025-11-14 18:56:24
+Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)|2025-11-14 18:56:24
+```
 
 ## Prerequisites
 
@@ -243,7 +251,7 @@ python3 -m playwright install chromium
 sqlite3 WeedDB.db < schema.sql
 
 # Add first product
-python3 add_product.py "https://shop.dransay.com/product/..." "Producer Name" "Origin"
+python3 add_product.py 'sourdough'
 ```
 
 ## Type Safety
@@ -301,9 +309,28 @@ GROUP BY p.id
 ORDER BY p.rating DESC"
 ```
 
-**Current prices (cheapest per product):**
+**Current prices by category:**
 ```sql
-sqlite3 WeedDB.db "SELECT p.name, MIN(pr.price_per_g) as min_price, ph.name as pharmacy
+sqlite3 WeedDB.db "SELECT p.name, pr.category, pr.price_per_g, ph.name as pharmacy
+FROM products p
+JOIN prices pr ON p.id = pr.product_id
+JOIN pharmacies ph ON pr.pharmacy_id = ph.id
+WHERE pr.timestamp = (SELECT MAX(timestamp) FROM prices WHERE product_id = p.id AND category = pr.category)
+ORDER BY p.name, pr.category"
+```
+
+**Price history for a product (by category):**
+```sql
+sqlite3 WeedDB.db "SELECT pr.timestamp, pr.category, ph.name, pr.price_per_g
+FROM prices pr
+JOIN pharmacies ph ON pr.pharmacy_id = ph.id
+WHERE pr.product_id = 973
+ORDER BY pr.timestamp DESC, pr.category"
+```
+
+**Find cheapest products overall:**
+```sql
+sqlite3 WeedDB.db "SELECT p.name, MIN(pr.price_per_g) as min_price, ph.name as pharmacy, pr.category
 FROM products p
 JOIN prices pr ON p.id = pr.product_id
 JOIN pharmacies ph ON pr.pharmacy_id = ph.id
@@ -311,38 +338,32 @@ GROUP BY p.id
 ORDER BY min_price"
 ```
 
-**Price history for a product:**
-```sql
-sqlite3 WeedDB.db "SELECT pr.timestamp, ph.name, pr.price_per_g
-FROM prices pr
-JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-WHERE pr.product_id = 698
-ORDER BY pr.timestamp"
-```
-
 ## Architecture Notes
 
 ### Data Model
-- **3NF SQLite database** with junction tables for many-to-many relationships (terpenes, effects, therapeutic uses)
-- **Product ID as PRIMARY KEY**: Uses shop.dransay.com's product ID, same strain from different producers has different IDs
+- **SQLite database** with simple product and price tracking
+- **Product ID as PRIMARY KEY**: Uses shop.dransay.com's product ID
+- **Category-based price tracking**: Two price entries per scrape (top/all)
 - **Historical price tracking**: Never delete prices, always INSERT new entries with timestamps
-- **Automatic de-duplication**: `INSERT OR REPLACE` for products, `INSERT OR IGNORE` for producers/pharmacies
+- **Automatic de-duplication**: `INSERT OR IGNORE` for pharmacies
 
 ### Web Scraping Implementation
 - **Playwright (headless Chromium)** for JavaScript-rendered pages
+- **Two-step scraping process**:
+  1. Search page → Find product URL
+  2. Product page with `vendorId` parameter → Extract cheapest pharmacy
 - **Data extraction strategy**:
-  - **Ratings/Reviews**: Extracted from escaped JSON in page HTML (`\"rating\",\"4.1278244028405423\"`)
-  - **Producer**: Extracted from HTML `<title>` tag (format: "Product Name - Producer Name")
-  - **Terpenes/Effects/Therapeutic Uses**: Keyword matching in page content
-- **URL normalization**: Automatically ensures `vendorId=all` parameter for complete pharmacy listings
-- **Concurrent processing**: `update_all_products.py` uses ThreadPoolExecutor (5 workers) for bulk updates
+  - **Product Name**: From page `<h1>` element
+  - **Pharmacy Name**: Text search for "Apotheke" keyword in DOM
+  - **Price**: Regex pattern `€\s*(\d+\.\d+)\s*/\s*g`
+- **Category differentiation**: Uses `vendorId=top` and `vendorId=all` URL parameters
 
 ### Key Design Decisions
-- **Multi-pharmacy price tracking**: Tracks ALL pharmacies displayed on product pages (using `vendorId=all`), enabling comprehensive price comparison across the German market
-- **Multi-strategy scraping**: Uses multiple DOM selectors and approaches to find all pharmacy listings (vendor cards, price elements with context)
-- **Many-to-many via junction tables**: Enables flexible queries like "all products with Myrcen terpene"
-- **Keyword-based extraction**: Terpenes, effects, and therapeutic uses extracted by matching known keywords in page text
-- **Price history preservation**: Historical pricing enables trend analysis without separate archival process - each scrape adds new price entries for all pharmacies
+- **Minimal storage approach**: Only 2 prices per product per scrape (top + all categories)
+- **Leverages website logic**: Shop.dransay.com automatically displays cheapest pharmacy based on `vendorId` parameter
+- **Real pharmacy names**: Stores actual pharmacy names instead of generic placeholders
+- **Simplified scraping**: No need to parse multiple pharmacy cards - website does the filtering
+- **Price history preservation**: Re-running script adds new timestamped entries for trend analysis
 
 ## Troubleshooting
 
@@ -351,16 +372,15 @@ ORDER BY pr.timestamp"
 - Check for headless browser errors in terminal output
 - Verify internet connection to shop.dransay.com
 
-**If data extraction fails:**
-- Rating/review extraction relies on JSON format in page HTML - if shop.dransay.com changes their Next.js data structure, regex patterns in `add_product.py` may need updating
-- Producer extraction from `<title>` tag assumes format: "Product Name - Producer Name"
-- Terpene/effect/therapeutic use extraction is keyword-based - new terms need to be added to the keyword lists in `add_product.py`
-- Use `debug_scrape.py` to inspect page structure and identify what data is available
+**If product not found:**
+- Verify the product name matches what appears on shop.dransay.com
+- Try a shorter or more generic search term (e.g., "sourdough" instead of "sourdough pedanios")
+- Check if the product is actually available on the website
 
-**If some products have missing data:**
-- Not all products have ratings/reviews (new products may have `NULL` values)
-- Producer extraction may fail if title format doesn't match expected pattern
-- Use `update_all_products.py` to refresh all products with latest data from shop.dransay.com
+**If price/pharmacy extraction fails:**
+- Pharmacy name extraction looks for "Apotheke" keyword in page text
+- If shop.dransay.com changes their page structure, selectors in `add_product.py` may need updating
+- Price pattern expects format: "€X.XX / g" or "€X.XX/g"
 
 ## Database Queries
 
@@ -452,4 +472,13 @@ ORDER BY p.rating DESC"
 
 ## Dynamische Übersichtsdateien
 
-**Wichtiger Hinweis:** Die Datei `SORTEN_ÜBERSICHT.md` wird automatisch aus der `WeedDB.db` Datenbank generiert. Jegliche Änderungen an der Datenbank (Hinzufügen, Ändern oder Löschen von Einträgen) führen dazu, dass sich der Inhalt dieser Markdown-Datei bei der nächsten Aktualisierung ebenfalls ändert. Sowohl die "Bestenliste" als auch die Haupttabelle enthalten jetzt direkte Links zu den jeweiligen Produktseiten.
+**Wichtiger Hinweis:** Die Datei `SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert. Nach dem Hinzufügen oder Aktualisieren von Produkten sollte das Skript ausgeführt werden:
+
+```bash
+python3 generate_overview.py
+```
+
+Das Skript erstellt eine sortierte Übersicht aller Produkte mit:
+- Bestenliste (höchster THC, bester Preis, Community-Liebling, etc.)
+- Vollständige Produkttabelle sortiert nach Bewertungsanzahl
+- Direkte Links zu allen Produktseiten auf shop.dransay.com

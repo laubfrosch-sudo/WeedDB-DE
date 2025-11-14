@@ -1,0 +1,18 @@
+# WeedDB Batch Product Addition - Example File
+# One product name per line
+# Lines starting with # are comments and will be ignored
+
+# Popular Indica strains
+sourdough
+gelato
+wedding cake
+
+# Popular Sativa strains
+amnesia haze
+super lemon haze
+sour diesel
+
+# Popular Hybrid strains
+blue dream
+girl scout cookies
+gorilla glue

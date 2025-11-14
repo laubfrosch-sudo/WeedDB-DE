@@ -1,335 +1,283 @@
 #!/usr/bin/env python3
 """
 Add cannabis product to WeedDB from shop.dransay.com
-Extracts product data and featured pharmacy pricing using Playwright
+Finds the cheapest price for a given product name in two categories:
+1. Top shipping pharmacies (vendorId=top)
+2. All shipping pharmacies (vendorId=all)
 """
 
 import sys
 import re
 import sqlite3
+import asyncio
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
-from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
+from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout, Page, Locator
+
+BASE_URL = "https://shop.dransay.com"
 
 def extract_product_id_from_url(url: str) -> Optional[int]:
     """Extract product ID from dransay URL"""
     match = re.search(r'/product/[^/]+/(\d+)', url)
     return int(match.group(1)) if match else None
 
-def ensure_vendor_all(url: str) -> str:
-    """Ensure URL has vendorId=all parameter"""
-    if 'vendorId=' not in url:
-        separator = '&' if '?' in url else '?'
-        url = url.split('?')[0] + '?vendorId=all&deliveryMethod=shipping&filters=%7B%22topProducersLowPrice%22%3Afalse%7D'
-    elif 'vendorId=top' in url:
-        url = url.replace('vendorId=top', 'vendorId=all')
-    return url
+def construct_search_url(product_name: str, vendor_id: str) -> str:
+    """Constructs a search URL for dransay.com"""
+    encoded_product_name = product_name.replace(' ', '%20')
+    return f"{BASE_URL}/products?vendorId={vendor_id}&deliveryMethod=shipping&filters=%7B%22topProducersLowPrice%22:false%7D&search={encoded_product_name}"
 
-def scrape_product_data(url: str) -> Optional[Dict[str, Any]]:
-    """Scrape product data from shop.dransay.com using Playwright"""
+async def _scrape_product_details_from_card(page: Page, product_card_locator: Locator, product_link_locator: Optional[Locator] = None) -> Dict[str, Any]:
+    """Extracts product details from a given product card locator by parsing text content"""
+    product_data: Dict[str, Any] = {}
 
-    url = ensure_vendor_all(url)
-    print(f"🌐 Fetching: {url}\n")
+    # Extract product URL and ID
+    if product_link_locator:
+        product_link = await product_link_locator.get_attribute('href')
+    else:
+        product_link = await product_card_locator.get_attribute('href')
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+    if product_link:
+        product_data['url'] = f"{BASE_URL}{product_link}" if not product_link.startswith('http') else product_link
+        product_data['id'] = extract_product_id_from_url(product_data['url'])
+    else:
+        raise ValueError("Could not find product URL on card.")
 
+    # Get all text from the card and parse it
+    try:
+        all_text = await product_card_locator.inner_text()
+        lines = [line.strip() for line in all_text.split('\n') if line.strip()]
+
+        print(f"   Debug: Card has {len(lines)} lines of text")
+
+        # Parse the structured text
+        # Pattern: genetics, THC%, CBD%, Name, Variant, Rating, (Reviews), ...
+        found_cbd = False
+        for i, line in enumerate(lines):
+            # Genetics (Indica/Sativa/Hybrid)
+            if line in ['Indica', 'Sativa', 'Hybrid', 'Hybrid-Sativa', 'Hybrid-Indica']:
+                product_data['genetics'] = line
+
+            # THC percentage
+            thc_match = re.match(r'THC\s+(\d+(?:\.\d+)?)%', line)
+            if thc_match:
+                product_data['thc_percent'] = float(thc_match.group(1))
+
+            # CBD percentage
+            cbd_match = re.match(r'CBD\s+(\d+(?:\.\d+)?)%', line)
+            if cbd_match:
+                product_data['cbd_percent'] = float(cbd_match.group(1))
+                found_cbd = True
+                # Name comes right after CBD
+                if i + 1 < len(lines):
+                    product_data['name'] = lines[i + 1]
+                # Variant comes after name
+                if i + 2 < len(lines):
+                    product_data['variant'] = lines[i + 2]
+
+            # Rating (decimal number like 4.0)
+            rating_match = re.match(r'^(\d+\.\d+)$', line)
+            if rating_match and 'rating' not in product_data:
+                product_data['rating'] = float(rating_match.group(1))
+
+            # Review count (pattern like "(1832+)")
+            review_match = re.match(r'\((\d+)\+?\)', line)
+            if review_match:
+                product_data['review_count'] = int(review_match.group(1))
+
+        # If name not found, use fallback
+        if 'name' not in product_data and len(lines) > 3:
+            # Usually: genetics, THC%, CBD%, name, variant...
+            for line in lines[3:]:
+                if not re.search(r'\d+%|\(\d+\+?\)|^\d+\.\d+$|€', line) and len(line) > 2:
+                    product_data['name'] = line
+                    break
+
+        # Producer name often appears in variant (e.g., "Pedanios 29/1 SRD-CA")
+        if product_data.get('variant'):
+            variant_parts = product_data['variant'].split()
+            if variant_parts:
+                product_data['producer_name'] = variant_parts[0]
+
+    except Exception as e:
+        print(f"   ⚠ Error parsing card text: {e}")
+        product_data['name'] = None
+        product_data['variant'] = None
+        product_data['thc_percent'] = None
+        product_data['cbd_percent'] = None
+        product_data['genetics'] = None
+        product_data['rating'] = None
+        product_data['review_count'] = None
+        product_data['producer_name'] = None
+
+    return product_data
+
+async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str, vendor_id: str) -> Optional[Dict[str, Any]]:
+    """
+    Finds the product URL from search, then navigates to product page with vendorId
+    to extract the cheapest pharmacy and price for that category.
+    """
+    # Step 1: Find product URL from search page
+    search_url = construct_search_url(product_name, vendor_id)
+    print(f"🔍 Searching for '{product_name}' ({vendor_id})")
+
+    await page.goto(search_url, wait_until='networkidle', timeout=30000)
+
+    # Find product link
+    try:
+        await page.wait_for_selector('a[href*="/product/"]', timeout=30000)
+    except:
+        print(f"   ❌ No products found")
+        return None
+
+    product_links = await page.locator('a[href*="/product/"]').all()
+    product_url = None
+
+    for link in product_links:
         try:
-            page.goto(url, wait_until='networkidle', timeout=30000)
-            page.wait_for_selector('h1', timeout=10000)
+            link_text = await link.inner_text()
+            if product_name.lower() in link_text.lower():
+                href = await link.get_attribute('href')
+                if href:
+                    product_url = f"{BASE_URL}{href}" if not href.startswith('http') else href
+                    print(f"   ✅ Found product")
+                    break
+        except:
+            continue
 
-            # Extract product data
-            product_data: Dict[str, Any] = {}
+    if not product_url:
+        print(f"   ❌ Product '{product_name}' not found")
+        return None
 
-            # Basic info
-            product_data['id'] = extract_product_id_from_url(url)
-            product_data['name'] = page.locator('h1').first.inner_text().strip()
-            product_data['url'] = url
+    # Step 2: Navigate to product page with correct vendorId
+    # Add vendorId and deliveryMethod to URL
+    if '?' in product_url:
+        full_product_url = f"{product_url}&vendorId={vendor_id}&deliveryMethod=shipping"
+    else:
+        full_product_url = f"{product_url}?vendorId={vendor_id}&deliveryMethod=shipping"
 
-            print(f"📦 Product: {product_data['name']} (ID: {product_data['id']})")
+    print(f"   🌐 Loading product page ({vendor_id})")
+    await page.goto(full_product_url, wait_until='networkidle', timeout=30000)
+    await page.wait_for_timeout(2000)
 
-            # Try to extract variant (often in subtitle or product name)
+    # Step 3: Extract product details and cheapest pharmacy
+    product_details: Dict[str, Any] = {}
+
+    # Extract product ID from URL
+    product_details['id'] = extract_product_id_from_url(product_url)
+    product_details['url'] = product_url
+    product_details['category'] = vendor_id
+
+    # Extract product info from page
+    try:
+        page_content = await page.content()
+
+        # Try to find product name in title or h1
+        try:
+            title_elem = page.locator('h1').first
+            product_details['name'] = await title_elem.inner_text()
+        except:
+            product_details['name'] = product_name.title()
+
+        # Find pharmacy name and price
+        # Look for elements containing "Apotheke"
+        apotheke_elements = await page.locator('text=/Apotheke/').all()
+
+        pharmacy_name = None
+        price_per_g = None
+
+        for elem in apotheke_elements:
             try:
-                subtitle = page.locator('h2, .subtitle, [class*="variant"]').first.inner_text().strip()
-                product_data['variant'] = subtitle
+                elem_text = await elem.inner_text()
+                parent = elem.locator('..')
+                parent_text = await parent.inner_text()
+
+                # Extract pharmacy name
+                pharmacy_match = re.search(r'([^\n]+Apotheke[^\n]*)', elem_text)
+                if pharmacy_match:
+                    pharmacy_name = pharmacy_match.group(1).strip()
+
+                # Extract price from parent
+                price_match = re.search(r'€\s*(\d+\.\d+)\s*/\s*g', parent_text)
+                if price_match:
+                    price_per_g = float(price_match.group(1))
+
+                if pharmacy_name and price_per_g:
+                    break
+
             except:
-                product_data['variant'] = None
+                continue
 
-            # Extract THC/CBD percentages
-            try:
-                thc_text = page.locator('text=/THC.*?\\d+%/').first.inner_text()
-                thc_match = re.search(r'(\d+(?:\.\d+)?)%', thc_text)
-                product_data['thc_percent'] = float(thc_match.group(1)) if thc_match else None
-            except:
-                product_data['thc_percent'] = None
+        product_details['cheapest_pharmacy_name'] = pharmacy_name
+        product_details['cheapest_price_per_g'] = price_per_g
 
-            try:
-                cbd_text = page.locator('text=/CBD.*?\\d+%/').first.inner_text()
-                cbd_match = re.search(r'(\d+(?:\.\d+)?)%', cbd_text)
-                product_data['cbd_percent'] = float(cbd_match.group(1)) if cbd_match else None
-            except:
-                product_data['cbd_percent'] = None
+        if pharmacy_name and price_per_g:
+            print(f"   💰 {pharmacy_name}: €{price_per_g}/g")
+        else:
+            print(f"   ⚠ Could not extract pharmacy/price")
 
-            # Extract genetics (Indica/Sativa/Hybrid)
-            try:
-                genetics_text = page.locator('text=/Indica|Sativa|Hybrid/i').first.inner_text()
-                if 'Indica' in genetics_text:
-                    product_data['genetics'] = 'Indica'
-                elif 'Sativa' in genetics_text:
-                    product_data['genetics'] = 'Sativa'
-                elif 'Hybrid' in genetics_text:
-                    product_data['genetics'] = 'Hybrid'
-            except:
-                product_data['genetics'] = None
+    except Exception as e:
+        print(f"   ⚠ Error extracting details: {e}")
+        product_details['cheapest_pharmacy_name'] = None
+        product_details['cheapest_price_per_g'] = None
 
-            # Extract rating and review count
-            try:
-                # Get all text from page to search for rating
-                page_text = page.content()
+    return product_details
 
-                # Look for escaped JSON format: \"rating\",\"4.1278244028405423\"
-                rating_match = re.search(r'\\?"rating\\?",\\?"(\d+\.\d+)\\?"', page_text)
-                if rating_match:
-                    rating_value = float(rating_match.group(1))
-                    # Round to 1 decimal place like the UI shows
-                    product_data['rating'] = round(rating_value, 1)
-                else:
-                    # Fallback: look for unescaped JSON
-                    rating_match = re.search(r'"rating"\s*:\s*"?(\d+\.\d+)"?', page_text)
-                    if rating_match:
-                        rating_value = float(rating_match.group(1))
-                        product_data['rating'] = round(rating_value, 1)
-                    else:
-                        product_data['rating'] = None
+async def scrape_product_data(product_name: str) -> Optional[Dict[str, Any]]:
+    """
+    Scrapes product data and the cheapest prices for 'top' and 'all' categories.
+    """
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
 
-                # Look for escaped JSON format: \"ratingCount\",\"1549\"
-                review_match = re.search(r'\\?"ratingCount\\?",\\?"(\d+)\\?"', page_text)
-                if review_match:
-                    product_data['review_count'] = int(review_match.group(1))
-                else:
-                    # Fallback: look for unescaped JSON
-                    review_match = re.search(r'"ratingCount"\s*:\s*"?(\d+)"?', page_text)
-                    if review_match:
-                        product_data['review_count'] = int(review_match.group(1))
-                    else:
-                        product_data['review_count'] = None
-            except Exception as e:
-                print(f"   ⚠ Rating extraction failed: {e}")
-                product_data['rating'] = None
-                product_data['review_count'] = None
+        product_data: Dict[str, Any] = {}
 
-            # Extract producer/manufacturer
-            try:
-                # First try: Look for in title tag like "Black Cherry Punch: enua 22/1 BCP CA - enua Pharma"
-                title_match = re.search(r'<title>[^<]+-\s*([^<]+?)</title>', page_text)
-                if title_match:
-                    title_producer = title_match.group(1).strip()
-                    # Clean up common suffixes
-                    title_producer = re.sub(r'\s*\|.*$', '', title_producer)  # Remove " | DrAnsay" etc
-                    if len(title_producer) > 3 and 'shop' not in title_producer.lower():
-                        product_data['producer_name'] = title_producer
-                    else:
-                        product_data['producer_name'] = None
-                else:
-                    # Fallback: look for escaped JSON or other patterns
-                    producer_match = re.search(r'"producer"\s*:\s*\{[^}]*"name"\s*:\s*"([^"]+)"', page_text)
-                    if producer_match:
-                        product_data['producer_name'] = producer_match.group(1).strip()
-                    else:
-                        product_data['producer_name'] = None
-            except Exception as e:
-                print(f"   ⚠ Producer extraction failed: {e}")
-                product_data['producer_name'] = None
-
-            # Extract terpenes
-            product_data['terpenes'] = []
-            try:
-                # Look for common terpene names
-                terpene_names = ['Limonen', 'Linalool', 'Beta-Caryophyllen', 'Caryophyllen', 'Beta-Myrcen',
-                                'Myrcen', 'Pinene', 'Pinen', 'Humulen', 'Terpinolen', 'Ocimene']
-                for terpene in terpene_names:
-                    if terpene.lower() in page_text.lower():
-                        # Normalize name
-                        normalized = terpene.replace('Beta-', '').replace('Alpha-', '')
-                        if normalized not in product_data['terpenes']:
-                            product_data['terpenes'].append(normalized)
-            except Exception as e:
-                print(f"   ⚠ Terpene extraction failed: {e}")
-
-            # Extract effects
-            product_data['effects'] = []
-            try:
-                effect_keywords = {
-                    'relaxing': ['relaxing', 'relaxation', 'entspannend'],
-                    'euphoric': ['euphoric', 'euphorisch', 'mood enhancement'],
-                    'sedative': ['sedative', 'sedierend', 'sleep'],
-                    'uplifting': ['uplifting', 'energizing', 'energetisch'],
-                    'creative': ['creative', 'kreativ'],
-                    'focused': ['focus', 'focused', 'konzentration'],
-                    'pain relief': ['pain relief', 'schmerzlindernd', 'analgesic'],
-                    'anti-inflammatory': ['anti-inflammatory', 'entzündungshemmend'],
-                    'anxiety relief': ['anxiety', 'anxiolytic', 'angstlösend']
-                }
-                page_lower = page_text.lower()
-                for effect, keywords in effect_keywords.items():
-                    if any(kw.lower() in page_lower for kw in keywords):
-                        product_data['effects'].append(effect)
-            except Exception as e:
-                print(f"   ⚠ Effect extraction failed: {e}")
-
-            # Extract therapeutic uses
-            product_data['therapeutic_uses'] = []
-            try:
-                therapeutic_keywords = {
-                    'chronic pain': ['chronic pain', 'chronische schmerzen'],
-                    'anxiety': ['anxiety', 'angst'],
-                    'depression': ['depression'],
-                    'insomnia': ['insomnia', 'schlafstörung', 'sleep disorder'],
-                    'inflammation': ['inflammation', 'entzündung'],
-                    'stress': ['stress'],
-                    'PTSD': ['ptsd', 'post-traumatic'],
-                    'ADHD': ['adhd', 'attention deficit'],
-                    'appetite loss': ['appetite', 'appetit'],
-                    'nausea': ['nausea', 'übelkeit'],
-                    'migraine': ['migraine', 'migräne'],
-                    'arthritis': ['arthritis', 'arthrose'],
-                    'Parkinson': ['parkinson'],
-                    'epilepsy': ['epilepsy', 'epilepsie']
-                }
-                page_lower = page_text.lower()
-                for use, keywords in therapeutic_keywords.items():
-                    if any(kw.lower() in page_lower for kw in keywords):
-                        product_data['therapeutic_uses'].append(use)
-            except Exception as e:
-                print(f"   ⚠ Therapeutic use extraction failed: {e}")
-
-            # Extract ALL pharmacy prices (vendorId=all shows all pharmacies)
-            product_data['pharmacy_prices'] = []
-            try:
-                # Strategy 1: Look for vendor cards/sections with price info
-                # Try multiple selectors to find pharmacy listings
-                vendor_sections = page.locator('[data-testid*="vendor-card"], [class*="vendor-card"], [class*="pharmacy-option"]').all()
-
-                if not vendor_sections:
-                    # Strategy 2: Look for price elements and nearby pharmacy names
-                    price_elements = page.locator('text=/€\\s*\\d+\\.\\d+\\s*\\/\\s*g/').all()
-
-                    for price_elem in price_elements:
-                        try:
-                            price_text = price_elem.inner_text()
-                            price_match = re.search(r'€\s*(\d+\.\d+)', price_text)
-                            if not price_match:
-                                continue
-                            price_per_g = float(price_match.group(1))
-
-                            # Try to find pharmacy name near the price element
-                            # Look in parent containers
-                            parent = price_elem.locator('xpath=ancestor::div[contains(@class, "vendor") or contains(@class, "pharmacy") or contains(@data-testid, "vendor")]').first
-                            pharmacy_text = parent.inner_text() if parent else None
-
-                            if pharmacy_text:
-                                # Extract pharmacy name (first line usually)
-                                pharm_name = pharmacy_text.strip().split('\n')[0].strip()
-                                # Clean up common suffixes
-                                pharm_name = re.sub(r'\s*€.*$', '', pharm_name)  # Remove price info
-
-                                if pharm_name and len(pharm_name) > 2:
-                                    product_data['pharmacy_prices'].append((pharm_name, price_per_g))
-                        except Exception:
-                            continue
-                else:
-                    # Process vendor sections
-                    for section in vendor_sections:
-                        try:
-                            section_text = section.inner_text()
-                            # Extract pharmacy name
-                            lines = section_text.strip().split('\n')
-                            pharmacy_name = lines[0].strip() if lines else None
-
-                            # Extract price
-                            price_match = re.search(r'€\s*(\d+\.\d+)', section_text)
-                            if pharmacy_name and price_match:
-                                price_per_g = float(price_match.group(1))
-                                # Type narrowing: pharmacy_name is str here due to the if condition
-                                product_data['pharmacy_prices'].append((pharmacy_name, price_per_g))
-                        except Exception:
-                            continue
-
-                # If no pharmacies found with advanced strategies, fallback to featured pharmacy
-                if not product_data['pharmacy_prices']:
-                    try:
-                        price_elem = page.locator('text=/€\\s*\\d+\\.\\d+\\s*\\/\\s*g/').first
-                        price_text = price_elem.inner_text()
-                        price_match = re.search(r'€\s*(\d+\.\d+)', price_text)
-                        if price_match:
-                            price_per_g = float(price_match.group(1))
-
-                            # Try to find pharmacy name
-                            try:
-                                pharmacy_elem = page.locator('[data-testid*="vendor"], [class*="pharmacy"], [class*="vendor"]').first
-                                pharmacy_name = pharmacy_elem.inner_text().strip().split('\n')[0]
-                                product_data['pharmacy_prices'].append((pharmacy_name, price_per_g))
-                            except:
-                                # Use generic name if not found
-                                product_data['pharmacy_prices'].append(("Featured Pharmacy", price_per_g))
-                    except Exception:
-                        pass
-
-            except Exception as e:
-                print(f"   ⚠ Pharmacy price extraction failed: {e}")
-
-            # Keep legacy single pharmacy fields for backward compatibility
-            if product_data['pharmacy_prices']:
-                product_data['pharmacy_name'] = product_data['pharmacy_prices'][0][0]
-                product_data['price_per_g'] = product_data['pharmacy_prices'][0][1]
-            else:
-                product_data['pharmacy_name'] = None
-                product_data['price_per_g'] = None
-
-            browser.close()
-
-            # Display extracted data
-            print(f"   Variant: {product_data.get('variant', 'N/A')}")
-            print(f"   Genetics: {product_data.get('genetics', 'N/A')}")
-            print(f"   Producer: {product_data.get('producer_name', 'N/A')}")
-            print(f"   THC: {product_data.get('thc_percent', 'N/A')}%")
-            print(f"   CBD: {product_data.get('cbd_percent', 'N/A')}%")
-            print(f"   Rating: {product_data.get('rating', 'N/A')} ({product_data.get('review_count', 'N/A')} reviews)")
-
-            if product_data.get('terpenes'):
-                print(f"   Terpenes: {', '.join(product_data['terpenes'])}")
-            if product_data.get('effects'):
-                print(f"   Effects: {', '.join(product_data['effects'][:3])}...")
-            if product_data.get('therapeutic_uses'):
-                print(f"   Therapeutic: {', '.join(product_data['therapeutic_uses'][:3])}...")
-
-            print(f"\n💰 Pharmacy Prices ({len(product_data.get('pharmacy_prices', []))} pharmacies found):")
-            if product_data.get('pharmacy_prices'):
-                # Sort by price ascending
-                sorted_prices = sorted(product_data['pharmacy_prices'], key=lambda x: x[1])
-                for i, (pharmacy, price) in enumerate(sorted_prices[:5], 1):  # Show top 5
-                    marker = "🏆" if i == 1 else f"  {i}."
-                    print(f"   {marker} {pharmacy}: €{price:.2f}/g")
-                if len(sorted_prices) > 5:
-                    print(f"   ... and {len(sorted_prices) - 5} more")
-            else:
-                print(f"   No pharmacy prices found")
-
-            return product_data
-
-        except PlaywrightTimeout as e:
-            print(f"❌ Timeout: {e}")
-            browser.close()
-            return None
-        except Exception as e:
-            print(f"❌ Error: {e}")
-            import traceback
-            traceback.print_exc()
-            browser.close()
+        # Scrape for 'top' pharmacies
+        print(f"\n=== Scraping Top Pharmacies ===")
+        top_data = await _scrape_cheapest_price_from_search_page(page, product_name, "top")
+        if top_data:
+            product_data.update(top_data)
+            product_data['cheapest_top_pharmacy_name'] = top_data['cheapest_pharmacy_name']
+            product_data['cheapest_top_price_per_g'] = top_data['cheapest_price_per_g']
+        else:
+            print(f"❌ Failed to get 'top' pharmacy data for {product_name}")
+            await browser.close()
             return None
 
-def insert_product_to_db(product_data: Optional[Dict[str, Any]], producer_name: Optional[str] = None, origin: Optional[str] = None) -> bool:
+        # Scrape for 'all' pharmacies
+        print(f"\n=== Scraping All Pharmacies ===")
+        all_data = await _scrape_cheapest_price_from_search_page(page, product_name, "all")
+        if all_data:
+            # Update product details only if they are missing from 'top_data'
+            for key, value in all_data.items():
+                if key not in product_data and key not in ['cheapest_pharmacy_name', 'cheapest_price_per_g', 'category']:
+                    product_data[key] = value
+
+            product_data['cheapest_all_pharmacy_name'] = all_data['cheapest_pharmacy_name']
+            product_data['cheapest_all_price_per_g'] = all_data['cheapest_price_per_g']
+        else:
+            print(f"❌ Failed to get 'all' pharmacy data for {product_name}")
+            await browser.close()
+            return None
+
+        await browser.close()
+
+        # Display extracted data
+        print(f"\n{'='*60}")
+        print(f"📋 Summary for: {product_data.get('name', product_name)}")
+        print(f"{'='*60}")
+        print(f"   ID: {product_data.get('id', 'N/A')}")
+        print(f"   URL: {product_data.get('url', 'N/A')}")
+        print(f"\n💰 Cheapest Prices:")
+        print(f"   🏆 Top Pharmacies: €{product_data.get('cheapest_top_price_per_g', 'N/A')}/g")
+        print(f"       → {product_data.get('cheapest_top_pharmacy_name', 'N/A')}")
+        print(f"   🌍 All Pharmacies: €{product_data.get('cheapest_all_price_per_g', 'N/A')}/g")
+        print(f"       → {product_data.get('cheapest_all_pharmacy_name', 'N/A')}")
+        print(f"{'='*60}\n")
+
+        return product_data
+
+def insert_product_to_db(product_data: Optional[Dict[str, Any]]) -> bool:
     """Insert product data into WeedDB"""
 
     if not product_data:
@@ -340,12 +288,12 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]], producer_name: 
     cursor = conn.cursor()
 
     try:
-        # Insert or get producer (from parameter or extracted data)
+        # Insert or get producer
         producer_id = None
-        final_producer_name = producer_name or product_data.get('producer_name')
+        final_producer_name = product_data.get('producer_name')
         if final_producer_name:
-            cursor.execute("INSERT OR IGNORE INTO producers (name, origin) VALUES (?, ?)",
-                          (final_producer_name, origin))
+            cursor.execute("INSERT OR IGNORE INTO producers (name) VALUES (?)",
+                          (final_producer_name,))
             cursor.execute("SELECT id FROM producers WHERE name = ?", (final_producer_name,))
             result = cursor.fetchone()
             producer_id = result[0] if result else None
@@ -370,105 +318,40 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]], producer_name: 
             datetime.now()
         ))
 
-        # Insert ALL pharmacy prices (if available)
-        pharmacy_prices_list = product_data.get('pharmacy_prices', [])
-        if pharmacy_prices_list:
-            for pharmacy_name, price_per_g in pharmacy_prices_list:
-                # Insert pharmacy if not exists
-                cursor.execute("INSERT OR IGNORE INTO pharmacies (name) VALUES (?)", (pharmacy_name,))
-                cursor.execute("SELECT id FROM pharmacies WHERE name = ?", (pharmacy_name,))
-                pharmacy_result = cursor.fetchone()
-                if pharmacy_result:
-                    pharmacy_id = pharmacy_result[0]
+        # Insert cheapest 'top' pharmacy price
+        if product_data.get('cheapest_top_pharmacy_name') and product_data.get('cheapest_top_price_per_g'):
+            pharmacy_name = product_data['cheapest_top_pharmacy_name']
+            price_per_g = product_data['cheapest_top_price_per_g']
+            category = "top"
 
-                    # Insert price entry with current timestamp
-                    cursor.execute("""
-                        INSERT INTO prices (product_id, pharmacy_id, price_per_g, timestamp)
-                        VALUES (?, ?, ?, ?)
-                    """, (product_data['id'], pharmacy_id, price_per_g, datetime.now()))
-        # Fallback to legacy single pharmacy field if no pharmacy_prices list
-        elif product_data.get('pharmacy_name') and product_data.get('price_per_g'):
-            cursor.execute("INSERT OR IGNORE INTO pharmacies (name) VALUES (?)",
-                          (product_data['pharmacy_name'],))
-            cursor.execute("SELECT id FROM pharmacies WHERE name = ?",
-                          (product_data['pharmacy_name'],))
-            pharmacy_id = cursor.fetchone()[0]
+            cursor.execute("INSERT OR IGNORE INTO pharmacies (name) VALUES (?)", (pharmacy_name,))
+            cursor.execute("SELECT id FROM pharmacies WHERE name = ?", (pharmacy_name,))
+            pharmacy_result = cursor.fetchone()
+            if pharmacy_result:
+                pharmacy_id = pharmacy_result[0]
+                cursor.execute("""
+                    INSERT INTO prices (product_id, pharmacy_id, price_per_g, category, timestamp)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (product_data['id'], pharmacy_id, price_per_g, category, datetime.now()))
 
-            cursor.execute("""
-                INSERT INTO prices (product_id, pharmacy_id, price_per_g, timestamp)
-                VALUES (?, ?, ?, ?)
-            """, (product_data['id'], pharmacy_id, product_data['price_per_g'], datetime.now()))
+        # Insert cheapest 'all' pharmacy price
+        if product_data.get('cheapest_all_pharmacy_name') and product_data.get('cheapest_all_price_per_g'):
+            pharmacy_name = product_data['cheapest_all_pharmacy_name']
+            price_per_g = product_data['cheapest_all_price_per_g']
+            category = "all"
 
-        # Insert terpenes
-        if product_data.get('terpenes'):
-            for terpene_name in product_data['terpenes']:
-                # Insert terpene if not exists
-                cursor.execute("INSERT OR IGNORE INTO terpenes (name) VALUES (?)", (terpene_name,))
-                cursor.execute("SELECT id FROM terpenes WHERE name = ?", (terpene_name,))
-                terpene_id = cursor.fetchone()[0]
-
-                # Link to product (delete old links first to avoid duplicates on re-run)
-                cursor.execute("DELETE FROM product_terpenes WHERE product_id = ? AND terpene_id = ?",
-                              (product_data['id'], terpene_id))
-                cursor.execute("INSERT INTO product_terpenes (product_id, terpene_id) VALUES (?, ?)",
-                              (product_data['id'], terpene_id))
-
-        # Insert effects
-        if product_data.get('effects'):
-            for effect_name in product_data['effects']:
-                cursor.execute("INSERT OR IGNORE INTO effects (name) VALUES (?)", (effect_name,))
-                cursor.execute("SELECT id FROM effects WHERE name = ?", (effect_name,))
-                effect_id = cursor.fetchone()[0]
-
-                cursor.execute("DELETE FROM product_effects WHERE product_id = ? AND effect_id = ?",
-                              (product_data['id'], effect_id))
-                cursor.execute("INSERT INTO product_effects (product_id, effect_id) VALUES (?, ?)",
-                              (product_data['id'], effect_id))
-
-        # Insert therapeutic uses
-        if product_data.get('therapeutic_uses'):
-            for use_name in product_data['therapeutic_uses']:
-                cursor.execute("INSERT OR IGNORE INTO therapeutic_uses (name) VALUES (?)", (use_name,))
-                cursor.execute("SELECT id FROM therapeutic_uses WHERE name = ?", (use_name,))
-                use_id = cursor.fetchone()[0]
-
-                cursor.execute("DELETE FROM product_therapeutic_uses WHERE product_id = ? AND therapeutic_use_id = ?",
-                              (product_data['id'], use_id))
-                cursor.execute("INSERT INTO product_therapeutic_uses (product_id, therapeutic_use_id) VALUES (?, ?)",
-                              (product_data['id'], use_id))
+            cursor.execute("INSERT OR IGNORE INTO pharmacies (name) VALUES (?)", (pharmacy_name,))
+            cursor.execute("SELECT id FROM pharmacies WHERE name = ?", (pharmacy_name,))
+            pharmacy_result = cursor.fetchone()
+            if pharmacy_result:
+                pharmacy_id = pharmacy_result[0]
+                cursor.execute("""
+                    INSERT INTO prices (product_id, pharmacy_id, price_per_g, category, timestamp)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (product_data['id'], pharmacy_id, price_per_g, category, datetime.now()))
 
         conn.commit()
-
-        # Count how many prices were inserted
-        prices_inserted = len(pharmacy_prices_list) if pharmacy_prices_list else (1 if product_data.get('pharmacy_name') else 0)
-        print(f"\n✅ Successfully added '{product_data['name']}' to database")
-        print(f"   📊 Inserted {prices_inserted} pharmacy price(s)")
-
-        # Show what was inserted with all current prices
-        cursor.execute("""
-            SELECT p.name, p.genetics, p.thc_percent, p.rating,
-                   ph.name as pharmacy, pr.price_per_g
-            FROM products p
-            JOIN prices pr ON p.id = pr.product_id
-            JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-            WHERE p.id = ? AND pr.timestamp >= datetime('now', '-1 minute')
-            ORDER BY pr.price_per_g ASC
-        """, (product_data['id'],))
-
-        results = cursor.fetchall()
-        if results:
-            first_result = results[0]
-            print(f"   Product: {first_result[0]} ({first_result[1]})")
-            print(f"   THC: {first_result[2]}%")
-            print(f"   Rating: {first_result[3]}★")
-            print(f"   Prices stored:")
-            for i, result in enumerate(results[:5], 1):
-                marker = "🏆" if i == 1 else f"     {i}."
-                print(f"   {marker} €{result[5]:.2f}/g at {result[4]}")
-            if len(results) > 5:
-                print(f"      ... and {len(results) - 5} more")
-
-        conn.close()
+        print(f"\n✅ Successfully added '{product_data['name']}' to database with cheapest prices.")
         return True
 
     except sqlite3.Error as e:
@@ -477,30 +360,27 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]], producer_name: 
         conn.close()
         return False
 
-def main() -> None:
+async def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: python add_product.py <product_url> [producer_name] [origin]")
+        print("Usage: python add_product.py <product_name>")
         print("\nExample:")
-        print("  python add_product.py 'https://shop.dransay.com/product/black-cherry-punch-enua-221-bcp-ca/698'")
-        print("  python add_product.py 'https://shop.dransay.com/product/...' 'Aurora Cannabis' 'Canada'")
+        print("  python add_product.py 'sourdough'")
         sys.exit(1)
 
-    url = sys.argv[1]
-    producer_name = sys.argv[2] if len(sys.argv) > 2 else None
-    origin = sys.argv[3] if len(sys.argv) > 3 else None
+    product_name = sys.argv[1]
 
     # Scrape product data
-    product_data = scrape_product_data(url)
+    product_data = await scrape_product_data(product_name)
 
     if not product_data:
         print("\n❌ Failed to scrape product data")
         sys.exit(1)
 
     # Insert into database
-    success = insert_product_to_db(product_data, producer_name, origin)
+    success = insert_product_to_db(product_data)
 
     if not success:
         sys.exit(1)
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

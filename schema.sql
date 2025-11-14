@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS prices (
     product_id INTEGER NOT NULL,
     pharmacy_id INTEGER NOT NULL,
     price_per_g REAL NOT NULL,
+    category TEXT NOT NULL CHECK(category IN ('top', 'all')),
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     FOREIGN KEY (pharmacy_id) REFERENCES pharmacies(id)
@@ -100,6 +101,7 @@ CREATE INDEX IF NOT EXISTS idx_products_rating ON products(rating);
 CREATE INDEX IF NOT EXISTS idx_prices_timestamp ON prices(timestamp);
 CREATE INDEX IF NOT EXISTS idx_prices_product ON prices(product_id);
 CREATE INDEX IF NOT EXISTS idx_prices_pharmacy ON prices(pharmacy_id);
+CREATE INDEX IF NOT EXISTS idx_prices_category ON prices(category);
 
 -- View: Aktuellste Preise pro Produkt und Apotheke
 CREATE VIEW IF NOT EXISTS current_prices AS
@@ -107,14 +109,16 @@ SELECT
     p1.product_id,
     p1.pharmacy_id,
     p1.price_per_g,
+    p1.category,
     p1.timestamp
 FROM prices p1
 INNER JOIN (
-    SELECT product_id, pharmacy_id, MAX(timestamp) as max_timestamp
+    SELECT product_id, pharmacy_id, category, MAX(timestamp) as max_timestamp
     FROM prices
-    GROUP BY product_id, pharmacy_id
+    GROUP BY product_id, pharmacy_id, category
 ) p2 ON p1.product_id = p2.product_id
     AND p1.pharmacy_id = p2.pharmacy_id
+    AND p1.category = p2.category
     AND p1.timestamp = p2.max_timestamp;
 
 -- View: Günstigste aktuelle Preise pro Produkt

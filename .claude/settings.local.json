@@ -8,7 +8,11 @@
       "Bash(do echo \"Füge Produkt $id hinzu...\" python3 add_product.py \"https://shop.dransay.com/product/placeholder/$id\")",
       "Bash(find:*)",
       "Bash(tee:*)",
-      "Bash(xargs kill:*)"
+      "Bash(xargs kill:*)",
+      "Bash(pkill:*)",
+      "Bash(chmod:*)",
+      "Bash(timeout 90 python3:*)",
+      "Bash(echo \"📊 Fortschritts-Check nach 1 Minute:\" echo \"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\" echo \"\" echo \"Neue Preis-Einträge seit Start:\" sqlite3 WeedDB.db \"SELECT COUNT(*) FROM prices WHERE timestamp >= datetime(''''now'''', ''''-2 minutes'''');\" echo \"\" echo \"Produkte mit Multi-Pharmacy-Daten:\" sqlite3 WeedDB.db \"SELECT COUNT(DISTINCT product_id) FROM product_price_stats WHERE pharmacy_count > 1;\" echo \"\" echo \"Laufende Prozesse:\" ps aux)"
     ],
     "deny": [],
     "ask": []
