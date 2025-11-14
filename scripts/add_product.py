@@ -623,7 +623,7 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]]) -> bool:
         print("❌ No product data to insert")
         return False
 
-    conn = sqlite3.connect('WeedDB.db')
+    conn = sqlite3.connect('../data/WeedDB.db')
     cursor = conn.cursor()
 
     try:

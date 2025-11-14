@@ -33,7 +33,7 @@ The WeedDB multi-pharmacy price tracking feature has been successfully implement
 
 ### 2. **Database Enhancements** ✅
 
-**File:** `schema.sql`
+**File:** `data/schema.sql`
 **Lines:** 132-198
 
 **New Views Created:**
@@ -73,7 +73,7 @@ The WeedDB multi-pharmacy price tracking feature has been successfully implement
 - `CLAUDE.md` - Added multi-pharmacy sections, new views documentation
 - `GEMINI.md` - Updated architecture description, added query examples reference
 - `README.md` - Added query examples step, updated references
-- `schema.sql` - Fully documented with new views
+- `data/schema.sql` - Fully documented with new views
 
 ---
 

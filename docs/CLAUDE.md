@@ -14,7 +14,7 @@ WeedDB is a cannabis product database that tracks medical cannabis strains and t
 
 ## Database Schema
 
-WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrity and complex analysis capabilities. The schema is defined in `schema.sql`.
+WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrity and complex analysis capabilities. The schema is defined in `data/schema.sql`.
 
 ### Core Tables
 
@@ -176,7 +176,7 @@ This script:
 ```bash
 python3 add_products_batch.py example_products.txt --yes
 ```
-File format: one product name per line (see `example_products.txt`)
+File format: one product name per line (see `data/example_products.txt`)
 - **New in v1.4.0**: Processes products individually with 3-second pauses to avoid timeouts
 
 **Fix missing producer data (New in v1.4.0):**
@@ -246,7 +246,7 @@ python3 -m playwright install chromium
 ```
 
 **Files:**
-- `schema.sql` - Database schema (run once to create DB)
+- `data/schema.sql` - Database schema (run once to create DB)
 - `add_product.py` - Main script to scrape and add/update individual products
 - `update_all_products.py` - Bulk update script for all products
 - `add_batch_products.py` - Batch script to add multiple new products from a list of product IDs
@@ -506,7 +506,7 @@ ORDER BY p.rating DESC"
 
 ## Dynamische Übersichtsdateien
 
-**Wichtiger Hinweis:** Die Datei `SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert. 
+**Wichtiger Hinweis:** Die Datei `docs/SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert. 
 
 **Nach dem Hinzufügen oder Aktualisieren von Produkten MUSS das Skript ausgeführt werden:**
 

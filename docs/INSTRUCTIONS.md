@@ -69,9 +69,9 @@ If you find an error in the data (e.g., an incorrect THC value), you can ask the
 
 *   `The THC for "Big Purple Dragon" from Remexian is actually 22%, not 30%. Please correct it.`
 
-## 3. Using the Overview File (`SORTEN_ÜBERSICHT.md`)
+## 3. Using the Overview File (`docs/SORTEN_ÜBERSICHT.md`)
 
-The `SORTEN_ÜBERSICHT.md` file is a dynamically generated overview of all products in the database. You can ask the assistant to update or modify this file.
+The `docs/SORTEN_ÜBERSICHT.md` file is a dynamically generated overview of all products in the database. You can ask the assistant to update or modify this file.
 
 ### Regenerating the Overview
 

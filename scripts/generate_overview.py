@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate SORTEN_ÜBERSICHT.md from WeedDB database.
+Generate ../docs/SORTEN_ÜBERSICHT.md from WeedDB database.
 
 This script creates a comprehensive overview of all cannabis products in the database,
 including a "best of" list and a detailed table sorted by review count.
@@ -16,7 +16,7 @@ from datetime import datetime
 
 def get_all_products_with_prices() -> List[Dict[str, Any]]:
     """Fetch all products with their cheapest prices and details"""
-    conn = sqlite3.connect('WeedDB.db')
+    conn = sqlite3.connect('../data/WeedDB.db')
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -102,13 +102,13 @@ def format_float(value: Optional[float]) -> str:
 
 
 def generate_overview_markdown(products: List[Dict[str, Any]], best: Dict[str, Dict[str, Any]]) -> str:
-    """Generate the markdown content for SORTEN_ÜBERSICHT.md"""
+    """Generate the markdown content for ../docs/SORTEN_ÜBERSICHT.md"""
 
     now = datetime.now().strftime('%d.%m.%Y %H:%M')
 
     md = f"""# Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
-Diese Übersicht wird automatisch aus der `WeedDB.db` Datenbank generiert.
+Diese Übersicht wird automatisch aus der `../data/WeedDB.db` Datenbank generiert.
 **Letzte Aktualisierung:** {now}
 
 Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
@@ -191,7 +191,7 @@ Sorten, die in einer der Top-Kategorien die besten sind, sind in der folgenden T
 
 def main() -> None:
     """Main function to generate overview"""
-    print("📊 Generiere SORTEN_ÜBERSICHT.md...")
+    print("📊 Generiere ../docs/SORTEN_ÜBERSICHT.md...")
 
     # Get data
     products = get_all_products_with_prices()
@@ -210,10 +210,10 @@ def main() -> None:
     markdown_content = generate_overview_markdown(products, best)
 
     # Write to file
-    with open('SORTEN_ÜBERSICHT.md', 'w', encoding='utf-8') as f:
+    with open('../docs/SORTEN_ÜBERSICHT.md', 'w', encoding='utf-8') as f:
         f.write(markdown_content)
 
-    print(f"✅ SORTEN_ÜBERSICHT.md erfolgreich generiert!")
+    print(f"✅ ../docs/SORTEN_ÜBERSICHT.md erfolgreich generiert!")
     print(f"   {len(products)} Produkte")
     print(f"   {len(best)} Top-Kategorien")
 

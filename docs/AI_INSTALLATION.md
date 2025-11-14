@@ -134,7 +134,7 @@ For more details on how to interact with the assistant for this specific project
 
 ## Dynamische Übersichtsdateien
 
-**Wichtiger Hinweis:** Die Datei `SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert. 
+**Wichtiger Hinweis:** Die Datei `docs/SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert. 
 
 **Nach dem Hinzufügen oder Aktualisieren von Produkten MUSS das Skript ausgeführt werden:**
 

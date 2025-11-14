@@ -14,7 +14,7 @@ WeedDB is a cannabis product database that tracks medical cannabis strains and t
 
 ## Database Schema
 
-WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrity and complex analysis capabilities. The schema is defined in `schema.sql`.
+WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrity and complex analysis capabilities. The schema is defined in `data/schema.sql`.
 
 ### Core Tables
 
@@ -261,14 +261,14 @@ ORDER BY p.name, pr.category;
 
 ## File Structure
 
-- `schema.sql` - Database schema definition
+- `data/schema.sql` - Database schema definition
 - `add_product.py` - Individual product scraping/addition
 - `update_prices.py` - Bulk price updates
 - `add_products_batch.py` - Batch product addition
 - `generate_overview.py` - Overview markdown generation
 - `WeedDB.db` - SQLite database (auto-created)
-- `example_products.txt` - Sample product list for batch processing
-- `SORTEN_ÜBERSICHT.md` - Generated product overview (auto-updated)
+- `data/example_products.txt` - Sample product list for batch processing
+- `docs/SORTEN_ÜBERSICHT.md` - Generated product overview (auto-updated)
 
 ## Important Notes
 
@@ -284,7 +284,7 @@ ORDER BY p.name, pr.category;
 
 ## Dynamische Übersichtsdateien
 
-**Wichtiger Hinweis:** Die Datei `SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert.
+**Wichtiger Hinweis:** Die Datei `docs/SORTEN_ÜBERSICHT.md` wird mit dem Skript `generate_overview.py` aus der `WeedDB.db` Datenbank generiert.
 
 **Nach dem Hinzufügen oder Aktualisieren von Produkten MUSS das Skript ausgeführt werden:**
 

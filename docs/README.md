@@ -104,14 +104,14 @@ Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)
 
 ## 📖 Documentation
 
-- **`CLAUDE.md`** - Complete technical documentation and architecture (for Claude AI)
-- **`GEMINI.md`** - Technical documentation (for Gemini AI)
-- **`AGENTS.md`** - Comprehensive AI assistant guidelines
-- **`QUERY_EXAMPLES.md`** - SQL query examples for price analysis (60+ examples)
+- **`docs/CLAUDE.md`** - Complete technical documentation and architecture (for Claude AI)
+- **`docs/GEMINI.md`** - Technical documentation (for Gemini AI)
+- **`docs/AGENTS.md`** - Comprehensive AI assistant guidelines
+- **`docs/QUERY_EXAMPLES.md`** - SQL query examples for price analysis (60+ examples)
 - **`INSTRUCTIONS.md`** (English) / **`ANLEITUNG.md`** (Deutsch) - Usage instructions
-- **`schema.sql`** - Database schema definition
-- **`SORTEN_ÜBERSICHT.md`** - Auto-generated product overview (run `generate_overview.py`)
-- **`fix_producers.py`** - Auto-recovery script for missing producer data (v1.4.0)
+- **`data/schema.sql`** - Database schema definition
+- **`docs/SORTEN_ÜBERSICHT.md`** - Auto-generated product overview (run `generate_overview.py`)
+- **`scripts/fix_producers.py`** - Auto-recovery script for missing producer data (v1.4.0)
 
 ---
 
@@ -155,7 +155,7 @@ EOF
 # Run batch addition (processes in small batches of 2 to avoid timeouts)
 python3 add_products_batch.py products.txt --yes
 ```
-See `example_products.txt` for file format.
+See `data/example_products.txt` for file format.
 
 **Note**: The script automatically processes products in batches of 2 with pauses between batches to avoid timeouts and overwhelming the website.
 
@@ -164,7 +164,7 @@ After adding or updating products, generate the overview markdown file:
 ```bash
 python3 generate_overview.py
 ```
-This creates/updates `SORTEN_ÜBERSICHT.md` with:
+This creates/updates `docs/SORTEN_ÜBERSICHT.md` with:
 - Best-of list (highest THC, best price, community favorite, etc.)
 - Complete product table sorted by review count
 - Direct links to all products on shop.dransay.com
@@ -212,7 +212,7 @@ LIMIT 10"
 
 ## 📊 Database Schema
 
-**Complete 3NF Schema** (defined in `schema.sql`) with enhanced data integrity:
+**Complete 3NF Schema** (defined in `data/schema.sql`) with enhanced data integrity:
 
 ```sql
 products (
@@ -337,10 +337,10 @@ ORDER BY pr.category, pr.price_per_g"
 
 ## 📖 Dokumentation
 
-- **`CLAUDE.md`** - Vollständige technische Dokumentation
-- **`QUERY_EXAMPLES.md`** - SQL-Abfrage-Beispiele für Preisanalysen
+- **`docs/CLAUDE.md`** - Vollständige technische Dokumentation
+- **`docs/QUERY_EXAMPLES.md`** - SQL-Abfrage-Beispiele für Preisanalysen
 - **`ANLEITUNG.md`** (Deutsch) / **`INSTRUCTIONS.md`** (Englisch) - Nutzungsanleitung
-- **`schema.sql`** - Datenbankschema-Definition
+- **`data/schema.sql`** - Datenbankschema-Definition
 
 ---
 
@@ -383,14 +383,14 @@ EOF
 # Massen-Hinzufügung ausführen
 python3 add_products_batch.py products.txt
 ```
-Siehe `example_products.txt` für das Dateiformat.
+Siehe `data/example_products.txt` für das Dateiformat.
 
 ### Produktübersicht generieren
 Nach dem Hinzufügen oder Aktualisieren von Produkten, generiere die Übersichtsdatei:
 ```bash
 python3 generate_overview.py
 ```
-Dies erstellt/aktualisiert `SORTEN_ÜBERSICHT.md` mit:
+Dies erstellt/aktualisiert `docs/SORTEN_ÜBERSICHT.md` mit:
 - Bestenliste (höchster THC, bester Preis, Community-Liebling, etc.)
 - Vollständige Produkttabelle sortiert nach Bewertungsanzahl
 - Direkte Links zu allen Produkten auf shop.dransay.com

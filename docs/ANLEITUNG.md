@@ -69,9 +69,9 @@ Wenn du einen Fehler in den Daten findest (z.B. einen falschen THC-Wert), kannst
 
 *   `Der THC-Wert für "Big Purple Dragon" von Remexian ist 22%, nicht 30%. Bitte korrigiere das.`
 
-## 3. Übersichtsdatei (`SORTEN_ÜBERSICHT.md`)
+## 3. Übersichtsdatei (`docs/SORTEN_ÜBERSICHT.md`)
 
-Die Datei `SORTEN_ÜBERSICHT.md` ist eine dynamisch generierte Übersicht aller Produkte in der Datenbank. Du kannst den Assistenten bitten, diese Datei zu aktualisieren oder anzupassen.
+Die Datei `docs/SORTEN_ÜBERSICHT.md` ist eine dynamisch generierte Übersicht aller Produkte in der Datenbank. Du kannst den Assistenten bitten, diese Datei zu aktualisieren oder anzupassen.
 
 ### Übersicht neu generieren
 

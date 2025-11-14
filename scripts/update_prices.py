@@ -120,7 +120,7 @@ async def scrape_price_for_product(page: Page, product_name: str, vendor_id: str
 
 def get_all_products() -> List[Tuple[int, str, str]]:
     """Fetch all products from database with their URLs"""
-    conn = sqlite3.connect('WeedDB.db')
+    conn = sqlite3.connect('../data/WeedDB.db')
     cursor = conn.cursor()
 
     cursor.execute("SELECT id, name, url FROM products ORDER BY name")
@@ -131,7 +131,7 @@ def get_all_products() -> List[Tuple[int, str, str]]:
 
 def update_product_price(product_id: int, pharmacy_name: str, price_per_g: float, category: str) -> bool:
     """Update price for a specific product"""
-    conn = sqlite3.connect('WeedDB.db')
+    conn = sqlite3.connect('../data/WeedDB.db')
     cursor = conn.cursor()
 
     try:

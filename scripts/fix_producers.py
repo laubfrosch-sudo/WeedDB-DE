@@ -12,7 +12,7 @@ async def fix_missing_producers():
     """Find products with missing producers and try to fix them"""
     
     # Get products with missing producers
-    conn = sqlite3.connect('WeedDB.db')
+    conn = sqlite3.connect('../data/WeedDB.db')
     cursor = conn.cursor()
     
     cursor.execute("""
@@ -77,7 +77,7 @@ async def fix_missing_producers():
                 
                 # If found, update database
                 if producer_name:
-                    conn = sqlite3.connect('WeedDB.db')
+                    conn = sqlite3.connect('../data/WeedDB.db')
                     cursor = conn.cursor()
                     
                     # Insert producer if not exists
