@@ -2,6 +2,8 @@
 
 ## Project Overview
 
+**Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+
 This project consists of a set of Python scripts designed to scrape, store, and manage data for cannabis products from the website `shop.dransay.com`. It uses a SQLite database (`WeedDB.db`) to persist the information.
 
 The core of the project is a web scraper built with the `playwright` library. It extracts detailed product information, including THC/CBD percentages, genetics, producer, user ratings, and pricing from various pharmacies.

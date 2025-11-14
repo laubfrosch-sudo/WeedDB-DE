@@ -68,7 +68,7 @@ Diese Schritte sind für alle Betriebssysteme gleich (auf Windows werden sie inn
 1.  **Projekt-Verzeichnis klonen** (falls noch nicht geschehen):
     ```bash
     # Ersetze <repository_url> mit der tatsächlichen URL
-    git clone <repository_url>
+    git clone https://github.com/laubfrosch-sudo/WeedDB.git
     cd WeedDB
     ```
 

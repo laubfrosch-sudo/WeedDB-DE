@@ -68,7 +68,7 @@ These steps are the same for all operating systems (on Windows, they are perform
 1.  **Clone the Project Directory** (if you haven't already):
     ```bash
     # Replace <repository_url> with the actual URL
-    git clone <repository_url>
+    git clone https://github.com/laubfrosch-sudo/WeedDB.git
     cd WeedDB
     ```
 

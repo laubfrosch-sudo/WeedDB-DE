@@ -1,5 +1,7 @@
 # How to Interact with the AI Assistant
 
+**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+
 This document explains how to interact with an AI assistant (like Gemini or Claude) within this directory to use, query, and manage the `WeedDB` database. The assistant is aware of the project structure, the available scripts, and the database schema.
 
 ## 1. Querying the Database
