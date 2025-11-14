@@ -1,0 +1,9 @@
+{
+  "promptDelete": false,
+  "showLineNumber": true,
+  "spellcheck": false,
+  "vimMode": false,
+  "attachmentFolderPath": "docs/assets",
+  "newFileLocation": "folder",
+  "newFileFolderPath": "docs/notes"
+}
