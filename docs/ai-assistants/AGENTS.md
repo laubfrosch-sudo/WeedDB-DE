@@ -5,7 +5,7 @@ version: 1.5.1
 author: laubfrosch-sudo
 status: stable
 description: Universal guidelines for all AI assistants working with WeedDB
-related_docs: [CLAUDE.md, GEMINI.md]
+related_docs: [CLAUDE.md, GEMINI.md, KI_LÖSUNGSANSATZ.md]
 ---
 
 # AGENTS.md
