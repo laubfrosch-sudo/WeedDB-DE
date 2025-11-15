@@ -680,8 +680,8 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]]) -> bool:
         ))
 
         # Insert cheapest 'top' pharmacy price
-        if product_data.get('cheapest_top_pharmacy_name') and product_data.get('cheapest_top_price_per_g'):
-            pharmacy_name = product_data['cheapest_top_pharmacy_name']
+        if product_data.get('cheapest_top_price_per_g'):
+            pharmacy_name = product_data.get('cheapest_top_pharmacy_name') or "Unknown Pharmacy"
             price_per_g = product_data['cheapest_top_price_per_g']
             category = "top"
 
@@ -696,8 +696,8 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]]) -> bool:
                 """, (product_data['id'], pharmacy_id, price_per_g, category, datetime.now()))
 
         # Insert cheapest 'all' pharmacy price
-        if product_data.get('cheapest_all_pharmacy_name') and product_data.get('cheapest_all_price_per_g'):
-            pharmacy_name = product_data['cheapest_all_pharmacy_name']
+        if product_data.get('cheapest_all_price_per_g'):
+            pharmacy_name = product_data.get('cheapest_all_pharmacy_name') or "Unknown Pharmacy"
             price_per_g = product_data['cheapest_all_price_per_g']
             category = "all"
 

@@ -5,7 +5,7 @@
 # Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
 Diese Übersicht wird automatisch aus der `../data/WeedDB.db` Datenbank generiert.
-**Letzte Aktualisierung:** 15.11.2025 03:43
+**Letzte Aktualisierung:** 15.11.2025 03:57
 
 Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
 
@@ -47,13 +47,13 @@ Sorten, die in einer der Top-Kategorien die besten sind, sind in der folgenden T
 | [Pink Diesel](https://shop.dransay.com/product/p/237) | Aurora Cannabis | 31.0 | Indica | 4.1 | 779 | 6.89 |
 | [OG Kush](https://shop.dransay.com/product/p/882) | Cannamedical | 24.0 | Indica | 3.9 | 756 | 4.98 |
 | [Polar Cookies](https://shop.dransay.com/product/p/91) | Cannamedical | 28.0 | Indica | 4.0 | 624 | 7.36 |
-| [OG Lime Kush](https://shop.dransay.com/product/p/3603596) | ZOIKS | 26.0 | Indica | 4.0 | 584 | N/A |
+| [OG Lime Kush](https://shop.dransay.com/product/p/3603596) | ZOIKS | 26.0 | Indica | 4.0 | 585 | 4.95 |
 | [Sour Cherry Punch](https://shop.dransay.com/product/p/164) | Avaay | 29.0 | Indica | 4.3 | 517 | 6.9 |
 | [Farm Gas](https://shop.dransay.com/product/p/620) | Aurora Cannabis | 27.0 | Indica | 3.9 | 512 | 4.98 |
 | [Mac Doughnut](https://shop.dransay.com/product/p/622) | Cantourage | 25.0 | Indica | 3.8 | 499 | 4.99 |
 | [Island Sweet Skunk](https://shop.dransay.com/product/p/845) | Aurora Cannabis | 20.0 | Indica | 3.9 | 470 | 4.7 |
 | [Tropic Thunder](https://shop.dransay.com/product/p/1113) | Cantourage | 25.0 | Indica | 4.0 | 461 | 4.99 |
-| [Tubitti Frubitti](https://shop.dransay.com/product/p/3426990) | Avaay | 31.0 | Indica | 4.2 | 440 | N/A |
+| [Tubitti Frubitti](https://shop.dransay.com/product/p/3426990) | Avaay | 31.0 | Indica | 4.2 | 440 | 5.3 |
 | [Pink Kush](https://shop.dransay.com/product/p/751) 🏆 **Günstigster Preis** | enua Pharma | 22.0 | Indica | 3.9 | 300 | 3.5 |
 | [Ultra Dosed Candy](https://shop.dransay.com/product/p/3429693) | Barongo | 24.0 | Indica | 4.3 | 229 | 5.99 |
 | [Haymaker Haze](https://shop.dransay.com/product/p/1495373) | Tyson | 32.0 | Indica | 4.1 | 202 | 8.38 |
@@ -66,8 +66,8 @@ Sorten, die in einer der Top-Kategorien die besten sind, sind in der folgenden T
 | [Wedding Cake](https://shop.dransay.com/product/p/1036) | Amici | 29.0 | Indica | 3.8 | 98 | 4.46 |
 | [Sour Sundae](https://shop.dransay.com/product/p/2297720) | Cannamedical | 24.0 | Indica | 3.9 | 91 | 4.99 |
 | [Gorilla Glue](https://shop.dransay.com/product/p/70) | IMC | 22.0 | Indica | 4.0 | 84 | 4.99 |
-| [Critical Kush](https://shop.dransay.com/product/p/1884561) | Avaay | 28.0 | Indica | 3.8 | 83 | N/A |
-| [Alexander The Great](https://shop.dransay.com/product/p/3590755) | Tyson | 26.0 | Indica | 4.2 | 46 | N/A |
+| [Critical Kush](https://shop.dransay.com/product/p/1884561) | Avaay | 28.0 | Indica | 3.8 | 83 | 4.95 |
+| [Alexander The Great](https://shop.dransay.com/product/p/3590755) | N/A | 26.0 | Indica | 4.2 | 46 | 4.49 |
 | [Crumbled Lime #27](https://shop.dransay.com/product/p/3685255) | Demecan | 22.0 | Indica | 4.1 | 45 | 4.99 |
 | [Platinum Girl Scout Cookies](https://shop.dransay.com/product/p/2372957) | Bathera | 25.0 | Indica | 4.0 | 35 | 5.89 |
 | [Blueberry Cookies](https://shop.dransay.com/product/p/3351129) | Demecan | 25.0 | Indica | 3.8 | 26 | 4.29 |
