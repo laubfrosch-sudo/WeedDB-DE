@@ -1,3 +1,12 @@
+---
+created: 2025-11-15
+updated: 2025-11-15
+version: 0.1.0
+author: laubfrosch-sudo
+status: alpha
+description: Anleitung zur Einrichtung von KI-Tools für die Terminal-Interaktion mit WeedDB
+---
+
 # KI-Installation: Eine Anleitung für das KI-gestützte Terminal
 
 Dieses Dokument dient als erste Hilfestellung, um deinen Computer für die Interaktion mit KI-Assistenten (wie Gemini, Claude oder Open-Source-Modellen) direkt im Terminal vorzubereiten. Ziel ist es, dir zu ermöglichen, die `WeedDB`-Datenbank mithilfe von KI zu verwalten und abzufragen.

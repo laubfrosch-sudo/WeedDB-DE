@@ -1,3 +1,12 @@
+---
+created: 2025-11-15
+updated: 2025-11-15
+version: 0.1.0
+author: laubfrosch-sudo
+status: alpha
+description: Lösungsansatz für KI-Assistenten bei der Arbeit mit WeedDB
+---
+
 # KI-Assistenten Lösungsansatz - WeedDB
 
 ## 📋 **Allgemeine Vorgehensweise**

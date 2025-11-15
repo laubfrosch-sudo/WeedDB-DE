@@ -1,3 +1,12 @@
+---
+created: 2025-11-14
+updated: 2025-11-15
+version: 0.1.0
+author: laubfrosch-sudo
+status: alpha
+description: Testing Report for WeedDB Multi-Pharmacy Feature
+---
+
 # WeedDB Multi-Pharmacy Feature Testing Report
 
 **Date:** 2025-11-14
@@ -319,6 +328,6 @@ The WeedDB multi-pharmacy price tracking feature is **fully functional and produ
 ---
 
 **Report Generated:** 2025-11-14
-**Database Version:** WeedDB v1.0 (3NF Schema)
+**Database Version:** WeedDB v0.1.0 Alpha (3NF Schema)
 **Total Lines of Code:** ~2,500+
 **Documentation:** 8 markdown files, 50+ pages

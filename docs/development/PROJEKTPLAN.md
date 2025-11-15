@@ -1,3 +1,12 @@
+---
+created: 2025-11-15
+updated: 2025-11-15
+version: 0.1.0
+author: laubfrosch-sudo
+status: alpha
+description: Projektplan für die Entwicklung von WeedDB-DE
+---
+
 # Projektplan WeedDB-DE
 
 **Version:** 0.1.0 (Alpha)  

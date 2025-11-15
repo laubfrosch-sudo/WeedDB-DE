@@ -1,3 +1,12 @@
+---
+created: 2025-11-15
+updated: 2025-11-15
+version: 0.1.0
+author: laubfrosch-sudo
+status: alpha
+description: Guide for setting up AI tools for terminal interaction with WeedDB
+---
+
 # AI Installation: A Guide for the AI-Powered Terminal
 
 This document serves as a first-time setup guide to prepare your computer for interacting with AI assistants (like Gemini, Claude, or open-source models) directly in the terminal. The goal is to enable you to use and manage the `WeedDB` database with the help of AI.
