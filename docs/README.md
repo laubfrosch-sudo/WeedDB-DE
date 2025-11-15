@@ -453,3 +453,4 @@ Dies erstellt/aktualisiert `docs/generated/SORTEN_ÜBERSICHT.md` mit:
 - **SQLite3**
 - **Playwright** (für Web-Scraping)
 - **Internetverbindung** (für Zugriff auf shop.dransay.com)
+# WeedDB-DE
