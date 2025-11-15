@@ -186,6 +186,8 @@
   },
   "active": "e14df16eb30f3d6e",
   "lastOpenFiles": [
+    "RELEASE_CHECKLIST.md",
+    "requirements.txt",
     "scripts/find_new_products.py",
     "data/price_history/2025-11-15.json",
     "docs/SORTEN_ÜBERSICHT.md",

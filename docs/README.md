@@ -22,6 +22,12 @@ Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Mar
 
 ---
 
+## 🚨 Wichtige Hinweise
+
+**Für Entwickler:** Vor jedem `git push` oder Release die [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) vollständig durchführen!
+
+---
+
 ## 🌟 Funktionen
 
 - **🧠 Intelligente Preisverfolgung**: Findet automatisch die günstigste Apotheke in zwei Kategorien:

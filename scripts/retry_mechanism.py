@@ -9,7 +9,7 @@ with configurable backoff strategies and error handling.
 import asyncio
 import random
 import time
-from typing import Any, Callable, Optional, Type, Union, Tuple, TypeVar
+from typing import Any, Callable, Optional, Type, Union, Tuple, TypeVar, Dict
 from functools import wraps
 
 _F = TypeVar('_F', bound=Callable[..., Any])
@@ -27,7 +27,7 @@ def retry_with_backoff(
     jitter: bool = True,
     exceptions: Tuple[Type[Exception], ...] = (Exception,),
     on_retry: Optional[Callable[[Exception, int], None]] = None
-) -> Callable[[_F], _F]:
+) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     Decorator for retrying functions with exponential backoff.
     
@@ -40,9 +40,9 @@ def retry_with_backoff(
         exceptions: Tuple of exception types to catch and retry on
         on_retry: Optional callback called on each retry attempt
     """
-    def decorator(func: _F) -> _F:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(func)
-        async def async_wrapper(*args, **kwargs) -> Any:
+        async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
             last_exception = None
             
             for attempt in range(max_attempts):
@@ -71,7 +71,7 @@ def retry_with_backoff(
             # This should never be reached, but just in case
             raise RetryError("Unexpected error in retry mechanism") from last_exception
         
-        def sync_wrapper(*args, **kwargs) -> Any:
+        def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
             last_exception = None
             
             for attempt in range(max_attempts):
@@ -110,7 +110,7 @@ def retry_with_backoff(
 
 
 # Example usage and default configurations
-NETWORK_RETRY_CONFIG = {
+NETWORK_RETRY_CONFIG: Dict[str, Dict[str, Any]] = {
     'fast': {
         'max_attempts': 3,
         'base_delay': 0.5,
@@ -141,22 +141,40 @@ def get_retry_config(name: str = 'standard') -> Dict[str, Any]:
 
 
 # Convenience decorators for common use cases
-@retry_with_backoff(**NETWORK_RETRY_CONFIG['fast'])
-def fast_retry(func: _F) -> _F:
+def fast_retry(func: Callable[..., Any]) -> Callable[..., Any]:
     """Fast retry decorator for quick operations"""
-    return func
+    config = NETWORK_RETRY_CONFIG['fast']
+    return retry_with_backoff(
+        max_attempts=config['max_attempts'],
+        base_delay=config['base_delay'],
+        max_delay=config['max_delay'],
+        backoff_factor=config['backoff_factor'],
+        jitter=config['jitter']
+    )(func)
 
 
-@retry_with_backoff(**NETWORK_RETRY_CONFIG['standard'])
-def standard_retry(func: _F) -> _F:
+def standard_retry(func: Callable[..., Any]) -> Callable[..., Any]:
     """Standard retry decorator for most operations"""
-    return func
+    config = NETWORK_RETRY_CONFIG['standard']
+    return retry_with_backoff(
+        max_attempts=config['max_attempts'],
+        base_delay=config['base_delay'],
+        max_delay=config['max_delay'],
+        backoff_factor=config['backoff_factor'],
+        jitter=config['jitter']
+    )(func)
 
 
-@retry_with_backoff(**NETWORK_RETRY_CONFIG['conservative'])
-def conservative_retry(func: _F) -> _F:
+def conservative_retry(func: Callable[..., Any]) -> Callable[..., Any]:
     """Conservative retry decorator for critical operations"""
-    return func
+    config = NETWORK_RETRY_CONFIG['conservative']
+    return retry_with_backoff(
+        max_attempts=config['max_attempts'],
+        base_delay=config['base_delay'],
+        max_delay=config['max_delay'],
+        backoff_factor=config['backoff_factor'],
+        jitter=config['jitter']
+    )(func)
 
 
 if __name__ == '__main__':

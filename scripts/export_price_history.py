@@ -65,8 +65,8 @@ def get_current_prices() -> Dict[str, Any]:
     conn.close()
     return prices_data
 
-def get_changes_since_last_export(last_export_file: Optional[str] = None) -> Dict[str, Union[List[str], List[Dict[str, Any]], Optional[str]]]:
-    changes: Dict[str, Union[List[str], List[Dict[str, Any]], Optional[str]]] = {
+def get_changes_since_last_export(last_export_file: Optional[str] = None) -> Dict[str, Any]:
+    changes: Dict[str, Any] = {
         'new_products': [],
         'price_changes': [],
         'new_pharmacies': [],
@@ -185,8 +185,8 @@ def main() -> None:
     print(f"📈 Mode: {'Complete History' if export_all else 'Current Snapshot'}")
     print()
 
-    errors = []
-    warnings = []
+    errors: List[str] = []
+    warnings: List[str] = []
 
     try:
         if export_all:

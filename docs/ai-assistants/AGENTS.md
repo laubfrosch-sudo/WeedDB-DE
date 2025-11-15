@@ -14,6 +14,8 @@ related_docs: [CLAUDE.md, GEMINI.md, KI_LÖSUNGSANSATZ.md]
 
 **IMPORTANT FOR AI ASSISTANTS:** When editing this file (AGENTS.md), always synchronize the corresponding instructions in GEMINI.md and CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 
+**🚨 RELEASE CHECKLIST:** Before any git push or release, ALWAYS consult and complete `RELEASE_CHECKLIST.md`. This ensures code quality, security, and anonymity standards are maintained.
+
 
 
 **OBSIDIAN OPTIMIZATION:** This repository is fully optimized for Obsidian.md knowledge management. The folder structure, cross-links, and documentation are designed for seamless Obsidian integration.

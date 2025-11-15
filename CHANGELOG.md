@@ -42,6 +42,7 @@ This is the foundational release of WeedDB-DE, marking the re-entry into Alpha d
 - **Kanban Board**: `docs/development/KANBAN.md`
 - **AI Assistant Guidelines**: Updated for Alpha phase
 - **Repository Setup**: Git and GitHub integration for WeedDB-DE
+- **Release Checklist**: `RELEASE_CHECKLIST.md` - Comprehensive pre-push/release validation
 
 #### New Features & Improvements
 - **`find_new_products.py`**: New script to identify products not yet in DB.

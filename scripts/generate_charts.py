@@ -143,7 +143,7 @@ def create_price_trend_chart(data: List[Dict[str, Any]], output_path: str) -> No
     plt.ylabel('Preis (€/g)', fontsize=12)
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.grid(True, alpha=0.3)
-    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d.%m'))
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d.%m'))  # type: ignore
     plt.gcf().autofmt_xdate()
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
@@ -162,12 +162,14 @@ def create_genetics_pie_chart(genetics_data: Dict[str, float], output_path: str)
     plt.figure(figsize=(10, 8))
     colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD']
 
-    wedges, texts, autotexts = plt.pie(list(filtered_data.values()),
-                                      labels=list(filtered_data.keys()),
-                                      autopct='%1.1f%%',
-                                      colors=colors[:len(filtered_data)],
-                                      startangle=90,
-                                      textprops={'fontsize': 11})
+    pie_result = plt.pie(list(filtered_data.values()),
+                         labels=list(filtered_data.keys()),
+                         autopct='%1.1f%%',
+                         colors=colors[:len(filtered_data)],
+                         startangle=90,
+                         textprops={'fontsize': 11})
+    wedges, texts = pie_result[0], pie_result[1]
+    autotexts = pie_result[2] if len(pie_result) > 2 else []
 
     plt.title('Genetik-Verteilung der Produkte', fontsize=16, pad=20)
     plt.axis('equal')
