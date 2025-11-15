@@ -1,7 +1,7 @@
 ---
 created: 2025-11-15
 updated: 2025-11-15
-version: 1.5.0
+version: 1.5.1
 author: Claude AI
 status: stable
 description: WeedDB Obsidian Vault Startseite mit Navigation und Setup-Anleitungen

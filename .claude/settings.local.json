@@ -12,7 +12,15 @@
       "Bash(pkill:*)",
       "Bash(chmod:*)",
       "Bash(timeout 90 python3:*)",
-      "Bash(echo \"📊 Fortschritts-Check nach 1 Minute:\" echo \"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\" echo \"\" echo \"Neue Preis-Einträge seit Start:\" sqlite3 WeedDB.db \"SELECT COUNT(*) FROM prices WHERE timestamp >= datetime(''''now'''', ''''-2 minutes'''');\" echo \"\" echo \"Produkte mit Multi-Pharmacy-Daten:\" sqlite3 WeedDB.db \"SELECT COUNT(DISTINCT product_id) FROM product_price_stats WHERE pharmacy_count > 1;\" echo \"\" echo \"Laufende Prozesse:\" ps aux)"
+      "Bash(echo \"📊 Fortschritts-Check nach 1 Minute:\" echo \"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\" echo \"\" echo \"Neue Preis-Einträge seit Start:\" sqlite3 WeedDB.db \"SELECT COUNT(*) FROM prices WHERE timestamp >= datetime(''''now'''', ''''-2 minutes'''');\" echo \"\" echo \"Produkte mit Multi-Pharmacy-Daten:\" sqlite3 WeedDB.db \"SELECT COUNT(DISTINCT product_id) FROM product_price_stats WHERE pharmacy_count > 1;\" echo \"\" echo \"Laufende Prozesse:\" ps aux)",
+      "Bash(brew upgrade:*)",
+      "Bash(git add:*)",
+      "Bash(git tag -a v1.5.0 -m \"$(cat <<''EOF''\nWeedDB v1.5.0 - Documentation & Onboarding Overhaul\n\nThis release makes WeedDB accessible to absolute beginners and provides \ncomprehensive Obsidian customization options.\n\nKey Features:\n- Complete beginner setup guides for all operating systems\n- Obsidian themes & customization guide  \n- YAML frontmatter metadata system for all documentation\n- Documentation maintenance guidelines\n- WeedDB logo integration across all docs\n\nQuality: 100% documentation coverage, 0 broken links, all files on v1.5.0\n\nSee CHANGELOG.md for full details.\nEOF\n)\")",
+      "Bash(git commit:*)",
+      "Bash(git tag:*)",
+      "Bash(git tag -a v1.5.0 -m \"$(cat <<''EOF''\nWeedDB v1.5.0 - Documentation & Onboarding Overhaul\n\nThis release makes WeedDB accessible to absolute beginners and provides \ncomprehensive Obsidian customization options.\n\nKey Features:\n- Complete beginner setup guides for all operating systems\n- Obsidian themes & customization guide  \n- YAML frontmatter metadata system for all documentation\n- Documentation maintenance guidelines\n- WeedDB logo integration across all docs\n\nQuality: 100% documentation coverage, 0 broken links, all files on v1.5.0\n\nSee CHANGELOG.md and RELEASE_NOTES_V1.5.0.md for full details.\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(gh release create:*)"
     ],
     "deny": [],
     "ask": []

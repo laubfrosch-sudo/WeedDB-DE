@@ -1,7 +1,7 @@
 ---
 created: 2024-02-01
 updated: 2025-11-15
-version: 1.5.0
+version: 1.5.1
 author: laubfrosch-sudo
 status: stable
 language: de
@@ -10,7 +10,7 @@ description: Anleitung zur Interaktion mit KI-Assistenten (Claude/Gemini) für W
 sync_with: INSTRUCTIONS.md
 ---
 
-# Anleitung zur Interaktion mit dem KI-Assistenten (v1.5.0)
+# Anleitung zur Interaktion mit dem KI-Assistenten (v1.5.1)
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
