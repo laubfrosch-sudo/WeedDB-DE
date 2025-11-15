@@ -197,18 +197,14 @@ Siehe [[QUERY_EXAMPLES|SQL-Abfrage-Beispiele]] für 60+ vorkonfigurierte Queries
 **GitHub:** [laubfrosch-sudo/WeedDB-DE](https://github.com/laubfrosch-sudo/WeedDB-DE)
 
 ### Neueste Features (v0.1.0 Alpha)
-- ✅ Komplette Beginner-Guides für alle Betriebssysteme (macOS/Linux/Windows)
-- ✅ Obsidian Design-Guide mit Themes, Plugins & CSS-Snippets
-- ✅ YAML-Frontmatter-System für alle Dokumentationen
-- ✅ Dokumentations-Wartungs-Richtlinien
-- ✅ Verbesserte Logo-Integration in allen Docs
-
-### Features aus v1.4.0:
-- ✅ Verbesserte Batch-Verarbeitung
-- ✅ Automatische Datenkorrektur (`fix_producers.py`)
-- ✅ Export/Import von Preisverlaufsdaten
-- ✅ Erweiterte Fehlerbehandlung
-- ✅ Multi-Pharmacy Preisvergleich
+- ✅ SQLite Datenbank mit 3NF normalisiertem Schema
+- ✅ Web-Scraping mit Playwright von shop.dransay.com
+- ✅ Dual-Kategorie Preisverfolgung (Top/All-Apotheken)
+- ✅ Historische Preisdaten mit Zeitstempeln
+- ✅ Umfassende Produktmetadaten (THC/CBD, Genetik, Effekte, therapeutische Anwendungen)
+- ✅ Automatisierte Scripts für Produkt-Hinzufügung und Preis-Updates
+- ✅ Batch-Verarbeitung mit erweiterter Zuverlässigkeit
+- ✅ Markdown-Generierung für SORTEN_ÜBERSICHT.md
 
 ---
 
