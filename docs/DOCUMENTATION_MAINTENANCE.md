@@ -109,7 +109,7 @@ python scripts/update_docs_version.py --new-version 0.2.0
 
 **Beispiel:**
 ```yaml
-# Alte Anleitung für v1.3.0:
+
 status: deprecated
 deprecated_by: docs/user-guides/BEGINNER_SETUP_MACOS.md
 deprecated_date: 2025-11-15

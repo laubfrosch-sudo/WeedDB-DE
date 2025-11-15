@@ -205,7 +205,7 @@ def main():
             export_data = {
                 'export_type': 'complete_history',
                 'export_date': datetime.now().isoformat(),
-                'system_version': '1.4.0',
+                'system_version': '0.1.0',
                 'export_metadata': {
                     'user': os.environ.get('USER', 'unknown'),
                     'hostname': os.uname().nodename if hasattr(os, 'uname') else 'unknown',
@@ -259,7 +259,7 @@ def main():
                 'export_type': 'current_snapshot',
                 'snapshot_date': export_date,
                 'export_timestamp': datetime.now().isoformat(),
-                'system_version': '1.4.0',
+                'system_version': '0.1.0',
                 'export_metadata': {
                     'user': os.environ.get('USER', 'unknown'),
                     'hostname': os.uname().nodename if hasattr(os, 'uname') else 'unknown',
