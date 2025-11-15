@@ -61,6 +61,12 @@ WeedDB/
 
 WeedDB is a cannabis product database that tracks medical cannabis strains and their prices across multiple pharmacies (Versandapotheken) in Germany. The primary data source is shop.dransay.com, which aggregates cannabis product listings from various licensed pharmacies.
 
+**New:**
+- Enhanced batch processing with timeout protection
+- Automatic data correction for missing producers
+- Extended producer recognition (24+ known manufacturers)
+- Robust price extraction with multiple fallback methods
+
 ## Database Schema
 
 WeedDB uses a **SQLite database** in **3rd Normal Form (3NF)** for data integrity and complex analysis capabilities. The schema is defined in `data/schema.sql`.
@@ -142,6 +148,7 @@ python3 add_products_batch.py example_products.txt --yes
 ```
 - Reads product names from file (one per line)
 - Processes each product individually with 3-second pauses to avoid timeouts
+- Use --yes flag to skip confirmation prompt
 
 **fix_producers.py** - Auto-recovery script for missing producer data
 ```bash
@@ -245,6 +252,9 @@ python3 add_product.py 'product_name'
 ```bash
 python3 update_prices.py
 ```
+
+**New Option:**
+*   `Automatically correct missing manufacturer data.`
 
 ### Generate Overview
 ```bash
