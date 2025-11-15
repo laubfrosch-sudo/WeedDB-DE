@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/generated/_README.md",
+                "file": "START.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "_README"
+              "title": "START"
             }
           }
         ]
@@ -184,9 +184,12 @@
       "bases:Create new base": false
     }
   },
-  "active": "b14c8fd453b21afa",
+  "active": "e14df16eb30f3d6e",
   "lastOpenFiles": [
     "docs/DATEN_VISUALISIERUNGEN.md",
+    "START.md",
+    "VALIDATION_REPORT_V1.5.0.md",
+    "docs/generated/_README.md",
     "docs/assets/charts/rating_distribution.png",
     "docs/assets/charts/thc_distribution.png",
     "docs/assets/charts/genetics_distribution.png",
@@ -196,10 +199,8 @@
     "docs/generated/SORTEN_ÜBERSICHT.md",
     "docs/SORTEN_ÜBERSICHT.md",
     "docs/README.md",
-    "START.md",
     "RELEASE_NOTES_V1.5.0.md",
     "CHANGELOG.md",
-    "VALIDATION_REPORT_V1.5.0.md",
     "docs/DOCUMENTATION_MAINTENANCE.md",
     "docs/user-guides/OBSIDIAN_THEMES.md",
     "docs/user-guides/BEGINNER_SETUP_WINDOWS.md",

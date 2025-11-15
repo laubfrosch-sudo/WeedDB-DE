@@ -10,7 +10,7 @@ description: Datenvisualisierungen und Diagramme für WeedDB
 # 📊 WeedDB Datenvisualisierungen
 
 Diese Seite enthält automatisch generierte Diagramme und Visualisierungen der WeedDB-Daten.
-**Letzte Aktualisierung:** 15.11.2025 01:18
+**Letzte Aktualisierung:** 15.11.2025 01:23
 
 ## 📈 Preisverläufe
 
