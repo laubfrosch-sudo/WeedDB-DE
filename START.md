@@ -1,9 +1,9 @@
 ---
 created: 2025-11-15
 updated: 2025-11-15
-version: 1.5.1
+version: 0.1.0
 author: Claude AI
-status: stable
+status: alpha
 description: WeedDB Obsidian Vault Startseite mit Navigation und Setup-Anleitungen
 ---
 
@@ -192,11 +192,11 @@ Siehe [[QUERY_EXAMPLES|SQL-Abfrage-Beispiele]] für 60+ vorkonfigurierte Queries
 
 ## 📊 Projekt-Statistiken
 
-**Version:** 1.5.0
+**Version:** 0.1.0 (Alpha)
 **Datenquelle:** [shop.dransay.com](https://shop.dransay.com)
-**GitHub:** [laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+**GitHub:** [laubfrosch-sudo/WeedDB-DE](https://github.com/laubfrosch-sudo/WeedDB-DE)
 
-### Neueste Features (v1.5.0)
+### Neueste Features (v0.1.0 Alpha)
 - ✅ Komplette Beginner-Guides für alle Betriebssysteme (macOS/Linux/Windows)
 - ✅ Obsidian Design-Guide mit Themes, Plugins & CSS-Snippets
 - ✅ YAML-Frontmatter-System für alle Dokumentationen

@@ -1,9 +1,9 @@
 ---
 created: 2024-01-15
 updated: 2025-11-15
-version: 1.5.1
+version: 0.1.0
 author: laubfrosch-sudo
-status: stable
+status: alpha
 description: Technical documentation and guidelines for Gemini AI when working with WeedDB
 sync_with: CLAUDE.md, docs/ai-assistants/GEMINI.md
 ---

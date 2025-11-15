@@ -1,16 +1,16 @@
 ---
 created: 2024-02-01
 updated: 2025-11-15
-version: 1.5.1
+version: 0.1.0
 author: laubfrosch-sudo
-status: stable
+status: alpha
 language: en
 target_audience: All Users
 description: Guide for interacting with AI assistants (Claude/Gemini) to manage WeedDB
 sync_with: ANLEITUNG.md
 ---
 
-# How to Interact with the AI Assistant (v1.5.1)
+# How to Interact with the AI Assistant (v0.1.0 Alpha)
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 

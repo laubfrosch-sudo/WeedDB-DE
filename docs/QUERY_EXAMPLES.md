@@ -1,9 +1,9 @@
 ---
 created: 2024-03-10
 updated: 2025-11-15
-version: 1.5.1
+version: 0.1.0
 author: laubfrosch-sudo
-status: stable
+status: alpha
 description: 60+ comprehensive SQL query examples for WeedDB price analysis and product search
 ---
 

@@ -229,9 +229,9 @@ def create_visualization_markdown(distribution_data: Dict[str, Any], output_path
     markdown_content = f"""---
 created: {datetime.now().strftime('%Y-%m-%d')}
 updated: {datetime.now().strftime('%Y-%m-%d')}
-version: 1.5.1
+version: 0.1.0
 author: Claude AI
-status: stable
+status: alpha
 description: Datenvisualisierungen und Diagramme für WeedDB
 ---
 

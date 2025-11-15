@@ -1,9 +1,9 @@
 ---
 created: 2025-11-15
 updated: 2025-11-15
-version: 1.5.1
+version: 0.1.0
 author: Claude AI
-status: stable
+status: alpha
 platform: Linux (Ubuntu/Debian/Fedora)
 target_audience: Absolute Anfänger
 description: Schritt-für-Schritt Installationsanleitung für WeedDB auf Linux

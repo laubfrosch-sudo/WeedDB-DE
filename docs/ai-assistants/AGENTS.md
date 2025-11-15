@@ -1,9 +1,9 @@
 ---
 created: 2024-04-01
 updated: 2025-11-15
-version: 1.5.1
+version: 0.1.0
 author: laubfrosch-sudo
-status: stable
+status: alpha
 description: Universal guidelines for all AI assistants working with WeedDB
 related_docs: [CLAUDE.md, GEMINI.md, KI_LÖSUNGSANSATZ.md]
 ---
