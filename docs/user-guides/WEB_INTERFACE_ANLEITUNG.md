@@ -56,11 +56,61 @@ curl "http://localhost:8000/api/products"
 # Nach bestimmten Sorten suchen
 curl "http://localhost:8000/api/products?search=sour"
 
-# Begrenze Anzahl der Ergebnisse
-curl "http://localhost:8000/api/products?limit=10"
+# Nach Genetik filtern
+curl "http://localhost:8000/api/products?genetics=indica"
 
-# Kombiniert: Suche + Limit
-curl "http://localhost:8000/api/products?search=diesel&limit=5"
+# Nach Produzent filtern
+curl "http://localhost:8000/api/products?producer=pedanios"
+
+# Mindestbewertung festlegen
+curl "http://localhost:8000/api/products?min_rating=4.0"
+
+# Sortierung ändern
+curl "http://localhost:8000/api/products?sort_by=rating&sort_order=desc"
+
+# Kombinierte Filter
+curl "http://localhost:8000/api/products?search=diesel&genetics=indica&min_rating=4.0&limit=10"
+```
+
+### Produkt-Details abrufen
+
+```bash
+# Detaillierte Informationen zu einem Produkt
+curl "http://localhost:8000/api/products/808"
+
+# Beispiel-Response:
+{
+  "product": {
+    "id": 808,
+    "name": "White Widow",
+    "variant": null,
+    "thc_percent": 18.0,
+    "cbd_percent": 1.0,
+    "genetics": "Indica",
+    "producer": "Weeco",
+    "rating": 4.2,
+    "review_count": 1250,
+    "stock_level": 100,
+    "irradiation": "No",
+    "country": "Netherlands",
+    "effects": "Entspannend, schmerzlindernd",
+    "complaints": "Schlafstörungen, chronische Schmerzen",
+    "url": "https://shop.dransay.com/product/...",
+    "last_updated": "2025-11-15T..."
+  },
+  "current_prices": {
+    "top": {"price_per_g": 6.50, "pharmacy": "Apotheke A"},
+    "all": {"price_per_g": 6.20, "pharmacy": "Apotheke B"}
+  },
+  "price_history": [
+    {
+      "price_per_g": 6.50,
+      "category": "top",
+      "timestamp": "2025-11-15T...",
+      "pharmacy_name": "Apotheke A"
+    }
+  ]
+}
 ```
 
 ### Produkt-Details

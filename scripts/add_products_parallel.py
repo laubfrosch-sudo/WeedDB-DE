@@ -43,8 +43,23 @@ except ImportError:
     print("❌ tqdm not installed. Run: pip3 install tqdm")
     sys.exit(1)
 
-# Logging will be added after initial testing
-# from logger import get_logger, setup_global_logging
+# Try to import enhanced modules
+try:
+    from logger import get_logger, setup_global_logging
+    setup_global_logging()
+    logger = get_logger('add_products_parallel')
+except ImportError:
+    import logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger('add_products_parallel')
+
+# Web API integration
+try:
+    import httpx
+    WEB_API_AVAILABLE = True
+except ImportError:
+    WEB_API_AVAILABLE = False
+    httpx = None
 
 # Constants
 DEFAULT_CONCURRENCY = 3
@@ -151,6 +166,17 @@ class ParallelBatchProcessor:
                 progress_bar.update(1)
                 progress_bar.set_description(f"Processing: {product_name[:20]}...")
 
+                # Send status update to web API
+                status_data = {
+                    "product_name": product_name,
+                    "success": success,
+                    "duration": duration,
+                    "error_message": error_msg,
+                    "product_id": product_id,
+                    "timestamp": datetime.now().isoformat()
+                }
+                asyncio.create_task(send_web_api_status(status_data))
+
                 return ProductResult(
                     product_name, success, duration, error_msg, product_id
                 )
@@ -235,6 +261,26 @@ def read_product_names(filename: str) -> List[str]:
     except Exception as e:
         print(f"❌ Error reading file: {e}")
         sys.exit(1)
+
+async def send_web_api_status(status_data: Dict[str, Any], web_api_url: str = "http://localhost:8000") -> None:
+    """Send status update to web API if available"""
+    if not WEB_API_AVAILABLE or not httpx:
+        return
+
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            response = await client.post(
+                f"{web_api_url}/api/batch/status",
+                json=status_data,
+                headers={"Content-Type": "application/json"}
+            )
+            if response.status_code == 200:
+                logger.debug("Status update sent to web API") if logger else None
+            else:
+                logger.warning(f"Failed to send status to web API: {response.status_code}") if logger else None
+    except Exception as e:
+        # Silently fail if web API is not available
+        logger.debug(f"Could not send status to web API: {e}") if logger else None
 
 def save_batch_report(result: BatchResult, output_file: Optional[str] = None) -> None:
     """Save detailed batch processing report"""

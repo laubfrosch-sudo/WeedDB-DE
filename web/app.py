@@ -146,25 +146,74 @@ async def get_system_stats():
         return {"error": str(e)}
 
 @app.get("/api/products")
-async def get_products(limit: int = 50, offset: int = 0, search: Optional[str] = None):
-    """Get products with optional search"""
+async def get_products(
+    limit: int = 50,
+    offset: int = 0,
+    search: Optional[str] = None,
+    genetics: Optional[str] = None,
+    producer: Optional[str] = None,
+    min_rating: Optional[float] = None,
+    sort_by: str = "name",
+    sort_order: str = "asc"
+):
+    """Get products with advanced filtering, sorting and pagination"""
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
 
+        # Build query with filters
         query = """
             SELECT p.id, p.name, p.thc_percent, p.cbd_percent, p.genetics,
                    pr.name as producer, p.rating, p.review_count
             FROM products p
             LEFT JOIN producers pr ON p.producer_id = pr.id
+            WHERE 1=1
         """
 
         params = []
+
+        # Apply filters
         if search:
-            query += " WHERE p.name LIKE ?"
+            query += " AND p.name LIKE ?"
             params.append(f"%{search}%")
 
-        query += " ORDER BY p.name LIMIT ? OFFSET ?"
+        if genetics:
+            query += " AND p.genetics = ?"
+            params.append(genetics)
+
+        if producer:
+            query += " AND pr.name LIKE ?"
+            params.append(f"%{producer}%")
+
+        if min_rating is not None:
+            query += " AND p.rating >= ?"
+            params.append(min_rating)
+
+        # Validate sort parameters
+        allowed_sort_fields = {
+            "name": "p.name",
+            "rating": "p.rating",
+            "thc_percent": "p.thc_percent",
+            "review_count": "p.review_count"
+        }
+
+        if sort_by not in allowed_sort_fields:
+            sort_by = "name"
+
+        sort_column = allowed_sort_fields[sort_by]
+        sort_direction = "DESC" if sort_order.lower() == "desc" else "ASC"
+
+        query += f" ORDER BY {sort_column} {sort_direction}"
+
+        # Get total count for pagination info
+        count_query = query.replace("SELECT p.id, p.name, p.thc_percent, p.cbd_percent, p.genetics,\n                   pr.name as producer, p.rating, p.review_count\n            FROM products p\n            LEFT JOIN producers pr ON p.producer_id = pr.id\n            WHERE 1=1", "SELECT COUNT(*) FROM products p LEFT JOIN producers pr ON p.producer_id = pr.id WHERE 1=1")
+        count_query = count_query.split(" ORDER BY")[0]  # Remove ORDER BY for count
+
+        cursor.execute(count_query, params)
+        total_count = cursor.fetchone()[0]
+
+        # Add pagination
+        query += " LIMIT ? OFFSET ?"
         params.extend([limit, offset])
 
         cursor.execute(query, params)
@@ -183,10 +232,120 @@ async def get_products(limit: int = 50, offset: int = 0, search: Optional[str] =
             })
 
         conn.close()
-        return {"products": products, "limit": limit, "offset": offset}
+
+        return {
+            "products": products,
+            "pagination": {
+                "total": total_count,
+                "limit": limit,
+                "offset": offset,
+                "has_more": offset + limit < total_count
+            },
+            "filters": {
+                "search": search,
+                "genetics": genetics,
+                "producer": producer,
+                "min_rating": min_rating
+            },
+            "sorting": {
+                "sort_by": sort_by,
+                "sort_order": sort_order
+            }
+        }
 
     except Exception as e:
         logger.error(f"Products error: {e}") if logger else print(f"Products error: {e}")
+        raise HTTPException(status_code=500, detail="Database error")
+
+@app.get("/api/products/{product_id}")
+async def get_product_detail(product_id: int):
+    """Get detailed information about a specific product"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get product details
+        cursor.execute("""
+            SELECT p.id, p.name, p.variant, p.thc_percent, p.cbd_percent, p.genetics,
+                   pr.name as producer, p.rating, p.review_count, p.stock_level,
+                   p.irradiation, p.country, p.effects, p.complaints, p.url, p.last_updated
+            FROM products p
+            LEFT JOIN producers pr ON p.producer_id = pr.id
+            WHERE p.id = ?
+        """, (product_id,))
+
+        row = cursor.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="Product not found")
+
+        product = {
+            "id": row[0],
+            "name": row[1],
+            "variant": row[2],
+            "thc_percent": row[3],
+            "cbd_percent": row[4],
+            "genetics": row[5],
+            "producer": row[6],
+            "rating": row[7],
+            "review_count": row[8],
+            "stock_level": row[9],
+            "irradiation": row[10],
+            "country": row[11],
+            "effects": row[12],
+            "complaints": row[13],
+            "url": row[14],
+            "last_updated": row[15]
+        }
+
+        # Get price history
+        cursor.execute("""
+            SELECT price_per_g, category, timestamp, pharmacy_id, ph.name as pharmacy_name
+            FROM prices pr
+            JOIN pharmacies ph ON pr.pharmacy_id = ph.id
+            WHERE pr.product_id = ?
+            ORDER BY timestamp DESC
+            LIMIT 20
+        """, (product_id,))
+
+        price_history = []
+        for price_row in cursor.fetchall():
+            price_history.append({
+                "price_per_g": price_row[0],
+                "category": price_row[1],
+                "timestamp": price_row[2],
+                "pharmacy_id": price_row[3],
+                "pharmacy_name": price_row[4]
+            })
+
+        # Get current prices
+        cursor.execute("""
+            SELECT pr.price_per_g, pr.category, ph.name as pharmacy_name
+            FROM prices pr
+            JOIN pharmacies ph ON pr.pharmacy_id = ph.id
+            WHERE pr.product_id = ? AND pr.timestamp = (
+                SELECT MAX(timestamp) FROM prices WHERE product_id = ? AND category = pr.category
+            )
+        """, (product_id, product_id))
+
+        current_prices = {}
+        for price_row in cursor.fetchall():
+            current_prices[price_row[1]] = {
+                "price_per_g": price_row[0],
+                "pharmacy": price_row[2]
+            }
+
+        conn.close()
+
+        return {
+            "product": product,
+            "current_prices": current_prices,
+            "price_history": price_history
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Product detail error: {e}") if logger else print(f"Product detail error: {e}")
         raise HTTPException(status_code=500, detail="Database error")
 
 @app.get("/api/analytics/prices")
@@ -220,8 +379,8 @@ async def get_price_analytics():
                 "min": round(df['price_per_g'].min(), 2),
                 "max": round(df['price_per_g'].max(), 2)
             },
-            "top_expensive": df.nlargest(5, 'price_per_g')[['name', 'price_per_g', 'pharmacy']].to_dict('records'),
-            "top_cheap": df.nsmallest(5, 'price_per_g')[['name', 'price_per_g', 'pharmacy']].to_dict('records')
+            "top_expensive": df.nlargest(5, 'price_per_g')[['name', 'price_per_g', 'pharmacy']].values.tolist(),
+            "top_cheap": df.nsmallest(5, 'price_per_g')[['name', 'price_per_g', 'pharmacy']].values.tolist()
         }
 
         return analytics
@@ -242,6 +401,47 @@ async def trigger_batch_update(background_tasks: BackgroundTasks):
     except Exception as e:
         logger.error(f"Batch trigger error: {e}") if logger else print(f"Batch trigger error: {e}")
         raise HTTPException(status_code=500, detail="Batch trigger failed")
+
+# Global storage for batch status updates
+batch_status_updates = []
+
+@app.post("/api/batch/status")
+async def receive_batch_status(status_data: Dict[str, Any]):
+    """Receive status updates from batch processing scripts"""
+    try:
+        # Add timestamp if not present
+        if 'timestamp' not in status_data:
+            status_data['timestamp'] = datetime.now().isoformat()
+
+        # Store status update (keep last 100 entries)
+        batch_status_updates.append(status_data)
+        if len(batch_status_updates) > 100:
+            batch_status_updates.pop(0)
+
+        logger.info(f"Received batch status update for: {status_data.get('product_name', 'unknown')}") if logger else None
+
+        return {"status": "received", "message": "Status update stored"}
+
+    except Exception as e:
+        logger.error(f"Status update error: {e}") if logger else print(f"Status update error: {e}")
+        raise HTTPException(status_code=500, detail="Status update failed")
+
+@app.get("/api/batch/status")
+async def get_batch_status(limit: int = 20):
+    """Get recent batch processing status updates"""
+    try:
+        # Return most recent status updates
+        recent_updates = batch_status_updates[-limit:] if batch_status_updates else []
+
+        return {
+            "status_updates": recent_updates,
+            "total_updates": len(batch_status_updates),
+            "returned_count": len(recent_updates)
+        }
+
+    except Exception as e:
+        logger.error(f"Get status error: {e}") if logger else print(f"Get status error: {e}")
+        raise HTTPException(status_code=500, detail="Status retrieval failed")
 
 async def run_batch_update():
     """Run batch update in background"""

@@ -19,19 +19,22 @@ from typing import List, Tuple, Optional, Dict, Any
 from datetime import datetime
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout, Page
 
-# Import our enhanced modules
+# Setup basic logging
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger('update_prices')
+
+# Try to import enhanced modules
 try:
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from logger import get_logger
+    from logger import get_logger as get_enhanced_logger
     from error_handler import get_error_handler, RetryConfig
-    logger = get_logger('update_prices')
+    logger = get_enhanced_logger('update_prices')
     error_handler = get_error_handler()
 except ImportError:
-    # Fallback if modules not available
-    import logging
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger('update_prices')
+    # Fallback to basic logging
     error_handler = None
+    RetryConfig = None
 
 BASE_URL = "https://shop.dransay.com"
 
