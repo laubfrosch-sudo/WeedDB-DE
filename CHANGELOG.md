@@ -1,7 +1,7 @@
 ---
 created: 2025-11-15
 updated: 2025-11-15
-version: 0.1.1
+version: 0.1.2
 author: laubfrosch-sudo
 status: alpha
 description: Version history and changelog for WeedDB project
@@ -13,6 +13,53 @@ All notable changes to WeedDB-DE will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [0.1.2] - 2025-11-15
+
+### 🌐 Web Interface & Analytics Release
+
+Major user experience improvements with modern web interface and comprehensive analytics capabilities.
+
+### Added
+
+#### Web Interface & Dashboard
+- **FastAPI Web Application**: Modern ASGI-based web interface (`web/app.py`)
+- **Responsive Dashboard**: Bootstrap 5 dashboard with live metrics (`web/templates/dashboard.html`)
+- **REST API Endpoints**: Complete REST API for products, analytics, and batch operations
+- **Real-time Updates**: Auto-refresh system status and metrics
+- **Health Monitoring**: Comprehensive health checks and system monitoring
+
+#### Analytics & Visualizations
+- **Price Analytics API**: Advanced price analysis with trends and statistics
+- **Data Export**: JSON-based analytics data for external consumption
+- **Interactive Dashboard**: Live system metrics and quick actions
+- **Background Tasks**: Asynchronous batch operations via web interface
+
+#### Infrastructure Improvements
+- **Web Dependencies**: FastAPI, Uvicorn, Jinja2, Plotly, Pandas, Matplotlib
+- **API Documentation**: Auto-generated Swagger/ReDoc documentation
+- **Template System**: Jinja2-based responsive web templates
+- **Static Assets**: Bootstrap 5, Font Awesome, custom CSS/JS structure
+
+#### Configuration & Deployment
+- **Extended Dependencies**: Added web framework and analytics packages
+- **Web Directory Structure**: Organized templates, static files, and assets
+- **Development Server**: Uvicorn-based development server setup
+- **API-First Design**: RESTful API as foundation for future features
+
+### Changed
+- Enhanced project structure with web interface components
+- Improved dependency management with categorized packages
+- Updated documentation to reflect web interface capabilities
+
+### Technical Details
+- **Web Framework**: FastAPI with automatic API documentation
+- **Frontend**: Bootstrap 5 responsive design with custom styling
+- **Analytics**: Pandas-based data analysis with JSON export
+- **Real-time**: Auto-refresh dashboard with 30-second intervals
+- **Background Tasks**: Async batch operations without blocking UI
 
 ---
 

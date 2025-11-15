@@ -1,7 +1,7 @@
 ---
 created: 2024-04-01
 updated: 2025-11-15
-version: 0.1.1
+version: 0.1.2
 author: laubfrosch-sudo
 status: alpha
 description: Universal guidelines for all AI assistants working with WeedDB
