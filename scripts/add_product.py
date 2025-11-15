@@ -191,12 +191,12 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
 
     # Wait for dynamic content to load - look for price elements or buying section
     try:
-        await page.wait_for_selector('text=/€.*\\/.*g/', timeout=10000)
+        await page.wait_for_selector('[data-testid*="price"]', timeout=15000)
         print(f"   ⏳ Price elements found, waiting for full load...")
-        await page.wait_for_timeout(3000)  # Additional wait for dynamic content
+        await page.wait_for_timeout(5000)  # Additional wait for dynamic content
     except:
         print(f"   ⚠ No price elements found within timeout, proceeding anyway")
-        await page.wait_for_timeout(5000)  # Longer wait as fallback
+        await page.wait_for_timeout(8000)  # Longer wait as fallback
 
     # Step 3: Extract product details and cheapest pharmacy
     product_details: Dict[str, Any] = {}
@@ -476,6 +476,14 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
                 # Search for €/g pattern (handle German comma)
                 price_elements = await page.locator('text=/€.*\\/.*g/').all()
                 print(f"   Found {len(price_elements)} elements with €/g pattern")
+
+                # Debug: Print all found elements
+                for i, elem in enumerate(price_elements[:3]):  # First 3 elements
+                    try:
+                        text = await elem.inner_text()
+                        print(f"   Debug element {i}: '{text[:50]}...'")
+                    except:
+                        print(f"   Debug element {i}: Error getting text")
 
                 if price_elements:
                     # Get first price element
