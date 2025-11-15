@@ -50,7 +50,7 @@ description: WeedDB Obsidian Vault Startseite mit Navigation und Setup-Anleitung
 
 2. **WeedDB als Vault öffnen**
    - Obsidian starten → "Open folder as vault"
-   - Navigiere zu `/Users/lars/Desktop/Claude/WeedDB`
+   - Navigiere zu deinem WeedDB-Ordner (z.B. `~/Desktop/WeedDB` oder `~/Projects/WeedDB`)
    - Oder: Klicke auf "Open another vault" → "Open folder as vault"
 
 3. **START.md als Standard-Seite festlegen**

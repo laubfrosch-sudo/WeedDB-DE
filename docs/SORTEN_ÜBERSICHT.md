@@ -5,7 +5,7 @@
 # Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
 Diese Übersicht wird automatisch aus der `../data/WeedDB.db` Datenbank generiert.
-**Letzte Aktualisierung:** 15.11.2025 00:04
+**Letzte Aktualisierung:** 15.11.2025 01:11
 
 Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
 
@@ -13,13 +13,13 @@ Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
 
 Hier ist eine Zusammenfassung der Top-Sorten in verschiedenen Kategorien, inklusive Direktlinks zur Produktseite.
 
-| Kategorie | Sorte | Link |
-| :--- | :--- | :--- |
-| **Höchster THC-Gehalt** | Amnesia Haze Cake | [Link](https://shop.dransay.com/product/p/460) |
-| **Bestes Preis-Leistungs-Verhältnis** | Wedding Cake | [Link](https://shop.dransay.com/product/p/1036) |
-| **Günstigster Preis** | Pink Kush | [Link](https://shop.dransay.com/product/p/751) |
-| **Community-Liebling (Beste Bewertung)** | Amnesia Haze Cake | [Link](https://shop.dransay.com/product/p/460) |
-| **Am populärsten (Meiste Reviews)** | Sourdough | [Link](https://shop.dransay.com/product/p/973) |
+| Kategorie                                | Sorte             | Link                                            |
+| :--------------------------------------- | :---------------- | :---------------------------------------------- |
+| **Höchster THC-Gehalt**                  | Amnesia Haze Cake | [Link](https://shop.dransay.com/product/p/460)  |
+| **Bestes Preis-Leistungs-Verhältnis**    | Wedding Cake      | [Link](https://shop.dransay.com/product/p/1036) |
+| **Günstigster Preis**                    | Pink Kush         | [Link](https://shop.dransay.com/product/p/751)  |
+| **Community-Liebling (Beste Bewertung)** | Amnesia Haze Cake | [Link](https://shop.dransay.com/product/p/460)  |
+| **Am populärsten (Meiste Reviews)**      | Sourdough         | [Link](https://shop.dransay.com/product/p/973)  |
 
 ---
 
