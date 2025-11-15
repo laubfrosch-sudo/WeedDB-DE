@@ -48,7 +48,7 @@ Wiederverwendbare Snippets und Vorlagen für die Dokumentation.
 
 ## 📖 Schnellstart
 
-1. **Projektübersicht**: [[README#WeedDB v1.4.0|README]]
+1. **Projektübersicht**: [[README#WeedDB v0.1.0 (Alpha)|README]]
 2. **Installation**: [[README#Quick Start|README]]
 3. **Erste Schritte**: [[user-guides/ANLEITUNG|Anleitung]]
 
