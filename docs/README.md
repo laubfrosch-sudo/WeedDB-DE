@@ -1,7 +1,7 @@
 ---
 created: 2024-01-15
 updated: 2025-11-15
-version: 0.1.0
+version: 0.1.1
 author: laubfrosch-sudo
 status: alpha
 description: WeedDB - Cannabis Preis-Tracking Datenbank für den deutschen medizinischen Markt

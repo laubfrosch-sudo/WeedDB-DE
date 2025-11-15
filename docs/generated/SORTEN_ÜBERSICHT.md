@@ -5,7 +5,7 @@
 # Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
 Diese Übersicht wird automatisch aus der `../data/WeedDB.db` Datenbank generiert.
-**Letzte Aktualisierung:** 15.11.2025 14:45
+**Letzte Aktualisierung:** 15.11.2025 14:47
 
 Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
 
