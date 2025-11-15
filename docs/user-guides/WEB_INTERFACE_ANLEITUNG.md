@@ -349,4 +349,26 @@ Das WeedDB Web-Interface bietet dir:
 
 **API-Dokumentation:** http://localhost:8000/docs
 
+### Neue Features in v0.1.3
+
+#### Erweiterte Produkt-API
+- **Erweiterte Filter:** Genetik, Produzent, Mindestbewertung
+- **Sortierung:** Nach Name, Bewertung, THC-Gehalt, Reviews
+- **Paginierung:** Effiziente Handhabung großer Result-Sets
+
+#### Produkt-Details mit Historie
+- **Vollständige Metadaten:** Lagerbestand, Bestrahlung, Herkunftsland
+- **Preis-Historie:** Entwicklung über Zeit
+- **Aktuelle Preise:** Top vs. Alle Apotheken
+
+#### Live-Batch-Monitoring
+- **Status-Updates:** Scripts senden Live-Status an Web-API
+- **Echtzeit-Monitoring:** Dashboard zeigt Batch-Fortschritt
+- **Fehler-Tracking:** Vollständige Traceability
+
+#### Script-Web-Integration
+- **Nahtlose Zusammenarbeit:** CLI und Web arbeiten zusammen
+- **Gemeinsame Konfiguration:** Einheitliche Settings
+- **Unified Logging:** Zentralisierte Logs und Monitoring
+
 **Viel Spaß beim Erkunden deiner Cannabis-Daten! 🌿📊**

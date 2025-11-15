@@ -45,6 +45,10 @@ Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Mar
 - **📋 Vollständiges Logging**: Strukturiertes JSON-Logging mit Performance-Metriken
 - **⏰ Automatisierte Updates**: Cron-basierte tägliche/weekly/monthly Tasks
 - **🎯 Obsidian Integration**: Live-Status-Tracking und Visualisierung
+- **🌐 Web-Interface**: Moderne responsive Weboberfläche (v0.1.2)
+- **🔄 Live-Updates**: Automatische Daten-Aktualisierung (v0.1.2)
+- **📊 Erweiterte APIs**: Filtern, Sortieren, Paginierung (v0.1.3)
+- **🔗 Script-Integration**: Nahtlose CLI ↔ Web Zusammenarbeit (v0.1.3)
 
 ---
 

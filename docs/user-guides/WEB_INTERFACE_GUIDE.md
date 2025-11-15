@@ -344,4 +344,26 @@ The WeedDB Web Interface provides you with:
 
 **API Documentation:** http://localhost:8000/docs
 
+### New Features in v0.1.3
+
+#### Enhanced Product API
+- **Advanced Filters:** Genetics, producer, minimum rating
+- **Sorting:** By name, rating, THC content, reviews
+- **Pagination:** Efficient handling of large result sets
+
+#### Product Details with History
+- **Complete Metadata:** Stock level, irradiation, country of origin
+- **Price History:** Development over time
+- **Current Prices:** Top vs. All pharmacies
+
+#### Live Batch Monitoring
+- **Status Updates:** Scripts send live status to web API
+- **Real-time Monitoring:** Dashboard shows batch progress
+- **Error Tracking:** Complete traceability
+
+#### Script-Web Integration
+- **Seamless Collaboration:** CLI and web work together
+- **Shared Configuration:** Unified settings
+- **Unified Logging:** Centralized logs and monitoring
+
 **Enjoy exploring your cannabis data! 🌿📊**
