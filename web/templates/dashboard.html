@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if title %}{{ title }}{% else %}WeedDB Dashboard{% endif %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+
+    <style>
+        .metric-card {
+            transition: transform 0.2s;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+        .status-healthy { color: #28a745; }
+        .status-warning { color: #ffc107; }
+        .status-error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-cannabis"></i> WeedDB v0.1.2
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">Produkte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analytics">Analysen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/batch">Batch-Operationen</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/docs" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> API Docs
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- System Status Alert -->
+        <div id="system-status" class="alert alert-info" style="display: none;">
+            <i class="fas fa-info-circle"></i>
+            <span id="status-message">System-Status wird geladen...</span>
+        </div>
+
+        <!-- Metrics Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card metric-card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title mb-0">{{ stats.products }}</h5>
+                                <p class="card-text">Produkte</p>
+                            </div>
+                            <i class="fas fa-box fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card metric-card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title mb-0">{{ stats.producers }}</h5>
+                                <p class="card-text">Produzenten</p>
+                            </div>
+                            <i class="fas fa-industry fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card metric-card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title mb-0">{{ stats.pharmacies }}</h5>
+                                <p class="card-text">Apotheken</p>
+                            </div>
+                            <i class="fas fa-clinic-medical fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card metric-card bg-warning text-dark">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title mb-0">{{ stats.total_prices }}</h5>
+                                <p class="card-text">Preise</p>
+                            </div>
+                            <i class="fas fa-euro-sign fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-line"></i> Aktuelle Statistiken</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p><strong>Neueste Aktualisierung:</strong><br>
+                                <span id="latest-update">{{ stats.latest_update or 'Unbekannt' }}</span></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p><strong>Preise (letzte 24h):</strong><br>
+                                <span class="badge bg-success">{{ stats.recent_prices }}</span></p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-6">
+                                <p><strong>Datenbank-Größe:</strong><br>
+                                <span class="badge bg-info">{{ stats.database_size_mb }} MB</span></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p><strong>System-Status:</strong><br>
+                                <span class="badge bg-success status-healthy">Operational</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-play-circle"></i> Schnellaktionen</h5>
+                    </div>
+                    <div class="card-body">
+                        <button id="btn-batch-update" class="btn btn-primary btn-sm mb-2 w-100">
+                            <i class="fas fa-sync"></i> Preise aktualisieren
+                        </button>
+                        <button id="btn-generate-overview" class="btn btn-secondary btn-sm mb-2 w-100">
+                            <i class="fas fa-file-alt"></i> Übersicht generieren
+                        </button>
+                        <button id="btn-view-logs" class="btn btn-info btn-sm w-100">
+                            <i class="fas fa-list"></i> Logs anzeigen
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Version Info -->
+                <div class="card mt-3">
+                    <div class="card-body text-center">
+                        <h6>WeedDB v0.1.2-alpha</h6>
+                        <small class="text-muted">Performance & Automation</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Auto-refresh system status
+        async function updateSystemStatus() {
+            try {
+                const response = await fetch('/api/stats');
+                const stats = await response.json();
+
+                if (stats.error) {
+                    showStatus('System-Fehler: ' + stats.error, 'error');
+                    return;
+                }
+
+                // Update latest update time
+                const latestUpdate = document.getElementById('latest-update');
+                if (latestUpdate && stats.latest_update) {
+                    latestUpdate.textContent = new Date(stats.latest_update).toLocaleString('de-DE');
+                }
+
+                showStatus('System operational - Daten aktualisiert', 'healthy');
+
+            } catch (error) {
+                showStatus('Verbindungsfehler: ' + error.message, 'error');
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('system-status');
+            const messageSpan = document.getElementById('status-message');
+
+            statusDiv.className = `alert alert-${type === 'healthy' ? 'success' : type === 'warning' ? 'warning' : 'danger'}`;
+            messageSpan.textContent = message;
+            statusDiv.style.display = 'block';
+
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Batch update button
+        document.getElementById('btn-batch-update').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-batch-update');
+            const originalText = btn.innerHTML;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aktualisiere...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/batch/update', { method: 'POST' });
+                const result = await response.json();
+
+                if (response.ok) {
+                    showStatus('Batch-Aktualisierung gestartet - Läuft im Hintergrund', 'healthy');
+                } else {
+                    showStatus('Fehler beim Starten der Aktualisierung', 'error');
+                }
+            } catch (error) {
+                showStatus('Netzwerkfehler: ' + error.message, 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        // Generate overview button
+        document.getElementById('btn-generate-overview').addEventListener('click', async () => {
+            showStatus('Übersicht-Generierung wird gestartet...', 'healthy');
+            // TODO: Implement overview generation endpoint
+        });
+
+        // Initial status update
+        updateSystemStatus();
+
+        // Update every 30 seconds
+        setInterval(updateSystemStatus, 30000);
+    </script>
+</body>
+</html>
