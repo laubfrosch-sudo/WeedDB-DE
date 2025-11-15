@@ -9,9 +9,10 @@ with configurable backoff strategies and error handling.
 import asyncio
 import random
 import time
-from typing import Any, Callable, Optional, Type, Union
+from typing import Any, Callable, Optional, Type, Union, Tuple, TypeVar
 from functools import wraps
 
+_F = TypeVar('_F', bound=Callable[..., Any])
 
 class RetryError(Exception):
     """Custom exception for retry failures"""
@@ -24,9 +25,9 @@ def retry_with_backoff(
     max_delay: float = 60.0,
     backoff_factor: float = 2.0,
     jitter: bool = True,
-    exceptions: tuple = (Exception,),
+    exceptions: Tuple[Type[Exception], ...] = (Exception,),
     on_retry: Optional[Callable[[Exception, int], None]] = None
-) -> Callable:
+) -> Callable[[_F], _F]:
     """
     Decorator for retrying functions with exponential backoff.
     
@@ -39,7 +40,7 @@ def retry_with_backoff(
         exceptions: Tuple of exception types to catch and retry on
         on_retry: Optional callback called on each retry attempt
     """
-    def decorator(func: Callable) -> Callable:
+    def decorator(func: _F) -> _F:
         @wraps(func)
         async def async_wrapper(*args, **kwargs) -> Any:
             last_exception = None
@@ -134,26 +135,26 @@ NETWORK_RETRY_CONFIG = {
 }
 
 
-def get_retry_config(name: str = 'standard') -> dict:
+def get_retry_config(name: str = 'standard') -> Dict[str, Any]:
     """Get a predefined retry configuration"""
     return NETWORK_RETRY_CONFIG.get(name, NETWORK_RETRY_CONFIG['standard'])
 
 
 # Convenience decorators for common use cases
 @retry_with_backoff(**NETWORK_RETRY_CONFIG['fast'])
-def fast_retry(func: Callable) -> Callable:
+def fast_retry(func: _F) -> _F:
     """Fast retry decorator for quick operations"""
     return func
 
 
 @retry_with_backoff(**NETWORK_RETRY_CONFIG['standard'])
-def standard_retry(func: Callable) -> Callable:
+def standard_retry(func: _F) -> _F:
     """Standard retry decorator for most operations"""
     return func
 
 
 @retry_with_backoff(**NETWORK_RETRY_CONFIG['conservative'])
-def conservative_retry(func: Callable) -> Callable:
+def conservative_retry(func: _F) -> _F:
     """Conservative retry decorator for critical operations"""
     return func
 
@@ -161,7 +162,7 @@ def conservative_retry(func: Callable) -> Callable:
 if __name__ == '__main__':
     # Example usage
     @standard_retry
-    def example_function():
+    def example_function() -> str:
         import random
         if random.random() < 0.7:  # 70% chance of failure
             raise ConnectionError("Simulated network error")

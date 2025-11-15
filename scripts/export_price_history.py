@@ -18,7 +18,7 @@ import json
 import os
 import sys
 from datetime import datetime, date, timedelta
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Union
 from pathlib import Path
 import hashlib
 
@@ -46,7 +46,7 @@ def get_current_prices() -> Dict[str, Any]:
         ORDER BY p.name, pr.category
     """)
 
-    prices_data = {}
+    prices_data: Dict[str, Dict[str, Any]] = {}
     for row in cursor.fetchall():
         product_name, price, category, pharmacy, timestamp = row
 
@@ -62,9 +62,8 @@ def get_current_prices() -> Dict[str, Any]:
     conn.close()
     return prices_data
 
-def get_changes_since_last_export(last_export_file: Optional[str] = None) -> Dict[str, Any]:
-    """Get changes since last export"""
-    changes = {
+def get_changes_since_last_export(last_export_file: Optional[str] = None) -> Dict[str, Union[List[str], List[Dict[str, Any]], Optional[str]]]:
+    changes: Dict[str, Union[List[str], List[Dict[str, Any]], Optional[str]]] = {
         'new_products': [],
         'price_changes': [],
         'new_pharmacies': [],
@@ -127,7 +126,7 @@ def get_historical_prices(days_back: int = 30) -> Dict[str, Any]:
         ORDER BY ph.recorded_at DESC, p.name, ph.category
     """.format(days_back))
     
-    history_data = {}
+    history_data: Dict[str, Dict[str, Dict[str, List[Dict[str, Any]]]]] = {}
     for row in cursor.fetchall():
         date_str, product_name, price, category, pharmacy, timestamp = row
         
@@ -160,7 +159,7 @@ def export_to_json(data: Dict[str, Any], filename: str) -> None:
     
     print(f"✅ Exported to {filepath}")
 
-def main():
+def main() -> None:
     import sys
     import time
 

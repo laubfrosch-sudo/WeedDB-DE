@@ -10,6 +10,7 @@ import json
 import sys
 import re
 import sqlite3
+import os
 import asyncio
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
@@ -406,7 +407,7 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
                     # Skip other methods
                     product_details['cheapest_pharmacy_name'] = pharmacy_name
                     product_details['cheapest_price_per_g'] = price_per_g
-                    return
+    
 
             except Exception as e:
                 print(f"   ⚠ Method 0 failed: {e}")
@@ -623,7 +624,7 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]]) -> bool:
         print("❌ No product data to insert")
         return False
 
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'WeedDB.db'))
     cursor = conn.cursor()
 
     try:

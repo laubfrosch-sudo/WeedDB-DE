@@ -12,13 +12,14 @@ Usage:
 import sqlite3
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib.dates import DateFormatter
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 import os
 from pathlib import Path
 
 
-def setup_matplotlib_style():
+def setup_matplotlib_style() -> None:
     """Configure matplotlib for better-looking charts"""
     plt.style.use('seaborn-v0_8')
     plt.rcParams['figure.figsize'] = (12, 8)
@@ -112,10 +113,10 @@ def get_product_distribution_data() -> Dict[str, Any]:
     }
 
 
-def create_price_trend_chart(data: List[Dict[str, Any]], output_path: str):
+def create_price_trend_chart(data: List[Dict[str, Any]], output_path: str) -> None:
     """Create price trend chart for top products"""
     # Group data by product and category
-    product_data = {}
+    product_data: Dict[str, List[Tuple[datetime, float]]] = {}
     for item in data:
         key = f"{item['name']} ({item['category']})"
         if key not in product_data:
@@ -147,7 +148,7 @@ def create_price_trend_chart(data: List[Dict[str, Any]], output_path: str):
     plt.close()
 
 
-def create_genetics_pie_chart(genetics_data: Dict[str, float], output_path: str):
+def create_genetics_pie_chart(genetics_data: Dict[str, float], output_path: str) -> None:
     """Create genetics distribution pie chart"""
     # Filter out small categories
     total = sum(genetics_data.values())
@@ -159,8 +160,8 @@ def create_genetics_pie_chart(genetics_data: Dict[str, float], output_path: str)
     plt.figure(figsize=(10, 8))
     colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD']
 
-    wedges, texts, autotexts = plt.pie(filtered_data.values(),
-                                      labels=filtered_data.keys(),
+    wedges, texts, autotexts = plt.pie(list(filtered_data.values()),
+                                      labels=list(filtered_data.keys()),
                                       autopct='%1.1f%%',
                                       colors=colors[:len(filtered_data)],
                                       startangle=90,
@@ -173,7 +174,7 @@ def create_genetics_pie_chart(genetics_data: Dict[str, float], output_path: str)
     plt.close()
 
 
-def create_thc_distribution_chart(thc_data: Dict[str, int], output_path: str):
+def create_thc_distribution_chart(thc_data: Dict[str, int], output_path: str) -> None:
     """Create THC percentage distribution bar chart"""
     plt.figure(figsize=(12, 6))
 
@@ -196,7 +197,7 @@ def create_thc_distribution_chart(thc_data: Dict[str, int], output_path: str):
     plt.close()
 
 
-def create_rating_distribution_chart(rating_data: Dict[float, int], output_path: str):
+def create_rating_distribution_chart(rating_data: Dict[float, int], output_path: str) -> None:
     """Create rating distribution histogram"""
     plt.figure(figsize=(12, 6))
 
@@ -221,7 +222,7 @@ def create_rating_distribution_chart(rating_data: Dict[float, int], output_path:
     plt.close()
 
 
-def create_visualization_markdown(distribution_data: Dict[str, Any], output_path: str):
+def create_visualization_markdown(distribution_data: Dict[str, Any], output_path: str) -> None:
     """Create markdown file with embedded charts"""
     total_products = sum(distribution_data['genetics'].values())
     avg_rating = sum(k*v for k,v in distribution_data['rating'].items()) / sum(distribution_data['rating'].values())
@@ -284,7 +285,7 @@ Das Skript sollte nach jeder größeren Datenbank-Aktualisierung ausgeführt wer
         f.write(markdown_content)
 
 
-def main():
+def main() -> None:
     """Main function to generate all charts"""
     print("📊 Generiere WeedDB-Diagramme...")
 

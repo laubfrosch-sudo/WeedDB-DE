@@ -162,7 +162,7 @@ def import_complete_history(data: Dict[str, Any]) -> int:
     
     return imported_count
 
-def main():
+def main() -> None:
     if len(sys.argv) != 2:
         print("Usage: python3 scripts/import_price_history.py <json_file>")
         print("Example: python3 scripts/import_price_history.py ../data/price_history/2025-11-14.json")

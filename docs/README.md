@@ -12,9 +12,9 @@ repository: https://github.com/laubfrosch-sudo/WeedDB
   <img src="docs/assets/icons/WeedDB.jpeg" alt="WeedDB Logo" width="300"/>
 </div>
 
-# WeedDB v0.1.0 (Alpha)
+# WeedDB v0.1.0 (Alpha) - Cannabis Preis-Tracking Datenbank für den deutschen Markt
 
-A comprehensive cannabis product price tracking database for the German market. Scrapes and manages product data from `shop.dransay.com` with intelligent price comparison across pharmacy categories.
+Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Markt. Scrapt und verwaltet Produktdaten von `shop.dransay.com` mit intelligentem Preisvergleich über Apotheken-Kategorien.
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
@@ -22,319 +22,18 @@ A comprehensive cannabis product price tracking database for the German market. 
 
 ---
 
-## 🌟 Features
-
-- **🧠 Intelligent Price Tracking**: Automatically finds the cheapest pharmacy in two categories:
-  - 🏆 **Top Pharmacies** - Curated selection of trusted pharmacies
-  - 🌍 **All Pharmacies** - Complete market overview
-- **🏥 Real Pharmacy Names**: Stores actual pharmacy names (e.g., "Paracelsus Apotheke")
-- **📈 Historical Data**: Track price changes over time with full audit trail
-- **💾 Optimized Storage**: Only 2 price entries per product per scrape
-- **⚡ SQLite Database**: Fast, portable, zero-configuration
-- **🔄 Batch Processing**: Reliable bulk operations with timeout protection
-- **🔧 Auto-Recovery**: Automatic correction of missing data
-- **📊 Smart Analytics**: Best-value calculations and market insights
-
----
-
-## Quick Start
-
-### 1. Clone Repository
-```bash
-git clone https://github.com/laubfrosch-sudo/WeedDB.git
-cd WeedDB
-```
-
-### 2. Install Dependencies
-```bash
-pip3 install playwright mypy
-python3 -m playwright install chromium
-```
-
-### 3. Initialize Database
-```bash
-sqlite3 WeedDB.db < schema.sql
-```
-
-### 4. Add Your First Product
-```bash
-python3 add_product.py 'sourdough'
-```
-
-**Example Output:**
-```
-=== Scraping Top Pharmacies ===
-🔍 Searching for 'sourdough' (top)
-   ✅ Found product
-   🌐 Loading product page (top)
-   ✅ Product name: Sourdough
-   ✅ Found genetics: Indica
-   ✅ Found THC: 29.0%
-   ✅ Found CBD: 1.0%
-   ✅ Found rating: 4.0 (1832 reviews)
-   ✅ Found producer: Aurora Cannabis
-   ✅ Found country: Canada
-   🔍 Method 0: Trying 'Buying from' section...
-   📄 Found buying section
-   💰 Sanvivo Cannabis Apotheke (=Senftenauer): €6.77/g
-
-=== Scraping All Pharmacies ===
-🔍 Searching for 'sourdough' (all)
-   ✅ Found product
-   🌐 Loading product page (all)
-   💰 Paracelsus Apotheke: €5.69/g
-
-============================================================
-📋 Summary for: Sourdough
-============================================================
-   ID: 973
-   URL: https://shop.dransay.com/product/sourdough-pedanios-291-srd-ca/973
-
-💰 Cheapest Prices:
-   🏆 Top Pharmacies: €6.77/g
-       → Sanvivo Cannabis Apotheke (=Senftenauer)
-   🌍 All Pharmacies: €5.69/g
-       → Paracelsus Apotheke
-============================================================
-
-✅ Successfully added 'Sourdough' to database with cheapest prices.
-```
-
-### 5. Query the Database
-```bash
-sqlite3 WeedDB.db "SELECT p.name, pr.price_per_g, pr.category, ph.name as pharmacy
-FROM products p
-JOIN prices pr ON p.id = pr.product_id
-JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-WHERE p.name LIKE '%sourdough%'
-ORDER BY pr.category, pr.price_per_g"
-```
-
-**Output:**
-```
-Sourdough|5.69|all|Paracelsus Apotheke
-Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)
-```
-
----
-
-## 📖 Documentation
-
-- **`docs/ai-assistants/CLAUDE.md`** - Complete technical documentation and architecture (for Claude AI)
-- **`docs/ai-assistants/GEMINI.md`** - Technical documentation (for Gemini AI)
-- **`docs/ai-assistants/AGENTS.md`** - Comprehensive AI assistant guidelines
-- **`docs/QUERY_EXAMPLES.md`** - SQL query examples for price analysis (60+ examples)
-- **`INSTRUCTIONS.md`** (English) / **`ANLEITUNG.md`** (Deutsch) - Usage instructions
-- **`data/schema.sql`** - Database schema definition
-- **`docs/generated/SORTEN_ÜBERSICHT.md`** - Auto-generated product overview (run `generate_overview.py`)
-- **`scripts/fix_producers.py`** - Auto-recovery script for missing producer data
-
----
-
-## 💡 Usage Examples
-
-### Add Multiple Products
-```bash
-python3 add_product.py 'gelato'
-python3 add_product.py 'wedding cake'
-python3 add_product.py 'amnesia haze'
-```
-
-### Update Existing Product (Refresh Prices)
-Simply run the script again:
-```bash
-python3 add_product.py 'sourdough'
-```
-This adds new price entries with current timestamp while preserving historical data.
-
-### Update All Products (Bulk Price Refresh)
-```bash
-python3 update_prices.py
-```
-This script:
-- Fetches all products from the database
-- Re-scrapes prices for each product with improved reliability
-- Shows detailed progress with batch processing
-- Provides comprehensive summary of successful/failed updates
-- Enhanced error handling and recovery
-
-### Add Multiple Products from File (Recommended Method)
-Create a text file with product names (one per line):
-```bash
-# Create products.txt
-cat > products.txt << EOF
-gelato
-wedding cake
-amnesia haze
-EOF
-
-# Run batch addition (processes in small batches of 2 to avoid timeouts)
-python3 add_products_batch.py products.txt --yes
-```
-See `data/example_products.txt` for file format.
-
-**Note**: The script automatically processes products in batches of 2 with pauses between batches to avoid timeouts and overwhelming the website.
-
-### Generate Product Overview
-### Export Price History
-Export current prices or historical data in JSON format for external analysis:
-```bash
-python3 scripts/export_price_history.py  # Current snapshot
-python3 scripts/export_price_history.py --all  # Complete history
-```
-Creates JSON files in `data/price_history/` for easy integration with other tools.
-
-### Import Price History
-Import price data from JSON files:
-```bash
-python3 scripts/import_price_history.py data/price_history/2025-11-14.json
-```
-Supports both current snapshots and complete historical data.
-
-### Automatic Archiving
-Set up automatic daily price snapshots and cleanup:
-```bash
-python3 scripts/archive_prices.py  # Daily archiving
-python3 scripts/archive_prices.py --cleanup-days=365  # With custom retention
-```
-Perfect for cron jobs and automated backups.
-
-After adding or updating products, generate the overview markdown file:
-```bash
-python3 generate_overview.py
-```
-This creates/updates `docs/generated/SORTEN_ÜBERSICHT.md` with:
-- Best-of list (highest THC, best price, community favorite, etc.)
-- Complete product table sorted by review count
-- Direct links to all products on shop.dransay.com
-- Enhanced producer information and data completeness
-
-### Fix Missing Data
-Automatically correct missing producer information:
-```bash
-python3 fix_producers.py
-```
-This script:
-- Scans products with missing producer data
-- Re-scrapes product pages to find producer information
-- Updates the database with corrected data
-- Provides detailed progress reporting
-
-### View All Products in Database
-```bash
-sqlite3 WeedDB.db "SELECT name, id FROM products ORDER BY name"
-```
-
-### Find Cheapest Products Overall
-```bash
-sqlite3 WeedDB.db "SELECT p.name, MIN(pr.price_per_g) as min_price, ph.name as pharmacy
-FROM products p
-JOIN prices pr ON p.id = pr.product_id
-JOIN pharmacies ph ON pr.pharmacy_id = ph.id
-GROUP BY p.id
-ORDER BY min_price
-LIMIT 10"
-```
-
----
-
-## 🛠️ How It Works
-
-1. **Search**: Script searches shop.dransay.com for the product name
-2. **Top Pharmacies**: Loads product page with `vendorId=top` and extracts cheapest pharmacy
-3. **All Pharmacies**: Loads product page with `vendorId=all` and extracts cheapest pharmacy
-4. **Database**: Stores 2 price entries (one per category) with pharmacy name, price, and timestamp
-
-**Key Advantage**: The website automatically shows the cheapest pharmacy based on the `vendorId` parameter, so we don't need to parse all listings!
-
----
-
-## 📊 Database Schema
-
-**Complete 3NF Schema** (defined in `data/schema.sql`) with enhanced data integrity:
-
-```sql
-products (
-    id INTEGER PRIMARY KEY,        -- Product ID from shop.dransay.com
-    name TEXT NOT NULL,            -- Product name
-    variant TEXT,                  -- Full variant descriptor
-    genetics TEXT,                 -- Indica/Sativa/Hybrid
-    thc_percent REAL,             -- THC percentage
-    cbd_percent REAL,             -- CBD percentage
-    producer_id INTEGER,          -- Foreign key to producers
-    stock_level INTEGER,          -- Current stock units
-    rating REAL,                  -- User rating (e.g., 4.1)
-    review_count INTEGER,         -- Number of reviews
-    irradiation TEXT,             -- Yes/No
-    country TEXT,                 -- Country of origin
-    effects TEXT,                 -- Reported effects
-    complaints TEXT,              -- Medical complaints
-    url TEXT UNIQUE,              -- Product URL
-    created_at DATETIME,
-    last_updated DATETIME,
-    FOREIGN KEY (producer_id) REFERENCES producers(id)
-)
-
-producers (
-    id INTEGER PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL,     -- Producer name
-    origin TEXT                   -- Country of origin
-)
-
-pharmacies (
-    id INTEGER PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL,     -- e.g., "Paracelsus Apotheke"
-    location TEXT
-)
-
-prices (
-    id INTEGER PRIMARY KEY,
-    product_id INTEGER NOT NULL,
-    pharmacy_id INTEGER NOT NULL,
-    price_per_g REAL NOT NULL,
-    category TEXT CHECK(category IN ('top', 'all')),  -- Category
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id),
-    FOREIGN KEY (pharmacy_id) REFERENCES pharmacies(id)
-)
-```
-
----
-
-## 🔧 Requirements
-
-- **Python 3.9+**
-- **SQLite3**
-- **Playwright** (for web scraping)
-- **Internet connection** (to access shop.dransay.com)
-
----
-
-## 📝 License
-
-This is a personal project for educational purposes. Please respect the terms of service of shop.dransay.com when scraping.
-
----
-
----
-
-# WeedDB Projekt
-
-Eine Cannabis-Produkt-Preisdatenbank für den deutschen Markt. Scrapt und verwaltet Produktdaten von `shop.dransay.com` mit intelligentem Preisvergleich über Apotheken-Kategorien.
-
-**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
-
----
-
 ## 🌟 Funktionen
 
-- **Intelligente Preisverfolgung**: Findet automatisch die günstigste Apotheke in zwei Kategorien:
+- **🧠 Intelligente Preisverfolgung**: Findet automatisch die günstigste Apotheke in zwei Kategorien:
   - 🏆 **Top-Apotheken** - Kuratierte Auswahl vertrauenswürdiger Apotheken
   - 🌍 **Alle Apotheken** - Vollständige Marktübersicht
-- **Echte Apothekennamen**: Speichert tatsächliche Apothekennamen (z.B. "Paracelsus Apotheke")
-- **Historische Daten**: Verfolge Preisänderungen über die Zeit
-- **Minimaler Speicherplatz**: Nur 2 Preiseinträge pro Produkt pro Scrape
-- **SQLite Datenbank**: Schnell, portabel, ohne Konfiguration
+- **🏥 Echte Apothekennamen**: Speichert tatsächliche Apothekennamen (z.B. "Paracelsus Apotheke")
+- **📈 Historische Daten**: Verfolge Preisänderungen über die Zeit mit vollständiger Audit-Trail
+- **💾 Optimierter Speicherplatz**: Nur 2 Preiseinträge pro Produkt pro Scrape
+- **⚡ SQLite Datenbank**: Schnell, portabel, ohne Konfiguration
+- **🔄 Batch-Verarbeitung**: Zuverlässige Massenoperationen mit Timeout-Schutz
+- **🔧 Auto-Recovery**: Automatische Korrektur fehlender Daten
+- **📊 Smarte Analysen**: Best-Value-Berechnungen und Marktkenntnisse
 
 ---
 
@@ -362,6 +61,45 @@ sqlite3 WeedDB.db < schema.sql
 python3 add_product.py 'sourdough'
 ```
 
+**Beispiel-Ausgabe:**
+```
+=== Scraping Top Pharmacies ===
+🔍 Suche nach 'sourdough' (top)
+   ✅ Produkt gefunden
+   🌐 Lade Produktseite (top)
+   ✅ Produktname: Sourdough
+   ✅ Genetik gefunden: Indica
+   ✅ THC gefunden: 29.0%
+   ✅ CBD gefunden: 1.0%
+   ✅ Bewertung gefunden: 4.0 (1832 Bewertungen)
+   ✅ Hersteller gefunden: Aurora Cannabis
+   ✅ Land gefunden: Canada
+   🔍 Methode 0: Versuche 'Kaufen bei' Sektion...
+   📄 'Kaufen bei' Sektion gefunden
+   💰 Sanvivo Cannabis Apotheke (=Senftenauer): €6.77/g
+
+=== Scraping All Pharmacies ===
+🔍 Suche nach 'sourdough' (all)
+   ✅ Produkt gefunden
+   🌐 Lade Produktseite (all)
+   💰 Paracelsus Apotheke: €5.69/g
+
+============================================================
+📋 Zusammenfassung für: Sourdough
+============================================================
+   ID: 973
+   URL: https://shop.dransay.com/product/sourdough-pedanios-291-srd-ca/973
+
+💰 Günstigste Preise:
+   🏆 Top-Apotheken: €6.77/g
+       → Sanvivo Cannabis Apotheke (=Senftenauer)
+   🌍 Alle Apotheken: €5.69/g
+       → Paracelsus Apotheke
+============================================================
+
+✅ 'Sourdough' erfolgreich mit günstigsten Preisen zur Datenbank hinzugefügt.
+```
+
 ### 5. Datenbank abfragen
 ```bash
 sqlite3 WeedDB.db "SELECT p.name, pr.price_per_g, pr.category, ph.name as apotheke
@@ -372,14 +110,24 @@ WHERE p.name LIKE '%sourdough%'
 ORDER BY pr.category, pr.price_per_g"
 ```
 
+**Ausgabe:**
+```
+Sourdough|5.69|all|Paracelsus Apotheke
+Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)
+```
+
 ---
 
 ## 📖 Dokumentation
 
-- **`docs/ai-assistants/CLAUDE.md`** - Vollständige technische Dokumentation
-- **`docs/QUERY_EXAMPLES.md`** - SQL-Abfrage-Beispiele für Preisanalysen
-- **`ANLEITUNG.md`** (Deutsch) / **`INSTRUCTIONS.md`** (Englisch) - Nutzungsanleitung
+- **`docs/ai-assistants/CLAUDE.md`** - Vollständige technische Dokumentation und Architektur (für Claude AI)
+- **`docs/ai-assistants/GEMINI.md`** - Technische Dokumentation (für Gemini AI)
+- **`docs/ai-assistants/AGENTS.md`** - Umfassende Richtlinien für KI-Assistenten
+- **`docs/QUERY_EXAMPLES.md`** - SQL-Abfrage-Beispiele für Preisanalysen (60+ Beispiele)
+- **`INSTRUCTIONS.md`** (Englisch) / **`ANLEITUNG.md`** (Deutsch) - Nutzungsanleitung
 - **`data/schema.sql`** - Datenbankschema-Definition
+- **`docs/generated/SORTEN_ÜBERSICHT.md`** - Automatisch generierte Produktübersicht (führe `generate_overview.py` aus)
+- **`scripts/fix_producers.py`** - Auto-Recovery-Skript für fehlende Herstellerdaten
 
 ---
 
@@ -393,7 +141,7 @@ python3 add_product.py 'amnesia haze'
 ```
 
 ### Bestehendes Produkt aktualisieren (Preise aktualisieren)
-Einfach das Skript erneut ausführen:
+Führe das Skript einfach erneut aus:
 ```bash
 python3 add_product.py 'sourdough'
 ```
@@ -405,11 +153,12 @@ python3 update_prices.py
 ```
 Dieses Skript:
 - Lädt alle Produkte aus der Datenbank
-- Scrapt Preise für jedes Produkt neu
-- Zeigt Fortschritt (z.B. `[5/10]`)
-- Bietet Zusammenfassung erfolgreicher/fehlgeschlagener Updates
+- Scrapt Preise für jedes Produkt neu mit verbesserter Zuverlässigkeit
+- Zeigt detaillierten Fortschritt mit Batch-Verarbeitung
+- Bietet eine umfassende Zusammenfassung erfolgreicher/fehlgeschlagener Updates
+- Verbesserte Fehlerbehandlung und Wiederherstellung
 
-### Mehrere Produkte aus Datei hinzufügen
+### Mehrere Produkte aus Datei hinzufügen (Empfohlene Methode)
 Erstelle eine Textdatei mit Produktnamen (einer pro Zeile):
 ```bash
 # products.txt erstellen
@@ -419,13 +168,38 @@ wedding cake
 amnesia haze
 EOF
 
-# Massen-Hinzufügung ausführen
-python3 add_products_batch.py products.txt
+# Massen-Hinzufügung ausführen (verarbeitet in kleinen Batches von 2, um Timeouts zu vermeiden)
+python3 add_products_batch.py products.txt --yes
 ```
 Siehe `data/example_products.txt` für das Dateiformat.
 
+**Hinweis**: Das Skript verarbeitet Produkte automatisch in Batches von 2 mit Pausen zwischen den Batches, um Timeouts und eine Überlastung der Website zu vermeiden.
+
 ### Produktübersicht generieren
-Nach dem Hinzufügen oder Aktualisieren von Produkten, generiere die Übersichtsdatei:
+### Preisverlauf exportieren
+Exportiere aktuelle Preise oder historische Daten im JSON-Format für externe Analysen:
+```bash
+python3 scripts/export_price_history.py  # Aktueller Snapshot
+python3 scripts/export_price_history.py --all  # Kompletter Verlauf
+```
+Erstellt JSON-Dateien in `data/price_history/` zur einfachen Integration mit anderen Tools.
+
+### Preisverlauf importieren
+Importiere Preisdaten aus JSON-Dateien:
+```bash
+python3 scripts/import_price_history.py data/price_history/2025-11-14.json
+```
+Unterstützt sowohl aktuelle Snapshots als auch vollständige historische Daten.
+
+### Automatische Archivierung
+Richte automatische tägliche Preis-Snapshots und Bereinigung ein:
+```bash
+python3 scripts/archive_prices.py  # Tägliche Archivierung
+python3 scripts/archive_prices.py --cleanup-days=365  # Mit benutzerdefinierter Aufbewahrungszeit
+```
+Perfekt für Cron-Jobs und automatisierte Backups.
+
+Nach dem Hinzufügen oder Aktualisieren von Produkten, generiere die Übersichts-Markdown-Datei:
 ```bash
 python3 generate_overview.py
 ```
@@ -433,17 +207,97 @@ Dies erstellt/aktualisiert `docs/generated/SORTEN_ÜBERSICHT.md` mit:
 - Bestenliste (höchster THC, bester Preis, Community-Liebling, etc.)
 - Vollständige Produkttabelle sortiert nach Bewertungsanzahl
 - Direkte Links zu allen Produkten auf shop.dransay.com
+- Erweiterte Herstellerinformationen und Datenvollständigkeit
+
+### Fehlende Daten korrigieren
+Korrigiere fehlende Herstellerinformationen automatisch:
+```bash
+python3 fix_producers.py
+```
+Dieses Skript:
+- Scannt Produkte mit fehlenden Herstellerdaten
+- Scrapt Produktseiten erneut, um Herstellerinformationen zu finden
+- Aktualisiert die Datenbank mit korrigierten Daten
+- Bietet detaillierte Fortschrittsberichte
+
+### Alle Produkte in der Datenbank anzeigen
+```bash
+sqlite3 WeedDB.db "SELECT name, id FROM products ORDER BY name"
+```
+
+### Günstigste Produkte insgesamt finden
+```bash
+sqlite3 WeedDB.db "SELECT p.name, MIN(pr.price_per_g) as min_price, ph.name as pharmacy
+FROM products p
+JOIN prices pr ON p.id = pr.product_id
+JOIN pharmacies ph ON pr.pharmacy_id = ph.id
+GROUP BY p.id
+ORDER BY min_price
+LIMIT 10"
+```
 
 ---
 
 ## 🛠️ Funktionsweise
 
 1. **Suche**: Skript sucht auf shop.dransay.com nach dem Produktnamen
-2. **Top-Apotheken**: Lädt Produktseite mit `vendorId=top` und extrahiert günstigste Apotheke
-3. **Alle Apotheken**: Lädt Produktseite mit `vendorId=all` und extrahiert günstigste Apotheke
+2. **Top-Apotheken**: Lädt Produktseite mit `vendorId=top` und extrahiert die günstigste Apotheke
+3. **Alle Apotheken**: Lädt Produktseite mit `vendorId=all` und extrahiert die günstigste Apotheke
 4. **Datenbank**: Speichert 2 Preiseinträge (einen pro Kategorie) mit Apothekennamen, Preis und Zeitstempel
 
-**Vorteil**: Die Website zeigt automatisch die günstigste Apotheke basierend auf dem `vendorId`-Parameter!
+**Wichtiger Vorteil**: Die Website zeigt automatisch die günstigste Apotheke basierend auf dem `vendorId`-Parameter an, sodass wir nicht alle Angebote parsen müssen!
+
+---
+
+## 📊 Datenbankschema
+
+**Vollständiges 3NF-Schema** (definiert in `data/schema.sql`) mit verbesserter Datenintegrität:
+
+```sql
+products (
+    id INTEGER PRIMARY KEY,        -- Produkt-ID von shop.dransay.com
+    name TEXT NOT NULL,            -- Produktname
+    variant TEXT,                  -- Vollständige Variantenbeschreibung
+    genetics TEXT,                 -- Indica/Sativa/Hybrid
+    thc_percent REAL,             -- THC-Prozentsatz
+    cbd_percent REAL,             -- CBD-Prozentsatz
+    producer_id INTEGER,          -- Fremdschlüssel zu Herstellern
+    stock_level INTEGER,          -- Aktueller Lagerbestand
+    rating REAL,                  -- Benutzerbewertung (z.B. 4.1)
+    review_count INTEGER,         -- Anzahl der Bewertungen
+    irradiation TEXT,             -- Ja/Nein
+    country TEXT,                 -- Herkunftsland
+    effects TEXT,                 -- Gemeldete Effekte
+    complaints TEXT,              -- Gemeldete Beschwerden/Anwendungsgebiete
+    url TEXT UNIQUE,              -- Produkt-URL
+    created_at DATETIME,
+    last_updated DATETIME,
+    FOREIGN KEY (producer_id) REFERENCES producers(id)
+)
+
+producers (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,     -- Herstellername
+    origin TEXT                   -- Herkunftsland
+)
+
+pharmacies (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,     -- z.B. "Paracelsus Apotheke"
+    location TEXT
+)
+
+prices (
+    id INTEGER PRIMARY KEY,
+    product_id INTEGER NOT NULL,
+    pharmacy_id INTEGER NOT NULL,
+    price_per_g REAL NOT NULL,
+    category TEXT CHECK(category IN ('top', 'all')),  -- Kategorie
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (pharmacy_id) REFERENCES pharmacies(id)
+)
+```
 
 ---
 
@@ -453,4 +307,15 @@ Dies erstellt/aktualisiert `docs/generated/SORTEN_ÜBERSICHT.md` mit:
 - **SQLite3**
 - **Playwright** (für Web-Scraping)
 - **Internetverbindung** (für Zugriff auf shop.dransay.com)
-# WeedDB-DE
+
+---
+
+## 📝 Lizenz
+
+Dies ist ein persönliches Projekt für Bildungszwecke. Bitte respektiere die Nutzungsbedingungen von shop.dransay.com beim Scraping.
+
+---
+
+---
+
+

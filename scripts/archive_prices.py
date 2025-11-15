@@ -19,7 +19,7 @@ import os
 from datetime import datetime, timedelta
 from pathlib import Path
 
-def create_price_snapshot(date_str=None):
+def create_price_snapshot(date_str: Optional[str] = None) -> bool:
     """Create a price snapshot"""
     if date_str is None:
         date_str = datetime.now().date().isoformat()
@@ -47,7 +47,7 @@ def create_price_snapshot(date_str=None):
             ORDER BY p.name, pr.category
         """)
         
-        prices_data = {}
+        prices_data: Dict[str, Dict[str, Any]] = {}
         for row in cursor.fetchall():
             product_name, price, category, pharmacy, timestamp = row
             
@@ -83,7 +83,7 @@ def create_price_snapshot(date_str=None):
         print(f"❌ Snapshot creation failed: {e}")
         return False
 
-def cleanup_old_history(days_to_keep=365):
+def cleanup_old_history(days_to_keep: int = 365) -> int:
     """Remove price history older than specified days"""
     conn = sqlite3.connect('../data/WeedDB.db')
     cursor = conn.cursor()
@@ -104,7 +104,7 @@ def cleanup_old_history(days_to_keep=365):
     finally:
         conn.close()
 
-def cleanup_old_files(days_to_keep=90):
+def cleanup_old_files(days_to_keep: int = 90) -> int:
     """Remove old export files"""
     history_dir = Path('../data/price_history')
     if not history_dir.exists():
@@ -132,7 +132,7 @@ def cleanup_old_files(days_to_keep=90):
     
     return deleted_count
 
-def main():
+def main() -> None:
     print("📦 WeedDB Automatic Price Archiving")
     print(f"🕒 Started at: {datetime.now()}")
     print()

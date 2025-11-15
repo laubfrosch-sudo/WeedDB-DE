@@ -8,7 +8,7 @@ import asyncio
 from playwright.async_api import async_playwright
 import re
 
-async def fix_missing_producers():
+async def fix_missing_producers() -> None:
     """Find products with missing producers and try to fix them"""
     
     # Get products with missing producers

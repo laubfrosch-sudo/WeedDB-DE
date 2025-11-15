@@ -9,6 +9,7 @@ Usage:
     python3 generate_overview.py
 """
 
+import os
 import sqlite3
 from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
@@ -16,7 +17,7 @@ from datetime import datetime
 
 def get_all_products_with_prices() -> List[Dict[str, Any]]:
     """Fetch all products with their cheapest prices and details"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'WeedDB.db'))
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -214,7 +215,8 @@ def main() -> None:
     markdown_content = generate_overview_markdown(products, best)
 
     # Write to file
-    with open('../docs/SORTEN_ÜBERSICHT.md', 'w', encoding='utf-8') as f:
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'generated', 'SORTEN_ÜBERSICHT.md')
+    with open(output_path, 'w', encoding='utf-8') as f:
         f.write(markdown_content)
 
     print(f"✅ ../docs/SORTEN_ÜBERSICHT.md erfolgreich generiert!")
