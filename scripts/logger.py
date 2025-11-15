@@ -255,13 +255,13 @@ def get_performance_stats(script_name: str, hours: int = 24) -> Dict[str, Any]:
     """Get performance statistics for a script"""
     logs = get_recent_logs(script_name, hours)
 
-    stats = {
+    stats: Dict[str, Any] = {
         'total_operations': 0,
         'successful_operations': 0,
         'failed_operations': 0,
-        'avg_duration_ms': 0,
+        'avg_duration_ms': 0.0,
         'min_duration_ms': float('inf'),
-        'max_duration_ms': 0,
+        'max_duration_ms': 0.0,
         'error_types': {},
         'operations_by_type': {}
     }

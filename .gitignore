@@ -7,6 +7,11 @@ WeedDB.db
 # Logs
 *.log
 update_log.txt
+data/logs/
+
+# Cache
+data/cache.db
+*.db-journal
 
 # Python cache
 .mypy_cache/

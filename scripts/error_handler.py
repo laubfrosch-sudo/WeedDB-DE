@@ -223,7 +223,10 @@ class ErrorHandler:
                 await asyncio.sleep(delay)
 
         # All retries exhausted
-        raise last_exception
+        if last_exception:
+            raise last_exception
+        else:
+            raise Exception("All retry attempts failed")
 
 # Convenience functions for common use cases
 async def retry_network_operation(func: Callable, *args, **kwargs) -> Any:

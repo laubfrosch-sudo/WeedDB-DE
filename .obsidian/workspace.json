@@ -186,6 +186,7 @@
   },
   "active": "e14df16eb30f3d6e",
   "lastOpenFiles": [
+    "data/cache.db",
     "RELEASE_PLAN_0.1.1.md",
     "scripts/update_status_dashboard.py",
     "PROCESS_STATUS.md",

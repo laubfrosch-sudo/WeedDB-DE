@@ -12,7 +12,7 @@ repository: https://github.com/laubfrosch-sudo/WeedDB
   <img src="docs/assets/icons/WeedDB.jpeg" alt="WeedDB Logo" width="300"/>
 </div>
 
-# WeedDB v0.1.0 (Alpha) - Cannabis Preis-Tracking Datenbank für den deutschen Markt
+# WeedDB v0.1.1 (Alpha) - Cannabis Preis-Tracking Datenbank für den deutschen Markt
 
 Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Markt. Scrapt und verwaltet Produktdaten von `shop.dransay.com` mit intelligentem Preisvergleich über Apotheken-Kategorien.
 
