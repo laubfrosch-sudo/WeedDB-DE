@@ -5,7 +5,7 @@ version: 0.1.0
 author: laubfrosch-sudo
 status: alpha
 description: Technical documentation and guidelines for Claude AI when working with WeedDB
-sync_with: GEMINI.md, docs/ai-assistants/CLAUDE.md
+sync_with: AGENTS.md, GEMINI.md
 ---
 
 <div align="center">

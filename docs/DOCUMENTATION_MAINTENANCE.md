@@ -204,6 +204,56 @@ python scripts/sync_ai_docs.py
 
 ---
 
+## 🔗 Inter-File Dependencies & Consistency Rules
+
+Um die Konsistenz im Projekt zu gewährleisten, müssen folgende Abhängigkeiten und Regeln beachtet werden:
+
+### 1. Dokumentationsdateien (Sprache & AI-Spezifisch)
+
+*   **Sprachliche Konsistenz:**
+    *   `docs/user-guides/ANLEITUNG.md` (Deutsch) und `docs/user-guides/INSTRUCTIONS.md` (Englisch) müssen inhaltlich synchron sein. Änderungen in einer Sprache erfordern eine entsprechende Aktualisierung in der anderen.
+*   **AI-Spezifische Konsistenz:**
+    *   `docs/ai-assistants/AGENTS.md` (Allgemeine Richtlinien) ist die Basis für `docs/ai-assistants/GEMINI.md` und `docs/ai-assistants/CLAUDE.md`. Kernfunktionalitäten, Schema-Definitionen und wichtige Anweisungen müssen konsistent sein.
+    *   `docs/ai-assistants/GEMINI.md` und `docs/ai-assistants/CLAUDE.md` müssen untereinander synchronisiert werden. Änderungen in einer Datei erfordern eine entsprechende Aktualisierung in der anderen.
+
+### 2. Skripte und Datenbank-Schema
+
+*   **`data/schema.sql`:** Definiert das Datenbankschema. Alle Python-Skripte, die mit der Datenbank interagieren (`add_product.py`, `update_prices.py`, `fix_producers.py`, `generate_overview.py`), sind von diesem Schema abhängig. Änderungen an `schema.sql` erfordern entsprechende Anpassungen in den Skripten.
+*   **Python-Skripte (`scripts/*.py`):**
+    *   `add_product.py`, `update_prices.py`, `fix_producers.py`: Abhängig von der Struktur von `shop.dransay.com` und `data/schema.sql`.
+    *   `add_products_batch.py`: Nutzt `add_product.py` und ist somit indirekt von dessen Abhängigkeiten betroffen.
+    *   `generate_overview.py`: Liest aus der Datenbank und generiert `docs/generated/SORTEN_ÜBERSICHT.md`. Abhängig von `data/schema.sql` und der erwarteten Struktur der generierten Markdown-Datei.
+
+### 3. Generierte Dateien
+
+*   **`docs/generated/SORTEN_ÜBERSICHT.md`:** Diese Datei wird **automatisch** von `scripts/generate_overview.py` generiert. Sie darf **NICHT manuell bearbeitet** werden. Ihre Inhalte sind vollständig von der Datenbank und dem Generierungsskript abhängig.
+
+---
+
+## ✅ Checkliste für Änderungen mit Abhängigkeiten
+
+Bevor Änderungen an Dateien mit bekannten Abhängigkeiten committed werden, ist folgende Checkliste abzuarbeiten:
+
+*   **Dokumentationsdateien:**
+    *   Wurden sprachlich verknüpfte Dateien (z.B. `ANLEITUNG.md` und `INSTRUCTIONS.md`) bei inhaltlichen Änderungen synchronisiert?
+    *   Wurden AI-spezifische Dateien (`GEMINI.md`, `CLAUDE.md`) bei Änderungen an `AGENTS.md` oder untereinander synchronisiert?
+    *   Wurden die `updated`-Daten und `version`-Nummern in allen betroffenen Dateien korrekt aktualisiert?
+*   **`data/schema.sql` Änderungen:**
+    *   Wurden alle relevanten Python-Skripte (`add_product.py`, `update_prices.py`, `fix_producers.py`, `generate_overview.py`) an die Schemaänderungen angepasst?
+    *   Müssen die Datenbank-Query-Beispiele in der Dokumentation (`CLAUDE.md`, `GEMINI.md`, `docs/QUERY_EXAMPLES.md`) aktualisiert werden?
+    *   Muss `generate_overview.py` angepasst werden, falls die generierte Übersicht vom Schema betroffen ist?
+*   **Änderungen an `scripts/generate_overview.py`:**
+    *   Wurde `docs/generated/SORTEN_ÜBERSICHT.md` nach der Skriptänderung neu generiert?
+    *   Entspricht die generierte Datei noch den Erwartungen?
+*   **Änderungen an `shop.dransay.com` (externe Quelle):**
+    *   Müssen die Scraping-Logik in `add_product.py` und verwandten Skripten angepasst werden?
+    *   Wurden die Änderungen in der Dokumentation (z.B. Troubleshooting-Sektionen) reflektiert?
+
+---
+
+
+---
+
 ## 🔍 Wartungs-Checks
 
 ### Monatlicher Check (Empfohlen):
