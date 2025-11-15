@@ -477,13 +477,7 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
                 price_elements = await page.locator('text=/€.*\\/.*g/').all()
                 print(f"   Found {len(price_elements)} elements with €/g pattern")
 
-                # Debug: Print all found elements
-                for i, elem in enumerate(price_elements[:3]):  # First 3 elements
-                    try:
-                        text = await elem.inner_text()
-                        print(f"   Debug element {i}: '{text[:50]}...'")
-                    except:
-                        print(f"   Debug element {i}: Error getting text")
+
 
                 if price_elements:
                     # Get first price element
@@ -494,7 +488,6 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
                     if price_match:
                         price_str = price_match.group(1).replace(',', '.')
                         price_per_g = float(price_str)
-                        print(f"   💰 Found price: €{price_per_g}/g")
 
                 # Look for pharmacy name separately
                 if not pharmacy_name:
@@ -503,7 +496,6 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
                         text = await elem.inner_text()
                         if 'Apotheke' in text and 8 < len(text.strip()) < 100:
                             pharmacy_name = text.strip()
-                            print(f"   🏥 Found pharmacy: {pharmacy_name}")
                             break
 
                 if pharmacy_name and price_per_g:

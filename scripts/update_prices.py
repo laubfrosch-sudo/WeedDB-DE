@@ -11,12 +11,27 @@ Usage:
 
 import sqlite3
 import asyncio
+import sqlite3
 import sys
 import os
+import re
 from typing import List, Tuple, Optional, Dict, Any
 from datetime import datetime
-import re
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout, Page
+
+# Import our enhanced modules
+try:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from logger import get_logger
+    from error_handler import get_error_handler, RetryConfig
+    logger = get_logger('update_prices')
+    error_handler = get_error_handler()
+except ImportError:
+    # Fallback if modules not available
+    import logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger('update_prices')
+    error_handler = None
 
 BASE_URL = "https://shop.dransay.com"
 
