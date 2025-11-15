@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "START.md",
+                "file": "RELEASE_PLAN_0.1.2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "START"
+              "title": "RELEASE_PLAN_0.1.2"
             }
           }
         ]
@@ -186,6 +186,11 @@
   },
   "active": "e14df16eb30f3d6e",
   "lastOpenFiles": [
+    "docs/user-guides/WEB_INTERFACE_GUIDE.md",
+    "docs/user-guides/WEB_INTERFACE_ANLEITUNG.md",
+    "data/logs/update_prices.log",
+    "START.md",
+    "data/logs/web_app.log",
     "web/templates/dashboard.html",
     "web/app.py",
     "web/static/js",
@@ -196,13 +201,9 @@
     "web",
     "RELEASE_PLAN_0.1.2.md",
     "docs/SORTEN_ÜBERSICHT.md",
-    "test_batch_final.txt",
     "CLEANUP_PLAN.md",
-    "START.md",
     "docs/ai-assistants/KI_LÖSUNGSANSATZ.md",
     "debug_screenshot.png",
-    "debug_page.py",
-    "test_playwright.py",
     "docs/ai-assistants/GEMINI.md",
     "docs/ai-assistants/CLAUDE.md",
     "docs/ai-assistants/AGENTS.md",
@@ -226,7 +227,6 @@
     "docs/user-guides/BEGINNER_SETUP_WINDOWS.md",
     "docs/user-guides/BEGINNER_SETUP_LINUX.md",
     "docs/user-guides/BEGINNER_SETUP_MACOS.md",
-    "docs/QUERY_EXAMPLES.md",
     "Untitled.canvas"
   ]
 }
