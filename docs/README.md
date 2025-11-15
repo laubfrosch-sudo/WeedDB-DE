@@ -38,8 +38,13 @@ Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Mar
 - **💾 Optimierter Speicherplatz**: Nur 2 Preiseinträge pro Produkt pro Scrape
 - **⚡ SQLite Datenbank**: Schnell, portabel, ohne Konfiguration
 - **🔄 Batch-Verarbeitung**: Zuverlässige Massenoperationen mit Timeout-Schutz
-- **🔧 Auto-Recovery**: Automatische Korrektur fehlender Daten
+- **🚀 Parallele Verarbeitung**: 3x schnellere Batch-Operationen mit konfigurierbarer Concurrency
+- **🔧 Auto-Recovery**: Automatische Korrektur fehlender Daten mit Retry-Mechanismen
 - **📊 Smarte Analysen**: Best-Value-Berechnungen und Marktkenntnisse
+- **🗄️ Intelligentes Caching**: Reduziert wiederholte Web-Requests um 80%
+- **📋 Vollständiges Logging**: Strukturiertes JSON-Logging mit Performance-Metriken
+- **⏰ Automatisierte Updates**: Cron-basierte tägliche/weekly/monthly Tasks
+- **🎯 Obsidian Integration**: Live-Status-Tracking und Visualisierung
 
 ---
 

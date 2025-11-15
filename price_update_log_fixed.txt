@@ -1,0 +1,1508 @@
+📊 WeedDB Price Update Script
+============================================================
+
+📦 Found 52 products in database
+⏱️  Estimated time: ~780 seconds (13.0 minutes)
+
+🚀 Starting price update...
+
+============================================================
+[1/52] Updating: Alexander The Great
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Alexander The Great' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apo420
+   📄 Price text: €7.85 / g
+   💰 Found price: €7.85/g
+   ✅ Method 1 successful: Apo420 - €7.85/g
+✅ Updated top price for 'Alexander The Great'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Alexander The Great' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apo420
+   📄 Price text: €7.85 / g
+   💰 Found price: €7.85/g
+   ✅ Method 1 successful: Apo420 - €7.85/g
+✅ Updated all price for 'Alexander The Great'
+✅ Successfully updated prices for 'Alexander The Great'
+
+============================================================
+[2/52] Updating: Amnesia Haze Cake
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Amnesia Haze Cake' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €10.95 / g
+   💰 Found price: €10.95/g
+   ✅ Method 1 successful: Asavita - €10.95/g
+✅ Updated top price for 'Amnesia Haze Cake'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Amnesia Haze Cake' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Preussen Apotheke Spandau
+   📄 Price text: €9.45 / g
+   💰 Found price: €9.45/g
+   ✅ Method 1 successful: Preussen Apotheke Spandau - €9.45/g
+✅ Updated all price for 'Amnesia Haze Cake'
+✅ Successfully updated prices for 'Amnesia Haze Cake'
+
+============================================================
+[3/52] Updating: Big Purple Dragon
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Big Purple Dragon' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.79 / g
+   💰 Found price: €4.79/g
+   ✅ Method 1 successful: Asavita - €4.79/g
+✅ Updated top price for 'Big Purple Dragon'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Big Purple Dragon' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.59 / g
+   💰 Found price: €4.59/g
+   ✅ Method 1 successful: 3Leafs by Idris Apotheke - €4.59/g
+✅ Updated all price for 'Big Purple Dragon'
+✅ Successfully updated prices for 'Big Purple Dragon'
+
+============================================================
+[4/52] Updating: Black Cherry Punch
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Black Cherry Punch' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €4.65 / g
+   💰 Found price: €4.65/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €4.65/g
+✅ Updated top price for 'Black Cherry Punch'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Black Cherry Punch' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.13 / g
+   💰 Found price: €4.13/g
+   ✅ Method 1 successful: 3Leafs by Idris Apotheke - €4.13/g
+✅ Updated all price for 'Black Cherry Punch'
+✅ Successfully updated prices for 'Black Cherry Punch'
+
+============================================================
+[5/52] Updating: Blue Dream
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Blue Dream' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €5.99/g
+✅ Updated top price for 'Blue Dream'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Blue Dream' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apotheke in der Römergalerie
+   📄 Price text: €5.39 / g
+   💰 Found price: €5.39/g
+   ✅ Method 1 successful: Apotheke in der Römergalerie - €5.39/g
+✅ Updated all price for 'Blue Dream'
+✅ Successfully updated prices for 'Blue Dream'
+
+============================================================
+[6/52] Updating: Blue Z
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Blue Z' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: higreen! - Drei Hasen Apotheke
+   📄 Price text: €7.08 / g
+   💰 Found price: €7.08/g
+   ✅ Method 1 successful: higreen! - Drei Hasen Apotheke - €7.08/g
+✅ Updated top price for 'Blue Z'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Blue Z' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €7.07 / g
+   💰 Found price: €7.07/g
+   ✅ Method 1 successful: svapo.de (=Schloss-Apotheke) - €7.07/g
+✅ Updated all price for 'Blue Z'
+✅ Successfully updated prices for 'Blue Z'
+
+============================================================
+[7/52] Updating: Blueberry Cookies
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Blueberry Cookies' (top)
+   ❌ No products found
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Blueberry Cookies' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannaplus Apotheke (=St. Martins Apotheke)
+   📄 Price text: €5.75 / g
+   💰 Found price: €5.75/g
+   ✅ Method 1 successful: Cannaplus Apotheke (=St. Martins Apotheke) - €5.75/g
+✅ Updated all price for 'Blueberry Cookies'
+✅ Successfully updated prices for 'Blueberry Cookies'
+
+============================================================
+[8/52] Updating: Cheddar Cheese
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Cheddar Cheese' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannovia (= Erlich Apotheke)
+   📄 Price text: €7.12 / g
+   💰 Found price: €7.12/g
+   ✅ Method 1 successful: Cannovia (= Erlich Apotheke) - €7.12/g
+✅ Updated top price for 'Cheddar Cheese'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Cheddar Cheese' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €6.52 / g
+   💰 Found price: €6.52/g
+   ✅ Method 1 successful: svapo.de (=Schloss-Apotheke) - €6.52/g
+✅ Updated all price for 'Cheddar Cheese'
+✅ Successfully updated prices for 'Cheddar Cheese'
+
+============================================================
+[9/52] Updating: Chemango Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Chemango Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Jiroo (=Fritz Apotheke)
+   📄 Price text: €7.20 / g
+   💰 Found price: €7.2/g
+   ✅ Method 1 successful: Jiroo (=Fritz Apotheke) - €7.2/g
+✅ Updated top price for 'Chemango Kush'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Chemango Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apotheke in der Römergalerie
+   📄 Price text: €6.83 / g
+   💰 Found price: €6.83/g
+   ✅ Method 1 successful: Apotheke in der Römergalerie - €6.83/g
+✅ Updated all price for 'Chemango Kush'
+✅ Successfully updated prices for 'Chemango Kush'
+
+============================================================
+[10/52] Updating: Cinderella Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Cinderella Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.95 / g
+   💰 Found price: €4.95/g
+   ✅ Method 1 successful: Asavita - €4.95/g
+✅ Updated top price for 'Cinderella Kush'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Cinderella Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €4.17 / g
+   💰 Found price: €4.17/g
+   ✅ Method 1 successful: svapo.de (=Schloss-Apotheke) - €4.17/g
+✅ Updated all price for 'Cinderella Kush'
+✅ Successfully updated prices for 'Cinderella Kush'
+
+============================================================
+[11/52] Updating: Critical Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Critical Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: Asavita - €5.99/g
+✅ Updated top price for 'Critical Kush'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Critical Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: Asavita - €5.99/g
+✅ Updated all price for 'Critical Kush'
+✅ Successfully updated prices for 'Critical Kush'
+
+============================================================
+[12/52] Updating: Crumbled Lime #27
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Crumbled Lime #27' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Kronen Apotheke - MYCANNABIS
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: Kronen Apotheke - MYCANNABIS - €4.99/g
+✅ Updated top price for 'Crumbled Lime #27'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Crumbled Lime #27' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Canthera
+   📄 Price text: €4.78 / g
+   💰 Found price: €4.78/g
+   ✅ Method 1 successful: Canthera - €4.78/g
+✅ Updated all price for 'Crumbled Lime #27'
+✅ Successfully updated prices for 'Crumbled Lime #27'
+
+============================================================
+[13/52] Updating: Delahaze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Delahaze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sanvivo Cannabis Apotheke (=Senftenauer)
+   📄 Price text: €7.30 / g
+   💰 Found price: €7.3/g
+   ✅ Method 1 successful: Sanvivo Cannabis Apotheke (=Senftenauer) - €7.3/g
+✅ Updated top price for 'Delahaze'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Delahaze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Preussen Apotheke Spandau
+   📄 Price text: €5.95 / g
+   💰 Found price: €5.95/g
+   ✅ Method 1 successful: Preussen Apotheke Spandau - €5.95/g
+✅ Updated all price for 'Delahaze'
+✅ Successfully updated prices for 'Delahaze'
+
+============================================================
+[14/52] Updating: Diamond Mints
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Diamond Mints' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: KrautKurier (=Linden Apotheke)
+   📄 Price text: €6.88 / g
+   💰 Found price: €6.88/g
+   ✅ Method 1 successful: KrautKurier (=Linden Apotheke) - €6.88/g
+✅ Updated top price for 'Diamond Mints'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Diamond Mints' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannabis Kinzigtal (=Schloss-Apotheke Wolfach)
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: Cannabis Kinzigtal (=Schloss-Apotheke Wolfach) - €5.99/g
+✅ Updated all price for 'Diamond Mints'
+✅ Successfully updated prices for 'Diamond Mints'
+
+============================================================
+[15/52] Updating: Do-Si-Dos
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Do-Si-Dos' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grüne Blüte (=Neue Apotheke Wachau)
+   📄 Price text: €7.99 / g
+   💰 Found price: €7.99/g
+   ✅ Method 1 successful: Grüne Blüte (=Neue Apotheke Wachau) - €7.99/g
+✅ Updated top price for 'Do-Si-Dos'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Do-Si-Dos' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Engel Apotheke am Rathaus
+   📄 Price text: €6.79 / g
+   💰 Found price: €6.79/g
+   ✅ Method 1 successful: Engel Apotheke am Rathaus - €6.79/g
+✅ Updated all price for 'Do-Si-Dos'
+✅ Successfully updated prices for 'Do-Si-Dos'
+
+============================================================
+[16/52] Updating: Facetz
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Facetz' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €6.69 / g
+   💰 Found price: €6.69/g
+   ✅ Method 1 successful: Asavita - €6.69/g
+✅ Updated top price for 'Facetz'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Facetz' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €5.88 / g
+   💰 Found price: €5.88/g
+   ✅ Method 1 successful: svapo.de (=Schloss-Apotheke) - €5.88/g
+✅ Updated all price for 'Facetz'
+✅ Successfully updated prices for 'Facetz'
+
+============================================================
+[17/52] Updating: Farm Gas
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Farm Gas' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sanvivo Cannabis Apotheke (=Senftenauer)
+   📄 Price text: €6.04 / g
+   💰 Found price: €6.04/g
+   ✅ Method 1 successful: Sanvivo Cannabis Apotheke (=Senftenauer) - €6.04/g
+✅ Updated top price for 'Farm Gas'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Farm Gas' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.98 / g
+   💰 Found price: €4.98/g
+   ✅ Method 1 successful: 3Leafs by Idris Apotheke - €4.98/g
+✅ Updated all price for 'Farm Gas'
+✅ Successfully updated prices for 'Farm Gas'
+
+============================================================
+[18/52] Updating: Frozen Lemon Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Frozen Lemon Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: higreen! - Drei Hasen Apotheke
+   📄 Price text: €7.76 / g
+   💰 Found price: €7.76/g
+   ✅ Method 1 successful: higreen! - Drei Hasen Apotheke - €7.76/g
+✅ Updated top price for 'Frozen Lemon Haze'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Frozen Lemon Haze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apotheke in der Römergalerie
+   📄 Price text: €7.29 / g
+   💰 Found price: €7.29/g
+   ✅ Method 1 successful: Apotheke in der Römergalerie - €7.29/g
+✅ Updated all price for 'Frozen Lemon Haze'
+✅ Successfully updated prices for 'Frozen Lemon Haze'
+
+============================================================
+[19/52] Updating: Ghost Train Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Ghost Train Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sanvivo Cannabis Apotheke (=Senftenauer)
+   📄 Price text: €6.75 / g
+   💰 Found price: €6.75/g
+   ✅ Method 1 successful: Sanvivo Cannabis Apotheke (=Senftenauer) - €6.75/g
+✅ Updated top price for 'Ghost Train Haze'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Ghost Train Haze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: SativaMedics (=Rosen-Apotheke)
+   📄 Price text: €3.69 / g
+   💰 Found price: €3.69/g
+   ✅ Method 1 successful: SativaMedics (=Rosen-Apotheke) - €3.69/g
+✅ Updated all price for 'Ghost Train Haze'
+✅ Successfully updated prices for 'Ghost Train Haze'
+
+============================================================
+[20/52] Updating: Gorilla Glue
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Gorilla Glue' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €6.99 / g
+   💰 Found price: €6.99/g
+   ✅ Method 1 successful: Asavita - €6.99/g
+✅ Updated top price for 'Gorilla Glue'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Gorilla Glue' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: 3Leafs by Idris Apotheke - €4.99/g
+✅ Updated all price for 'Gorilla Glue'
+✅ Successfully updated prices for 'Gorilla Glue'
+
+============================================================
+[21/52] Updating: Haymaker Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Haymaker Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apo420
+   📄 Price text: €8.39 / g
+   💰 Found price: €8.39/g
+   ✅ Method 1 successful: Apo420 - €8.39/g
+✅ Updated top price for 'Haymaker Haze'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Haymaker Haze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Malteser Apotheke
+   📄 Price text: €8.38 / g
+   💰 Found price: €8.38/g
+   ✅ Method 1 successful: Malteser Apotheke - €8.38/g
+✅ Updated all price for 'Haymaker Haze'
+✅ Successfully updated prices for 'Haymaker Haze'
+
+============================================================
+[22/52] Updating: Ice Cream Cake
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Ice Cream Cake' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Kronen Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: Kronen Apotheke - MYCANNABIS - €5.99/g
+✅ Updated top price for 'Ice Cream Cake'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Ice Cream Cake' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sabelus XXL Apotheke Wildau
+   📄 Price text: €4.88 / g
+   💰 Found price: €4.88/g
+   ✅ Method 1 successful: Sabelus XXL Apotheke Wildau - €4.88/g
+✅ Updated all price for 'Ice Cream Cake'
+✅ Successfully updated prices for 'Ice Cream Cake'
+
+============================================================
+[23/52] Updating: Island Sweet Skunk
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Island Sweet Skunk' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grafenberger-Apotheke
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: Grafenberger-Apotheke - €4.99/g
+✅ Updated top price for 'Island Sweet Skunk'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Island Sweet Skunk' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apoherbs (=Spitzweg-Apotheke im Martin-Luther-Ärztehaus)
+   📄 Price text: €4.70 / g
+   💰 Found price: €4.7/g
+   ✅ Method 1 successful: Apoherbs (=Spitzweg-Apotheke im Martin-Luther-Ärztehaus) - €4.7/g
+✅ Updated all price for 'Island Sweet Skunk'
+✅ Successfully updated prices for 'Island Sweet Skunk'
+
+============================================================
+[24/52] Updating: Jet Fuel Gelato
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Jet Fuel Gelato' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.75 / g
+   💰 Found price: €4.75/g
+   ✅ Method 1 successful: Asavita - €4.75/g
+✅ Updated top price for 'Jet Fuel Gelato'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Jet Fuel Gelato' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €3.83 / g
+   💰 Found price: €3.83/g
+   ✅ Method 1 successful: 3Leafs by Idris Apotheke - €3.83/g
+✅ Updated all price for 'Jet Fuel Gelato'
+✅ Successfully updated prices for 'Jet Fuel Gelato'
+
+============================================================
+[25/52] Updating: Kush Mintz
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Kush Mintz' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.95 / g
+   💰 Found price: €4.95/g
+   ✅ Method 1 successful: Asavita - €4.95/g
+✅ Updated top price for 'Kush Mintz'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Kush Mintz' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grastheke (= St. Alexius Apotheke)
+   📄 Price text: €3.94 / g
+   💰 Found price: €3.94/g
+   ✅ Method 1 successful: Grastheke (= St. Alexius Apotheke) - €3.94/g
+✅ Updated all price for 'Kush Mintz'
+✅ Successfully updated prices for 'Kush Mintz'
+
+============================================================
+[26/52] Updating: LA Animal
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'LA Animal' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €6.99 / g
+   💰 Found price: €6.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €6.99/g
+✅ Updated top price for 'LA Animal'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'LA Animal' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €6.99 / g
+   💰 Found price: €6.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €6.99/g
+✅ Updated all price for 'LA Animal'
+✅ Successfully updated prices for 'LA Animal'
+
+============================================================
+[27/52] Updating: LA Kush Cake
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'LA Kush Cake' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €6.99 / g
+   💰 Found price: €6.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €6.99/g
+✅ Updated top price for 'LA Kush Cake'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'LA Kush Cake' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannaplus Apotheke (=St. Martins Apotheke)
+   📄 Price text: €6.45 / g
+   💰 Found price: €6.45/g
+   ✅ Method 1 successful: Cannaplus Apotheke (=St. Martins Apotheke) - €6.45/g
+✅ Updated all price for 'LA Kush Cake'
+✅ Successfully updated prices for 'LA Kush Cake'
+
+============================================================
+[28/52] Updating: Lemonade Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Lemonade Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €5.99/g
+✅ Updated top price for 'Lemonade Haze'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Lemonade Haze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Engel Apotheke am Rathaus
+   📄 Price text: €5.95 / g
+   💰 Found price: €5.95/g
+   ✅ Method 1 successful: Engel Apotheke am Rathaus - €5.95/g
+✅ Updated all price for 'Lemonade Haze'
+✅ Successfully updated prices for 'Lemonade Haze'
+
+============================================================
+[29/52] Updating: Liberty Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Liberty Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: higreen! - Drei Hasen Apotheke
+   📄 Price text: €7.24 / g
+   💰 Found price: €7.24/g
+   ✅ Method 1 successful: higreen! - Drei Hasen Apotheke - €7.24/g
+✅ Updated top price for 'Liberty Haze'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Liberty Haze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apotheke in der Römergalerie
+   📄 Price text: €6.59 / g
+   💰 Found price: €6.59/g
+   ✅ Method 1 successful: Apotheke in der Römergalerie - €6.59/g
+✅ Updated all price for 'Liberty Haze'
+✅ Successfully updated prices for 'Liberty Haze'
+
+============================================================
+[30/52] Updating: Mac Doughnut
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Mac Doughnut' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: higreen! - Drei Hasen Apotheke
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: higreen! - Drei Hasen Apotheke - €4.99/g
+✅ Updated top price for 'Mac Doughnut'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Mac Doughnut' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannabisapotheke Süddeutschland
+   📄 Price text: €4.95 / g
+   💰 Found price: €4.95/g
+   ✅ Method 1 successful: Cannabisapotheke Süddeutschland - €4.95/g
+✅ Updated all price for 'Mac Doughnut'
+✅ Successfully updated prices for 'Mac Doughnut'
+
+============================================================
+[31/52] Updating: Master Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Master Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Jiroo (=Fritz Apotheke)
+   📄 Price text: €6.55 / g
+   💰 Found price: €6.55/g
+   ✅ Method 1 successful: Jiroo (=Fritz Apotheke) - €6.55/g
+✅ Updated top price for 'Master Kush'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Master Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €4.92 / g
+   💰 Found price: €4.92/g
+   ✅ Method 1 successful: svapo.de (=Schloss-Apotheke) - €4.92/g
+✅ Updated all price for 'Master Kush'
+✅ Successfully updated prices for 'Master Kush'
+
+============================================================
+[32/52] Updating: OG Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'OG Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: KrautKurier (=Linden Apotheke)
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: KrautKurier (=Linden Apotheke) - €4.99/g
+✅ Updated top price for 'OG Kush'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'OG Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grastheke (= St. Alexius Apotheke)
+   📄 Price text: €4.98 / g
+   💰 Found price: €4.98/g
+   ✅ Method 1 successful: Grastheke (= St. Alexius Apotheke) - €4.98/g
+✅ Updated all price for 'OG Kush'
+✅ Successfully updated prices for 'OG Kush'
+
+============================================================
+[33/52] Updating: OG Lime Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'OG Lime Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.95 / g
+   💰 Found price: €4.95/g
+   ✅ Method 1 successful: Asavita - €4.95/g
+✅ Updated top price for 'OG Lime Kush'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'OG Lime Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.95 / g
+   💰 Found price: €4.95/g
+   ✅ Method 1 successful: Asavita - €4.95/g
+✅ Updated all price for 'OG Lime Kush'
+✅ Successfully updated prices for 'OG Lime Kush'
+
+============================================================
+[34/52] Updating: Ocean Grown Cookies
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Ocean Grown Cookies' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: higreen! - Drei Hasen Apotheke
+   📄 Price text: €9.98 / g
+   💰 Found price: €9.98/g
+   ✅ Method 1 successful: higreen! - Drei Hasen Apotheke - €9.98/g
+✅ Updated top price for 'Ocean Grown Cookies'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Ocean Grown Cookies' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannabis Wittenberg
+   📄 Price text: €8.89 / g
+   💰 Found price: €8.89/g
+   ✅ Method 1 successful: Cannabis Wittenberg - €8.89/g
+✅ Updated all price for 'Ocean Grown Cookies'
+✅ Successfully updated prices for 'Ocean Grown Cookies'
+
+============================================================
+[35/52] Updating: Pineapple Express
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Pineapple Express' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €5.99/g
+✅ Updated top price for 'Pineapple Express'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Pineapple Express' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €5.99/g
+✅ Updated all price for 'Pineapple Express'
+✅ Successfully updated prices for 'Pineapple Express'
+
+============================================================
+[36/52] Updating: Pink Diesel
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Pink Diesel' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: higreen! - Drei Hasen Apotheke
+   📄 Price text: €7.80 / g
+   💰 Found price: €7.8/g
+   ✅ Method 1 successful: higreen! - Drei Hasen Apotheke - €7.8/g
+✅ Updated top price for 'Pink Diesel'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Pink Diesel' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Paracelsus Apotheke
+   📄 Price text: €6.89 / g
+   💰 Found price: €6.89/g
+   ✅ Method 1 successful: Paracelsus Apotheke - €6.89/g
+✅ Updated all price for 'Pink Diesel'
+✅ Successfully updated prices for 'Pink Diesel'
+
+============================================================
+[37/52] Updating: Pink Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Pink Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannovia (= Erlich Apotheke)
+   📄 Price text: €4.89 / g
+   💰 Found price: €4.89/g
+   ✅ Method 1 successful: Cannovia (= Erlich Apotheke) - €4.89/g
+✅ Updated top price for 'Pink Kush'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Pink Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: SativaMedics (=Rosen-Apotheke)
+   📄 Price text: €3.20 / g
+   💰 Found price: €3.2/g
+   ✅ Method 1 successful: SativaMedics (=Rosen-Apotheke) - €3.2/g
+✅ Updated all price for 'Pink Kush'
+✅ Successfully updated prices for 'Pink Kush'
+
+============================================================
+[38/52] Updating: Platinum Girl Scout Cookies
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Platinum Girl Scout Cookies' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grafenberger-Apotheke
+   📄 Price text: €7.95 / g
+   💰 Found price: €7.95/g
+   ✅ Method 1 successful: Grafenberger-Apotheke - €7.95/g
+✅ Updated top price for 'Platinum Girl Scout Cookies'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Platinum Girl Scout Cookies' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grafenberger-Apotheke
+   📄 Price text: €7.95 / g
+   💰 Found price: €7.95/g
+   ✅ Method 1 successful: Grafenberger-Apotheke - €7.95/g
+✅ Updated all price for 'Platinum Girl Scout Cookies'
+✅ Successfully updated prices for 'Platinum Girl Scout Cookies'
+
+============================================================
+[39/52] Updating: Polar Cookies
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Polar Cookies' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sanvivo Cannabis Apotheke (=Senftenauer)
+   📄 Price text: €7.67 / g
+   💰 Found price: €7.67/g
+   ✅ Method 1 successful: Sanvivo Cannabis Apotheke (=Senftenauer) - €7.67/g
+✅ Updated top price for 'Polar Cookies'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Polar Cookies' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grastheke (= St. Alexius Apotheke)
+   📄 Price text: €7.36 / g
+   💰 Found price: €7.36/g
+   ✅ Method 1 successful: Grastheke (= St. Alexius Apotheke) - €7.36/g
+✅ Updated all price for 'Polar Cookies'
+✅ Successfully updated prices for 'Polar Cookies'
+
+============================================================
+[40/52] Updating: Sky Berry Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Sky Berry Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grüne Blüte (=Neue Apotheke Wachau)
+   📄 Price text: €5.45 / g
+   💰 Found price: €5.45/g
+   ✅ Method 1 successful: Grüne Blüte (=Neue Apotheke Wachau) - €5.45/g
+✅ Updated top price for 'Sky Berry Kush'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Sky Berry Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannalivery
+   📄 Price text: €4.65 / g
+   💰 Found price: €4.65/g
+   ✅ Method 1 successful: Cannalivery - €4.65/g
+✅ Updated all price for 'Sky Berry Kush'
+✅ Successfully updated prices for 'Sky Berry Kush'
+
+============================================================
+[41/52] Updating: Sour Cherry Punch
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Sour Cherry Punch' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grüne Blüte (=Neue Apotheke Wachau)
+   📄 Price text: €7.69 / g
+   💰 Found price: €7.69/g
+   ✅ Method 1 successful: Grüne Blüte (=Neue Apotheke Wachau) - €7.69/g
+✅ Updated top price for 'Sour Cherry Punch'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Sour Cherry Punch' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €6.90 / g
+   💰 Found price: €6.9/g
+   ✅ Method 1 successful: svapo.de (=Schloss-Apotheke) - €6.9/g
+✅ Updated all price for 'Sour Cherry Punch'
+✅ Successfully updated prices for 'Sour Cherry Punch'
+
+============================================================
+[42/52] Updating: Sour Sundae
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Sour Sundae' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: KrautKurier (=Linden Apotheke)
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: KrautKurier (=Linden Apotheke) - €4.99/g
+✅ Updated top price for 'Sour Sundae'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Sour Sundae' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: KrautKurier (=Linden Apotheke)
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: KrautKurier (=Linden Apotheke) - €4.99/g
+✅ Updated all price for 'Sour Sundae'
+✅ Successfully updated prices for 'Sour Sundae'
+
+============================================================
+[43/52] Updating: Sourdough
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Sourdough' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sanvivo Cannabis Apotheke (=Senftenauer)
+   📄 Price text: €6.77 / g
+   💰 Found price: €6.77/g
+   ✅ Method 1 successful: Sanvivo Cannabis Apotheke (=Senftenauer) - €6.77/g
+✅ Updated top price for 'Sourdough'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Sourdough' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Paracelsus Apotheke
+   📄 Price text: €5.69 / g
+   💰 Found price: €5.69/g
+   ✅ Method 1 successful: Paracelsus Apotheke - €5.69/g
+✅ Updated all price for 'Sourdough'
+✅ Successfully updated prices for 'Sourdough'
+
+============================================================
+[44/52] Updating: Sunset Serenity
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Sunset Serenity' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: KrautKurier (=Linden Apotheke)
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: KrautKurier (=Linden Apotheke) - €4.99/g
+✅ Updated top price for 'Sunset Serenity'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Sunset Serenity' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: KrautKurier (=Linden Apotheke)
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: KrautKurier (=Linden Apotheke) - €4.99/g
+✅ Updated all price for 'Sunset Serenity'
+✅ Successfully updated prices for 'Sunset Serenity'
+
+============================================================
+[45/52] Updating: Sweets (Guava Gelato x Karma Sour Diesel BX2)
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Sweets (Guava Gelato x Karma Sour Diesel BX2)' (top)
+   ❌ Error scraping price: Page.goto: net::ERR_NETWORK_IO_SUSPENDED at https://shop.dransay.com/products?vendorId=top&deliveryMethod=shipping&filters=%7B%22topProducersLowPrice%22:false%7D&search=Sweets%20(Guava%20Gelato%20x%20Karma%20Sour%20Diesel%20BX2)
+Call log:
+  - navigating to "https://shop.dransay.com/products?vendorId=top&deliveryMethod=shipping&filters=%7B%22topProducersLowPrice%22:false%7D&search=Sweets%20(Guava%20Gelato%20x%20Karma%20Sour%20Diesel%20BX2)", waiting until "networkidle"
+
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Sweets (Guava Gelato x Karma Sour Diesel BX2)' (all)
+   ❌ Error scraping price: Page.goto: Navigation to "https://shop.dransay.com/products?vendorId=all&deliveryMethod=shipping&filters=%7B%22topProducersLowPrice%22:false%7D&search=Sweets%20(Guava%20Gelato%20x%20Karma%20Sour%20Diesel%20BX2)" is interrupted by another navigation to "chrome-error://chromewebdata/"
+Call log:
+  - navigating to "https://shop.dransay.com/products?vendorId=all&deliveryMethod=shipping&filters=%7B%22topProducersLowPrice%22:false%7D&search=Sweets%20(Guava%20Gelato%20x%20Karma%20Sour%20Diesel%20BX2)", waiting until "networkidle"
+
+❌ Failed to update prices for 'Sweets (Guava Gelato x Karma Sour Diesel BX2)'
+
+============================================================
+[46/52] Updating: Tropic Boom Popstars
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Tropic Boom Popstars' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Kronen Apotheke - MYCANNABIS
+   📄 Price text: €5.30 / g
+   💰 Found price: €5.3/g
+   ✅ Method 1 successful: Kronen Apotheke - MYCANNABIS - €5.3/g
+✅ Updated top price for 'Tropic Boom Popstars'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Tropic Boom Popstars' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Kronen Apotheke - MYCANNABIS
+   📄 Price text: €5.30 / g
+   💰 Found price: €5.3/g
+   ✅ Method 1 successful: Kronen Apotheke - MYCANNABIS - €5.3/g
+✅ Updated all price for 'Tropic Boom Popstars'
+✅ Successfully updated prices for 'Tropic Boom Popstars'
+
+============================================================
+[47/52] Updating: Tropic Thunder
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Tropic Thunder' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: Asavita - €4.99/g
+✅ Updated top price for 'Tropic Thunder'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Tropic Thunder' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: Asavita - €4.99/g
+✅ Updated all price for 'Tropic Thunder'
+✅ Successfully updated prices for 'Tropic Thunder'
+
+============================================================
+[48/52] Updating: Tubitti Frubitti
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Tubitti Frubitti' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €8.49 / g
+   💰 Found price: €8.49/g
+   ✅ Method 1 successful: Asavita - €8.49/g
+✅ Updated top price for 'Tubitti Frubitti'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Tubitti Frubitti' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €8.49 / g
+   💰 Found price: €8.49/g
+   ✅ Method 1 successful: Asavita - €8.49/g
+✅ Updated all price for 'Tubitti Frubitti'
+✅ Successfully updated prices for 'Tubitti Frubitti'
+
+============================================================
+[49/52] Updating: Ultra Dosed Candy
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Ultra Dosed Candy' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €5.99/g
+✅ Updated top price for 'Ultra Dosed Candy'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Ultra Dosed Candy' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €5.99/g
+✅ Updated all price for 'Ultra Dosed Candy'
+✅ Successfully updated prices for 'Ultra Dosed Candy'
+
+============================================================
+[50/52] Updating: Waffle Bites
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Waffle Bites' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €5.99 / g
+   💰 Found price: €5.99/g
+   ✅ Method 1 successful: Asavita - €5.99/g
+✅ Updated top price for 'Waffle Bites'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Waffle Bites' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €5.98 / g
+   💰 Found price: €5.98/g
+   ✅ Method 1 successful: svapo.de (=Schloss-Apotheke) - €5.98/g
+✅ Updated all price for 'Waffle Bites'
+✅ Successfully updated prices for 'Waffle Bites'
+
+============================================================
+[51/52] Updating: Wedding Cake
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Wedding Cake' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Jiroo (=Fritz Apotheke)
+   📄 Price text: €4.99 / g
+   💰 Found price: €4.99/g
+   ✅ Method 1 successful: Jiroo (=Fritz Apotheke) - €4.99/g
+✅ Updated top price for 'Wedding Cake'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Wedding Cake' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.46 / g
+   💰 Found price: €4.46/g
+   ✅ Method 1 successful: 3Leafs by Idris Apotheke - €4.46/g
+✅ Updated all price for 'Wedding Cake'
+✅ Successfully updated prices for 'Wedding Cake'
+
+============================================================
+[52/52] Updating: White Widow
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'White Widow' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.49 / g
+   💰 Found price: €5.49/g
+   ✅ Method 1 successful: 360Grad-Apotheke - MYCANNABIS - €5.49/g
+✅ Updated top price for 'White Widow'
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'White Widow' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: B.Leaf (=Cornelia Apotheke)
+   📄 Price text: €4.05 / g
+   💰 Found price: €4.05/g
+   ✅ Method 1 successful: B.Leaf (=Cornelia Apotheke) - €4.05/g
+✅ Updated all price for 'White Widow'
+✅ Successfully updated prices for 'White Widow'
+
+============================================================
+📊 UPDATE SUMMARY
+============================================================
+✅ Successful: 51/52
+❌ Failed: 1/52
+
+❌ Failed products:
+   - Sweets (Guava Gelato x Karma Sour Diesel BX2)
+
+✨ Update complete!

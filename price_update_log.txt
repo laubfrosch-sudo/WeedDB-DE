@@ -1,0 +1,841 @@
+📊 WeedDB Price Update Script
+============================================================
+
+📦 Found 52 products in database
+⏱️  Estimated time: ~780 seconds (13.0 minutes)
+
+🚀 Starting price update...
+
+============================================================
+[1/52] Updating: Alexander The Great
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Alexander The Great' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apo420
+   📄 Price text: €7.85 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Alexander The Great' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apo420
+   📄 Price text: €7.85 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Alexander The Great'
+
+============================================================
+[2/52] Updating: Amnesia Haze Cake
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Amnesia Haze Cake' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €10.95 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Amnesia Haze Cake' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Preussen Apotheke Spandau
+   📄 Price text: €9.45 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Amnesia Haze Cake'
+
+============================================================
+[3/52] Updating: Big Purple Dragon
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Big Purple Dragon' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.79 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Big Purple Dragon' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.59 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Big Purple Dragon'
+
+============================================================
+[4/52] Updating: Black Cherry Punch
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Black Cherry Punch' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €4.65 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Black Cherry Punch' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.13 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Black Cherry Punch'
+
+============================================================
+[5/52] Updating: Blue Dream
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Blue Dream' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Blue Dream' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apotheke in der Römergalerie
+   📄 Price text: €5.39 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Blue Dream'
+
+============================================================
+[6/52] Updating: Blue Z
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Blue Z' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: higreen! - Drei Hasen Apotheke
+   📄 Price text: €7.08 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Blue Z' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €7.07 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Blue Z'
+
+============================================================
+[7/52] Updating: Blueberry Cookies
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Blueberry Cookies' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grafenberger-Apotheke
+   📄 Price text: €7.38 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Blueberry Cookies' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannaplus Apotheke (=St. Martins Apotheke)
+   📄 Price text: €5.75 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 14 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Blueberry Cookies'
+
+============================================================
+[8/52] Updating: Cheddar Cheese
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Cheddar Cheese' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannovia (= Erlich Apotheke)
+   📄 Price text: €7.12 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Cheddar Cheese' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €6.52 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Cheddar Cheese'
+
+============================================================
+[9/52] Updating: Chemango Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Chemango Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Jiroo (=Fritz Apotheke)
+   📄 Price text: €7.20 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Chemango Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apotheke in der Römergalerie
+   📄 Price text: €6.83 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Chemango Kush'
+
+============================================================
+[10/52] Updating: Cinderella Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Cinderella Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.95 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Cinderella Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €4.17 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Cinderella Kush'
+
+============================================================
+[11/52] Updating: Critical Kush
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Critical Kush' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €5.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Critical Kush' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €5.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Critical Kush'
+
+============================================================
+[12/52] Updating: Crumbled Lime #27
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Crumbled Lime #27' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Kronen Apotheke - MYCANNABIS
+   📄 Price text: €4.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Crumbled Lime #27' (all)
+   ❌ No products found
+❌ Failed to update prices for 'Crumbled Lime #27'
+
+============================================================
+[13/52] Updating: Delahaze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Delahaze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sanvivo Cannabis Apotheke (=Senftenauer)
+   📄 Price text: €7.30 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Delahaze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Preussen Apotheke Spandau
+   📄 Price text: €5.95 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Delahaze'
+
+============================================================
+[14/52] Updating: Diamond Mints
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Diamond Mints' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: KrautKurier (=Linden Apotheke)
+   📄 Price text: €6.88 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Diamond Mints' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannabis Kinzigtal (=Schloss-Apotheke Wolfach)
+   📄 Price text: €5.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Diamond Mints'
+
+============================================================
+[15/52] Updating: Do-Si-Dos
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Do-Si-Dos' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grüne Blüte (=Neue Apotheke Wachau)
+   📄 Price text: €7.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Do-Si-Dos' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Engel Apotheke am Rathaus
+   📄 Price text: €6.79 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Do-Si-Dos'
+
+============================================================
+[16/52] Updating: Facetz
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Facetz' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €6.69 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Facetz' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: svapo.de (=Schloss-Apotheke)
+   📄 Price text: €5.88 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Facetz'
+
+============================================================
+[17/52] Updating: Farm Gas
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Farm Gas' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sanvivo Cannabis Apotheke (=Senftenauer)
+   📄 Price text: €6.04 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Farm Gas' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.98 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Farm Gas'
+
+============================================================
+[18/52] Updating: Frozen Lemon Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Frozen Lemon Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: higreen! - Drei Hasen Apotheke
+   📄 Price text: €7.76 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Frozen Lemon Haze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apotheke in der Römergalerie
+   📄 Price text: €7.29 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Frozen Lemon Haze'
+
+============================================================
+[19/52] Updating: Ghost Train Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Ghost Train Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sanvivo Cannabis Apotheke (=Senftenauer)
+   📄 Price text: €6.75 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Ghost Train Haze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: SativaMedics (=Rosen-Apotheke)
+   📄 Price text: €3.69 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 14 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Ghost Train Haze'
+
+============================================================
+[20/52] Updating: Gorilla Glue
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Gorilla Glue' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €6.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Gorilla Glue' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €4.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Gorilla Glue'
+
+============================================================
+[21/52] Updating: Haymaker Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Haymaker Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apo420
+   📄 Price text: €8.39 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Haymaker Haze' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Malteser Apotheke
+   📄 Price text: €8.38 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Haymaker Haze'
+
+============================================================
+[22/52] Updating: Ice Cream Cake
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Ice Cream Cake' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Kronen Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Ice Cream Cake' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Sabelus XXL Apotheke Wildau
+   📄 Price text: €4.88 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Ice Cream Cake'
+
+============================================================
+[23/52] Updating: Island Sweet Skunk
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Island Sweet Skunk' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grafenberger-Apotheke
+   📄 Price text: €4.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Island Sweet Skunk' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Apoherbs (=Spitzweg-Apotheke im Martin-Luther-Ärztehaus)
+   📄 Price text: €4.70 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Island Sweet Skunk'
+
+============================================================
+[24/52] Updating: Jet Fuel Gelato
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Jet Fuel Gelato' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.75 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Jet Fuel Gelato' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 3Leafs by Idris Apotheke
+   📄 Price text: €3.83 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Jet Fuel Gelato'
+
+============================================================
+[25/52] Updating: Kush Mintz
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Kush Mintz' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Asavita
+   📄 Price text: €4.95 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'Kush Mintz' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Grastheke (= St. Alexius Apotheke)
+   📄 Price text: €3.94 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'Kush Mintz'
+
+============================================================
+[26/52] Updating: LA Animal
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'LA Animal' (top)
+   ❌ No products found
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'LA Animal' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €6.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'LA Animal'
+
+============================================================
+[27/52] Updating: LA Kush Cake
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'LA Kush Cake' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €6.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+
+=== Updating All Pharmacies ===
+   🔍 Searching for 'LA Kush Cake' (all)
+   ✅ Found product
+   🌐 Loading product page (all)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: Cannaplus Apotheke (=St. Martins Apotheke)
+   📄 Price text: €6.45 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...
+   Found 13 elements with €/g pattern
+   ⚠ Could not extract pharmacy/price
+❌ Failed to update prices for 'LA Kush Cake'
+
+============================================================
+[28/52] Updating: Lemonade Haze
+============================================================
+
+=== Updating Top Pharmacies ===
+   🔍 Searching for 'Lemonade Haze' (top)
+   ✅ Found product
+   🌐 Loading product page (top)
+   🔍 Starting pharmacy/price extraction (improved)...
+   📍 Method 1: Using data-testid attributes...
+   🏥 Found pharmacy: 360Grad-Apotheke - MYCANNABIS
+   📄 Price text: €5.99 / g
+   📍 Method 2: Searching button elements...
+   📍 Method 3: Searching all elements with €/g...

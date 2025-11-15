@@ -1,0 +1,24 @@
+{
+  "total_products": 2,
+  "successful": 1,
+  "failed": 1,
+  "total_duration": 40.699997901916504,
+  "concurrency": 2,
+  "timestamp": "2025-11-15T13:57:20.099410",
+  "results": [
+    {
+      "name": "-e OG Lime Kush",
+      "success": false,
+      "duration": 5.3896849155426025,
+      "error_message": null,
+      "product_id": null
+    },
+    {
+      "name": "Ultra Dosed Candy",
+      "success": true,
+      "duration": 40.686326026916504,
+      "error_message": null,
+      "product_id": 3429693
+    }
+  ]
+}

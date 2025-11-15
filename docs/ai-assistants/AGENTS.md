@@ -8,13 +8,74 @@ description: Universal guidelines for all AI assistants working with WeedDB
 related_docs: [CLAUDE.md, GEMINI.md, KI_LÖSUNGSANSATZ.md]
 ---
 
-# AGENTS.md
+# AGENTS.md - WeedDB Development Guidelines
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
 
 **IMPORTANT FOR AI ASSISTANTS:** When editing this file (AGENTS.md), always synchronize the corresponding instructions in GEMINI.md and CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 
 **🚨 RELEASE CHECKLIST:** Before any git push or release, ALWAYS consult and complete `RELEASE_CHECKLIST.md`. This ensures code quality, security, and anonymity standards are maintained.
+
+## 🔧 Development Commands
+
+### Build & Lint
+```bash
+# Type checking (strict mode)
+python3 -m mypy scripts/*.py --ignore-missing-imports
+
+# Syntax validation
+python3 -m py_compile scripts/*.py
+
+# Import validation
+python3 -c "import scripts.add_product; import scripts.logger"
+```
+
+### Testing
+```bash
+# Run specific script test
+python3 scripts/add_product.py "Test Product"  # Integration test
+
+# Test parallel processing
+python3 scripts/add_products_parallel.py test_batch.txt --concurrency 2 --yes
+
+# Validate database integrity
+sqlite3 data/WeedDB.db "PRAGMA integrity_check;"
+
+# Test cache functionality
+python3 -c "import asyncio; from scripts.cache_manager import get_cache_manager; print(asyncio.run(get_cache_manager().get_stats()))"
+```
+
+## 📋 Code Style Guidelines
+
+### Imports & Structure
+- **Absolute imports only**: `from scripts.logger import get_logger`
+- **Group imports**: Standard library, third-party, local modules
+- **No wildcard imports**: Explicit imports preferred
+- **Type hints required**: All functions/methods must have type annotations
+
+### Naming Conventions
+- **Functions**: `snake_case` (e.g., `process_batch_data()`)
+- **Classes**: `PascalCase` (e.g., `BatchProcessor`)
+- **Constants**: `UPPER_SNAKE_CASE` (e.g., `DEFAULT_TIMEOUT`)
+- **Variables**: `snake_case` (e.g., `product_data`)
+
+### Error Handling
+- **Try-except blocks**: Always catch specific exceptions
+- **Logging**: Use structured logging with context
+- **Graceful degradation**: Continue operation when possible
+- **No bare except**: Always specify exception types
+
+### Formatting & Types
+- **Line length**: Max 100 characters
+- **Docstrings**: Google-style for all public functions
+- **Type hints**: Strict typing with `mypy --strict` compatibility
+- **Async/await**: Use asyncio for I/O operations
+
+### Database & Security
+- **Parameterized queries**: Never use string formatting for SQL
+- **Input validation**: Validate all user inputs
+- **No secrets**: Never hardcode credentials or API keys
+- **Anonymity**: No personal data in code or commits
 
 
 
@@ -245,14 +306,41 @@ All Python code uses **strict type annotations**:
 
 ## Common Tasks
 
+**⚠️ WICHTIG:** Bevor neue Sorten von shop.dransay.com gescraped werden, MUSS die Datenbank überprüft werden um zu vermeiden, dass bereits vorhandene Produkte doppelt hinzugefügt werden!
+
+```bash
+# Überprüfe vorhandene Produkte
+sqlite3 data/WeedDB.db "SELECT name FROM products ORDER BY name;"
+
+# Oder zähle Produkte
+sqlite3 data/WeedDB.db "SELECT COUNT(*) FROM products;"
+```
+
 ### Add New Product
 ```bash
-python3 add_product.py 'product_name'
+python3 scripts/add_product.py 'product_name'
+```
+
+### Parallel Batch Add Products (⚡ NEU - 3x schneller!)
+```bash
+# Parallele Verarbeitung mit konfigurierbarer Concurrency
+python3 scripts/add_products_parallel.py products.txt --concurrency 5 --yes
+
+# Optionen:
+# --concurrency N    : Max parallele Verbindungen (default: 3)
+# --timeout N        : Timeout pro Produkt in Sekunden (default: 120)
+# --yes              : Bestätigung überspringen
+# --output FILE      : Detaillierten Report speichern
+```
+
+### Sequential Batch Add Products (Legacy)
+```bash
+python3 scripts/add_products_batch.py example_products.txt
 ```
 
 ### Update All Products
 ```bash
-python3 update_prices.py
+python3 scripts/update_prices.py
 ```
 
 **New Option:**
@@ -260,12 +348,45 @@ python3 update_prices.py
 
 ### Generate Overview
 ```bash
-python3 generate_overview.py
+python3 scripts/generate_overview.py
 ```
 
-### Batch Add Products
+### Find New Products (⚡ NEU)
 ```bash
-python3 add_products_batch.py example_products.txt
+# Finde Produkte auf shop.dransay.com die noch nicht in DB sind
+python3 scripts/find_new_products.py
+
+# Mit Filtern:
+python3 scripts/find_new_products.py --vendorId top --search "Haze"
+```
+
+### Automated Scheduling (⚡ NEU)
+```bash
+# Cron-Scripts erstellen
+python3 scripts/scheduler.py --create-cron-scripts
+
+# Manuelle Tasks:
+python3 scripts/scheduler.py daily_update      # Tägliche Preis-Updates
+python3 scripts/scheduler.py weekly_overview   # Wöchentliche Übersicht
+python3 scripts/scheduler.py monthly_cleanup   # Monatliche Wartung
+```
+
+### Cache Management (⚡ NEU)
+```bash
+# Cache-Statistiken anzeigen
+python3 -c "import asyncio; from scripts.cache_manager import get_cache_manager; cache = get_cache_manager(); stats = asyncio.run(cache.get_stats()); print(f'Entries: {stats[\"total_entries\"]}, Expired: {stats[\"expired_entries\"]}')"
+
+# Cache leeren
+python3 -c "import asyncio; from scripts.cache_manager import get_cache_manager; cache = get_cache_manager(); asyncio.run(cache.clear_expired())"
+```
+
+### Logging & Monitoring (⚡ NEU)
+```bash
+# Performance-Statistiken anzeigen
+python3 -c "from scripts.logger import get_performance_stats; stats = get_performance_stats('add_product', hours=24); print(f'Avg duration: {stats[\"avg_duration_ms\"]:.1f}ms, Success rate: {(stats[\"successful_operations\"]/max(1,stats[\"total_operations\"]))*100:.1f}%')"
+
+# Logs verfolgen
+tail -f data/logs/add_product.log
 ```
 
 ## Database Queries

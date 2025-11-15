@@ -188,7 +188,15 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
     print(f"   🌐 Loading product page ({vendor_id})")
     
     await page.goto(full_product_url, wait_until='networkidle', timeout=30000)
-    await page.wait_for_timeout(2000)
+
+    # Wait for dynamic content to load - look for price elements or buying section
+    try:
+        await page.wait_for_selector('text=/€.*\\/.*g/', timeout=10000)
+        print(f"   ⏳ Price elements found, waiting for full load...")
+        await page.wait_for_timeout(3000)  # Additional wait for dynamic content
+    except:
+        print(f"   ⚠ No price elements found within timeout, proceeding anyway")
+        await page.wait_for_timeout(5000)  # Longer wait as fallback
 
     # Step 3: Extract product details and cheapest pharmacy
     product_details: Dict[str, Any] = {}
@@ -386,111 +394,118 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
         # Set defaults for stock (not available on dransay.com)
         product_details['stock_level'] = None
 
-        # Find pharmacy name and price with better selectors
+        # Find pharmacy name and price using improved methods
         pharmacy_name = None
         price_per_g = None
 
-        print(f"   🔍 Starting pharmacy/price extraction...")
+        print(f"   🔍 Starting pharmacy/price extraction (improved)...")
         try:
-            # Method 0: Try "Buying from" section first (most reliable)
-            print(f"   🔍 Method 0: Trying 'Buying from' section...")
+            # Method 1: Use data-testid attributes (most reliable)
+            print(f"   📍 Method 1: Using data-testid attributes...")
             try:
-                # Get the full page text and look for the buying information
-                body_text = await page.locator('body').inner_text()
-
-                # Look for various buying patterns
-                buying_patterns = [
-                    r'Buying from\s*([^\n]*Apotheke[^\n]*?)\s*€(\d+\.\d+)\s*/\s*g',
-                    r'([^\n]*Apotheke[^\n]*?)\s*€(\d+\.\d+)\s*/\s*g',
-                    r'€(\d+\.\d+)\s*/\s*g\s*([^\n]*Apotheke[^\n]*)'
-                ]
-
-                buying_match = None
-                for pattern in buying_patterns:
-                    buying_match = re.search(pattern, body_text, re.IGNORECASE)
-                    if buying_match:
-                        break
-
-                if buying_match:
-                    # Handle different pattern group orders
-                    if len(buying_match.groups()) == 2:
-                        if 'Apotheke' in buying_match.group(1):
-                            pharmacy_name = buying_match.group(1).strip()
-                            price_per_g = float(buying_match.group(2))
-                        else:
-                            pharmacy_name = buying_match.group(2).strip()
-                            price_per_g = float(buying_match.group(1))
-                    print(f"   ✅ Method 0 successful: {pharmacy_name} - €{price_per_g}/g")
-                    product_details['cheapest_pharmacy_name'] = pharmacy_name
-                    product_details['cheapest_price_per_g'] = price_per_g
-                else:
-                    print(f"   ⚠ Method 0: Could not find buying pattern in page text")
-    
-
+                # Get pharmacy name
+                pharmacy_elem = page.locator('[data-testid="vendor-selection-trigger-text"]').first
+                pharmacy_name = await pharmacy_elem.inner_text()
+                print(f"   🏥 Found pharmacy: {pharmacy_name}")
             except Exception as e:
-                print(f"   ⚠ Method 0 failed: {e}")
+                print(f"   ⚠ Could not find pharmacy via testid: {e}")
 
-            # Method 1: Look for price elements with €/g pattern and find the cheapest
-            price_elements = await page.locator(r'text=/€\s*\d+\.\d+\s*\/\s*g/').all()
-            print(f"   🔍 Method 1: Found {len(price_elements)} price elements")
+            try:
+                # Get price - note: German decimal uses comma!
+                price_elem = page.locator('[data-testid="product-price"]').first
+                price_text = await price_elem.inner_text()
+                print(f"   📄 Price text: {price_text}")
 
-            # Collect all prices and find the cheapest
-            found_prices = []
-            for price_elem in price_elements:
-                try:
-                    price_text = await price_elem.inner_text()
-                    price_match = re.search(r'€\s*(\d+\.\d+)\s*/\s*g', price_text)
-                    if price_match:
-                        current_price = float(price_match.group(1))
-                        print(f"   💰 Found price: €{current_price}/g")
-                        found_prices.append(current_price)
-                except:
-                    continue
+                # Extract price - € comes BEFORE the number, handle comma and dot
+                price_match = re.search(r'€\s*(\d+[.,]\d+)\s*/\s*g', price_text)
+                if price_match:
+                    price_str = price_match.group(1).replace(',', '.')  # Convert German comma to dot
+                    price_per_g = float(price_str)
+                    print(f"   💰 Found price: €{price_per_g}/g")
+            except Exception as e:
+                print(f"   ⚠ Could not find price via testid: {e}")
 
-            # Find the cheapest price
-            if found_prices:
-                price_per_g = min(found_prices)
-                print(f"   🏆 Cheapest price found: €{price_per_g}/g")
-
-                # Try to find pharmacy name for the cheapest price
-                # Look for pharmacy elements near price elements
-                apotheke_elements = await page.locator('text=/Apotheke/').all()
-                for apo_elem in apotheke_elements:
-                    try:
-                        apo_text = await apo_elem.inner_text()
-                        if 'Apotheke' in apo_text and len(apo_text.strip()) > 8:
-                            pharmacy_name = apo_text.strip()
-                            print(f"   🏥 Found pharmacy: {pharmacy_name}")
-                            break
-                    except:
-                        continue
-
-            # Method 2: If no price found, try different approach
-            if not price_per_g:
-                print(f"   🔍 Method 2: Trying alternative price extraction...")
-                body_text = await page.locator('body').inner_text()
-
-                # Find all price patterns and collect them
-                price_matches = re.finditer(r'€\s*(\d+\.\d+)\s*/\s*g', body_text)
-                found_prices_method2 = []
-                for match in price_matches:
-                    current_price = float(match.group(1))
-                    found_prices_method2.append(current_price)
-                    print(f"   💰 Found price via text search: €{current_price}/g")
-
-                if found_prices_method2:
-                    price_per_g = min(found_prices_method2)
-                    print(f"   🏆 Cheapest price found via text search: €{price_per_g}/g")
-
-                    # Look for Apotheke in the text
-                    pharmacy_match = re.search(r'([^\n]*Apotheke[^\n]*)', body_text)
-                    if pharmacy_match:
-                        pharmacy_name = pharmacy_match.group(1).strip()
-                        print(f"   🏥 Found pharmacy in text: {pharmacy_name}")
+            # If Method 1 succeeded, use result
+            if pharmacy_name and price_per_g:
+                print(f"   ✅ Method 1 successful: {pharmacy_name} - €{price_per_g}/g")
+                product_details['cheapest_pharmacy_name'] = pharmacy_name
+                product_details['cheapest_price_per_g'] = price_per_g
 
         except Exception as e:
-            print(f"   ⚠ Error during pharmacy/price extraction: {e}")
+            print(f"   ⚠ Method 1 failed: {e}")
 
+        # Method 2: Fallback - search for button elements with pharmacy and price
+        if not (pharmacy_name and price_per_g):
+            print(f"   📍 Method 2: Searching button elements...")
+            try:
+                buttons = await page.locator('button').all()
+                for btn in buttons:
+                    text = await btn.inner_text()
+
+                    # Look for pharmacy in button
+                    if 'Apotheke' in text and not pharmacy_name:
+                        lines = text.split('\n')
+                        for line in lines:
+                            if 'Apotheke' in line:
+                                pharmacy_name = line.strip()
+                                print(f"   🏥 Found pharmacy in button: {pharmacy_name}")
+                                break
+
+                    # Look for price in button (handle German comma, € before number)
+                    if '€' in text and '/g' in text.lower() and not price_per_g:
+                        price_match = re.search(r'€\s*(\d+[.,]\d+)\s*/\s*g', text)
+                        if price_match:
+                            price_str = price_match.group(1).replace(',', '.')
+                            price_per_g = float(price_str)
+                            print(f"   💰 Found price in button: €{price_per_g}/g")
+
+                    if pharmacy_name and price_per_g:
+                        break
+
+                if pharmacy_name and price_per_g:
+                    print(f"   ✅ Method 2 successful: {pharmacy_name} - €{price_per_g}/g")
+                    product_details['cheapest_pharmacy_name'] = pharmacy_name
+                    product_details['cheapest_price_per_g'] = price_per_g
+            except Exception as e:
+                print(f"   ⚠ Method 2 failed: {e}")
+
+        # Method 3: Fallback - search all elements with €/g pattern
+        if not (pharmacy_name and price_per_g):
+            print(f"   📍 Method 3: Searching all elements with €/g...")
+            try:
+                # Search for €/g pattern (handle German comma)
+                price_elements = await page.locator('text=/€.*\\/.*g/').all()
+                print(f"   Found {len(price_elements)} elements with €/g pattern")
+
+                if price_elements:
+                    # Get first price element
+                    first_price_elem = price_elements[0]
+                    price_text = await first_price_elem.inner_text()
+
+                    price_match = re.search(r'€\s*(\d+[.,]\d+)\s*/\s*g', price_text)
+                    if price_match:
+                        price_str = price_match.group(1).replace(',', '.')
+                        price_per_g = float(price_str)
+                        print(f"   💰 Found price: €{price_per_g}/g")
+
+                # Look for pharmacy name separately
+                if not pharmacy_name:
+                    apotheke_elements = await page.locator('text=/Apotheke/').all()
+                    for elem in apotheke_elements:
+                        text = await elem.inner_text()
+                        if 'Apotheke' in text and 8 < len(text.strip()) < 100:
+                            pharmacy_name = text.strip()
+                            print(f"   🏥 Found pharmacy: {pharmacy_name}")
+                            break
+
+                if pharmacy_name and price_per_g:
+                    print(f"   ✅ Method 3 successful: {pharmacy_name} - €{price_per_g}/g")
+                    product_details['cheapest_pharmacy_name'] = pharmacy_name
+                    product_details['cheapest_price_per_g'] = price_per_g
+            except Exception as e:
+                print(f"   ⚠ Method 3 failed: {e}")
+
+        # Set final values
         product_details['cheapest_pharmacy_name'] = pharmacy_name
         product_details['cheapest_price_per_g'] = price_per_g
 
@@ -501,72 +516,11 @@ async def _scrape_cheapest_price_from_search_page(page: Page, product_name: str,
 
     except Exception as e:
         print(f"   ⚠ Error extracting details: {e}")
-        product_details['cheapest_pharmacy_name'] = None
-        product_details['cheapest_price_per_g'] = None
-
-        # Extract pharmacy name and price - improved method
-        pharmacy_name = None
-        price_per_g = None
-
-        print(f"   🔍 Extracting pharmacy and price...")
-        try:
-            # Look for "Buying from" section which contains pharmacy and price
-            buying_from_text = await page.locator('text=/Buying from/').inner_text()
-            print(f"   📄 Found buying section: {buying_from_text[:100]}...")
-
-            # Extract pharmacy name - look for text after "Buying from"
-            pharmacy_match = re.search(r'Buying from\s*(.+?)(?:\s*€|\s*$)', buying_from_text)
-            if pharmacy_match:
-                pharmacy_name = pharmacy_match.group(1).strip()
-                print(f"   🏥 Found pharmacy: {pharmacy_name}")
-
-            # Extract price - look for €X.XX / g pattern in the buying section
-            price_match = re.search(r'€(\d+\.\d+)\s*/\s*g', buying_from_text)
-            if price_match:
-                price_per_g = float(price_match.group(1))
-                print(f"   💰 Found price: €{price_per_g}/g")
-
-        except Exception as e:
-            print(f"   ⚠ Error extracting from buying section: {e}")
-
-        # Fallback: search entire page text if buying section failed
-        if not pharmacy_name or not price_per_g:
-            try:
-                body_text = await page.locator('body').inner_text()
-
-                if not pharmacy_name:
-                    # Look for any Apotheke in the page
-                    pharmacy_matches = re.finditer(r'([^\n]*Apotheke[^\n]*)', body_text)
-                    for match in pharmacy_matches:
-                        candidate = match.group(1).strip()
-                        if len(candidate) > 10 and 'Buying from' in body_text[max(0, match.start()-50):match.end()+50]:
-                            pharmacy_name = candidate
-                            print(f"   🏥 Found pharmacy via fallback: {pharmacy_name}")
-                            break
-
-                if not price_per_g:
-                    # Look for price pattern near "Buying from"
-                    buying_pos = body_text.find('Buying from')
-                    if buying_pos != -1:
-                        context_start = max(0, buying_pos - 100)
-                        context_end = min(len(body_text), buying_pos + 200)
-                        context = body_text[context_start:context_end]
-
-                        price_match = re.search(r'€(\d+\.\d+)\s*/\s*g', context)
-                        if price_match:
-                            price_per_g = float(price_match.group(1))
-                            print(f"   💰 Found price via fallback: €{price_per_g}/g")
-
-            except Exception as e:
-                print(f"   ⚠ Error during fallback extraction: {e}")
-
-        product_details['cheapest_pharmacy_name'] = pharmacy_name
-        product_details['cheapest_price_per_g'] = price_per_g
-
-        if pharmacy_name and price_per_g:
-            print(f"   💰 {pharmacy_name}: €{price_per_g}/g")
-        else:
-            print(f"   ⚠ Could not extract pharmacy/price")
+        # Ensure values are set even if extraction failed
+        if 'cheapest_pharmacy_name' not in product_details:
+            product_details['cheapest_pharmacy_name'] = None
+        if 'cheapest_price_per_g' not in product_details:
+            product_details['cheapest_price_per_g'] = None
 
     # Ensure all required fields exist
     if 'cheapest_pharmacy_name' not in product_details:

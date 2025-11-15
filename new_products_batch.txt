@@ -1,0 +1,28 @@
+# Batch of 20 new products to add to WeedDB
+# Generated: 2025-11-15
+
+# From general search
+Crumbled Lime
+Citron Cookies
+La Kush Cake
+Sunset Strudel
+Sunset Serenity
+
+# From Kush search
+Mango Kush
+Sky Berry Kush
+Waffle Bites
+Ocean Grown Cookies
+Do Si Dos
+Cinderella Kush
+Diamond Mints
+Master Kush
+Facetz
+Kush Mintz
+
+# From Haze search
+Lemonade Haze
+Ghost Train Haze
+Amnesia Haze Cake
+Liberty Haze
+Delahaze
