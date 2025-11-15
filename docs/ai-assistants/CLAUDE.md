@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **IMPORTANT FOR AI ASSISTANTS:** When editing this file (CLAUDE.md), always synchronize the corresponding instructions in GEMINI.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 
-**VERSION 1.4.0 UPDATE:** Enhanced batch processing, auto-recovery features, and improved data extraction reliability.
+
 
 **OBSIDIAN INTEGRATION:** This repository is optimized for Obsidian.md knowledge management with structured folders, cross-links, and navigation guides.
 
@@ -225,14 +225,13 @@ This script:
 - Re-scrapes prices for each product
 - Shows progress and provides summary
 
-**Add multiple products from file (Enhanced in v1.4.0):**
+**Add multiple products from file:**
 ```bash
 python3 add_products_batch.py example_products.txt --yes
 ```
 File format: one product name per line (see `data/example_products.txt`)
-- **New in v1.4.0**: Processes products individually with 3-second pauses to avoid timeouts
 
-**Fix missing producer data (New in v1.4.0):**
+**Fix missing producer data:**
 ```bash
 python3 fix_producers.py
 ```

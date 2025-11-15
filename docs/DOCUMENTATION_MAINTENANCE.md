@@ -31,7 +31,7 @@ Jede Dokumentationsdatei im WeedDB-Repository **MUSS** YAML-Frontmatter mit Meta
 ---
 created: YYYY-MM-DD        # Datum der Erstellung
 updated: YYYY-MM-DD        # Datum der letzten Änderung
-version: X.X.X             # WeedDB-Version (z.B. 1.5.0)
+version: X.X.X             # WeedDB-Version (z.B. 0.1.0)
 author: Name               # Ersteller (GitHub Username oder "Claude AI")
 status: stable|draft|deprecated  # Dokumentations-Status
 description: Kurzbeschreibung     # 1-Satz Beschreibung des Inhalts
@@ -81,17 +81,17 @@ updated: 2025-11-15
 
 ### 2. **Bei Version-Updates:**
 
-Wenn eine neue WeedDB-Version released wird (z.B. 1.5.0 → 1.6.0):
+Wenn eine neue WeedDB-Version released wird (z.B. 0.1.0 → 0.2.0):
 
 1. Prüfe **ALLE** Dokumentationsdateien auf Relevanz
 2. Aktualisiere betroffene Dateien inhaltlich
-3. Setze `version: 1.6.0` in den bearbeiteten Dateien
+3. Setze `version: 0.2.0` in den bearbeiteten Dateien
 4. Aktualisiere `updated`-Datum
 
 **Automatisierung (in Arbeit):**
 ```bash
 # Zukünftiges Skript (TODO):
-python scripts/update_docs_version.py --new-version 1.6.0
+python scripts/update_docs_version.py --new-version 0.2.0
 ```
 
 ---
@@ -167,7 +167,7 @@ source_db: data/WeedDB.db
    ```
 
 3. **Version prüfen:**
-   - Stimmt `version: 1.4.0` mit aktueller WeedDB-Version überein?
+   - Stimmt `version: 0.1.0` mit aktueller WeedDB-Version überein?
    - Falls nicht: Inhalt auf Aktualität prüfen!
 
 4. **Status prüfen:**
@@ -180,7 +180,7 @@ source_db: data/WeedDB.db
 ---
 created: 2025-11-15      # Heutiges Datum
 updated: 2025-11-15      # Gleich wie 'created' bei neuen Dateien
-version: 1.4.0           # Aktuelle WeedDB-Version
+version: 0.1.0           # Aktuelle WeedDB-Version
 author: Claude AI        # Oder GitHub Username
 status: stable           # Oder 'draft' wenn noch nicht final
 description: Kurze Beschreibung was die Datei enthält
@@ -215,7 +215,7 @@ find docs -name "*.md" -type f -exec grep -l "updated:" {} \; | \
   awk -F: '{if ($3 < "'$(date -d '90 days ago' +%Y-%m-%d)'") print $1}'
 
 # 2. Finde Dateien mit falscher Version:
-grep -r "version: 1.3.0" docs/
+grep -r "version: 0.1.0" docs/
 
 # 3. Finde Dateien im Draft-Status:
 grep -r "status: draft" docs/
@@ -310,10 +310,10 @@ python scripts/check_frontmatter.py
 Massenupdate der Version in allen Dokumenten:
 
 ```bash
-python scripts/update_docs_version.py --new-version 1.5.0 --dry-run
+python scripts/update_docs_version.py --new-version 0.2.0 --dry-run
 # Zeigt Vorschau was geändert würde
 
-python scripts/update_docs_version.py --new-version 1.5.0
+python scripts/update_docs_version.py --new-version 0.2.0
 # Führt Update durch
 ```
 
@@ -342,16 +342,16 @@ Bei größeren Dokumentations-Änderungen, füge einen Changelog-Eintrag am Ende
 
 ## 📝 Changelog
 
-### 2025-11-15 (v1.4.0)
+### 2025-11-15 (v0.1.0)
 - Added: Obsidian theme recommendations
 - Updated: Installation instructions for Python 3.11
 - Fixed: Broken links to QUERY_EXAMPLES.md
 
-### 2025-10-20 (v1.3.0)
+### 2025-10-20 (v0.1.0)
 - Added: Multi-pharmacy price comparison section
 - Updated: Database schema documentation
 
-### 2025-09-15 (v1.2.0)
+### 2025-09-15 (v0.1.0)
 - Initial documentation created
 ```
 

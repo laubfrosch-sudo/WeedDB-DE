@@ -14,7 +14,7 @@ related_docs: [CLAUDE.md, GEMINI.md, KI_LÖSUNGSANSATZ.md]
 
 **IMPORTANT FOR AI ASSISTANTS:** When editing this file (AGENTS.md), always synchronize the corresponding instructions in GEMINI.md and CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 
-**VERSION 1.4.0 UPDATE:** Enhanced batch processing, auto-recovery features, and improved data extraction reliability.
+
 
 **OBSIDIAN OPTIMIZATION:** This repository is fully optimized for Obsidian.md knowledge management. The folder structure, cross-links, and documentation are designed for seamless Obsidian integration.
 

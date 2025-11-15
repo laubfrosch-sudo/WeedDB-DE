@@ -127,7 +127,7 @@ Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)
 - **`INSTRUCTIONS.md`** (English) / **`ANLEITUNG.md`** (Deutsch) - Usage instructions
 - **`data/schema.sql`** - Database schema definition
 - **`docs/generated/SORTEN_ÜBERSICHT.md`** - Auto-generated product overview (run `generate_overview.py`)
-- **`scripts/fix_producers.py`** - Auto-recovery script for missing producer data (v1.4.0)
+- **`scripts/fix_producers.py`** - Auto-recovery script for missing producer data
 
 ---
 
@@ -156,7 +156,7 @@ This script:
 - Re-scrapes prices for each product with improved reliability
 - Shows detailed progress with batch processing
 - Provides comprehensive summary of successful/failed updates
-- **New in v1.4.0**: Enhanced error handling and recovery
+- Enhanced error handling and recovery
 
 ### Add Multiple Products from File (Recommended Method)
 Create a text file with product names (one per line):
@@ -176,7 +176,7 @@ See `data/example_products.txt` for file format.
 **Note**: The script automatically processes products in batches of 2 with pauses between batches to avoid timeouts and overwhelming the website.
 
 ### Generate Product Overview
-### Export Price History (New in v1.4.0)
+### Export Price History
 Export current prices or historical data in JSON format for external analysis:
 ```bash
 python3 scripts/export_price_history.py  # Current snapshot
@@ -184,14 +184,14 @@ python3 scripts/export_price_history.py --all  # Complete history
 ```
 Creates JSON files in `data/price_history/` for easy integration with other tools.
 
-### Import Price History (New in v1.4.0)
+### Import Price History
 Import price data from JSON files:
 ```bash
 python3 scripts/import_price_history.py data/price_history/2025-11-14.json
 ```
 Supports both current snapshots and complete historical data.
 
-### Automatic Archiving (New in v1.4.0)
+### Automatic Archiving
 Set up automatic daily price snapshots and cleanup:
 ```bash
 python3 scripts/archive_prices.py  # Daily archiving
@@ -207,9 +207,9 @@ This creates/updates `docs/generated/SORTEN_ÜBERSICHT.md` with:
 - Best-of list (highest THC, best price, community favorite, etc.)
 - Complete product table sorted by review count
 - Direct links to all products on shop.dransay.com
-- **New in v1.4.0**: Enhanced producer information and data completeness
+- Enhanced producer information and data completeness
 
-### Fix Missing Data (New in v1.4.0)
+### Fix Missing Data
 Automatically correct missing producer information:
 ```bash
 python3 fix_producers.py
@@ -261,7 +261,7 @@ products (
     genetics TEXT,                 -- Indica/Sativa/Hybrid
     thc_percent REAL,             -- THC percentage
     cbd_percent REAL,             -- CBD percentage
-    producer_id INTEGER,          -- Foreign key to producers (enhanced in v1.4.0)
+    producer_id INTEGER,          -- Foreign key to producers
     stock_level INTEGER,          -- Current stock units
     rating REAL,                  -- User rating (e.g., 4.1)
     review_count INTEGER,         -- Number of reviews
@@ -277,7 +277,7 @@ products (
 
 producers (
     id INTEGER PRIMARY KEY,
-    name TEXT UNIQUE NOT NULL,     -- Producer name (24+ known producers in v1.4.0)
+    name TEXT UNIQUE NOT NULL,     -- Producer name
     origin TEXT                   -- Country of origin
 )
 

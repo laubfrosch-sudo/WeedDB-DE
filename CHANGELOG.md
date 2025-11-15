@@ -64,7 +64,7 @@ This is the foundational release of WeedDB-DE, marking the re-entry into Alpha d
 ---
 
 **For detailed validation reports, see:**
-- [VALIDATION_REPORT_V1.5.0.md](VALIDATION_REPORT_V1.5.0.md)
+
 
 **For documentation maintenance guidelines, see:**
 - [docs/DOCUMENTATION_MAINTENANCE.md](docs/DOCUMENTATION_MAINTENANCE.md)

@@ -20,7 +20,7 @@ sync_with: CLAUDE.md, docs/ai-assistants/GEMINI.md
 
 **IMPORTANT FOR AI ASSISTANTS:** When editing this file (GEMINI.md), always synchronize the corresponding instructions in CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 
-**VERSION 1.4.0 UPDATE:** Enhanced batch processing, auto-recovery features, and improved data extraction reliability.
+
 
 **OBSIDIAN INTEGRATION:** This repository is optimized for Obsidian.md knowledge management with structured folders, cross-links, and navigation guides.
 
@@ -346,16 +346,15 @@ python3 update_prices.py
 - Re-scrapes prices for each product
 - Updates price history while preserving existing data
 
-**add_products_batch.py** - Batch script to add multiple products (Enhanced in v1.4.0)
+**add_products_batch.py** - Batch script to add multiple products
 ```bash
 python3 add_products_batch.py example_products.txt --yes
 ```
 - Reads product names from file (one per line)
 - Processes each product individually with 3-second pauses to avoid timeouts
 - Use --yes flag to skip confirmation prompt
-- **New in v1.4.0**: Single-product batches for maximum reliability
 
-**fix_producers.py** - Auto-recovery script for missing producer data (New in v1.4.0)
+**fix_producers.py** - Auto-recovery script for missing producer data
 ```bash
 python3 fix_producers.py
 ```

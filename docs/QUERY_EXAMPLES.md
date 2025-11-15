@@ -466,7 +466,7 @@ SELECT * FROM my_indica_picks LIMIT 10;
 - **Case Sensitivity:** SQLite is case-insensitive for LIKE by default
 
 For more information, see `CLAUDE.md` or `INSTRUCTIONS.md`.
-# Price History Queries (v1.4.0)
+# Price History Queries
 
 ## Current Price Queries
 

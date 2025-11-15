@@ -16,7 +16,7 @@ sync_with: INSTRUCTIONS.md
 
 Dieses Dokument erklärt, wie du mit einem KI-Assistenten (wie Gemini oder Claude) in diesem Verzeichnis interagieren kannst, um die `WeedDB`-Datenbank zu nutzen, abzufragen und zu verwalten. Der Assistent kennt die Projektstruktur, die verfügbaren Skripte und das Datenbankschema.
 
-**Neuerungen in v1.4.0:**
+**Neuerungen:**
 - Verbesserte Batch-Verarbeitung mit Timeout-Schutz
 - Automatische Datenkorrektur für fehlende Hersteller
 - Erweiterte Producer-Erkennung (24+ bekannte Hersteller)
@@ -48,7 +48,7 @@ Für umfassende SQL-Abfrage-Beispiele (60+ Beispiele), siehe `QUERY_EXAMPLES.md`
 
 Der Assistent kann die Datenbank für dich pflegen, indem er die vorhandenen Skripte ausführt.
 
-### Alle Produkte aktualisieren (v1.4.0 Enhanced)
+### Alle Produkte aktualisieren
 
 Wenn die Preise oder andere Daten in der Datenbank veraltet sind, kannst du eine vollständige Aktualisierung anstoßen.
 
@@ -60,7 +60,7 @@ Wenn die Preise oder andere Daten in der Datenbank veraltet sind, kannst du eine
 
 Der Assistent wird daraufhin das Skript `update_prices.py` ausführen, das alle Produkte in kleinen Batches verarbeitet, um Timeouts zu vermeiden.
 
-**Neue Option in v1.4.0:**
+**Neue Option:**
 *   `Korrigiere fehlende Hersteller-Daten automatisch.`
 
 Führt das neue `fix_producers.py` Script aus, das automatisch fehlende Producer-Informationen korrigiert.
