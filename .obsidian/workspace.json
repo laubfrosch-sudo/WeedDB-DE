@@ -186,6 +186,7 @@
   },
   "active": "e14df16eb30f3d6e",
   "lastOpenFiles": [
+    "data/WeedDB.db-journal",
     "data/cache.db",
     "RELEASE_PLAN_0.1.1.md",
     "scripts/update_status_dashboard.py",
@@ -198,7 +199,6 @@
     "test_small.txt",
     "scripts/test_small.txt",
     "scripts/scheduler.py",
-    "scripts/cache_manager.py",
     "START.md",
     "CHANGELOG.md",
     "RELEASE_CHECKLIST.md",
