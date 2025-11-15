@@ -20,7 +20,7 @@ WeedDB-DE v0.1.0 marks the re-entry into the Alpha development phase. This versi
 ### Scripts & Automation
 - `add_product.py`: Individual product scraping and database insertion
 - `update_prices.py`: Bulk price updates for all products
-- `add_products_batch.py`: Batch processing with enhanced reliability (v1.4.0 features)
+- `add_products_batch.py`: Batch processing with enhanced reliability
 - `generate_overview.py`: Automated markdown generation for SORTEN_ÜBERSICHT.md
 
 ### Obsidian Integration

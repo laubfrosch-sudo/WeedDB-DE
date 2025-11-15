@@ -266,9 +266,9 @@ products (
     rating REAL,                  -- User rating (e.g., 4.1)
     review_count INTEGER,         -- Number of reviews
     irradiation TEXT,             -- Yes/No
-    country TEXT,                 -- Country of origin (added in v1.3.0)
-    effects TEXT,                 -- Reported effects (added in v1.3.0)
-    complaints TEXT,              -- Medical complaints (added in v1.3.0)
+    country TEXT,                 -- Country of origin
+    effects TEXT,                 -- Reported effects
+    complaints TEXT,              -- Medical complaints
     url TEXT UNIQUE,              -- Product URL
     created_at DATETIME,
     last_updated DATETIME,

@@ -31,7 +31,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **CRITICAL FOR AI ASSISTANTS:** When editing ANY Markdown file in this repository, you **MUST** update the YAML frontmatter:
 
 1. **Update the `updated` field** to today's date (YYYY-MM-DD format)
-2. **Verify the `version` field** matches the current WeedDB version (1.5.0)
+2. **Verify the `version` field** matches the current WeedDB version (0.1.0)
 3. **Check the `status` field** (stable/draft/deprecated)
 
 **Example:**
@@ -39,7 +39,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ---
 created: 2024-01-15
 updated: 2025-11-15  # ← Update this to TODAY'S date!
-version: 1.5.0        # ← Verify this matches current WeedDB version
+version: 0.1.0        # ← Verify this matches current WeedDB version
 status: stable
 ---
 ```
