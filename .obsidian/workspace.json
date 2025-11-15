@@ -186,6 +186,7 @@
   },
   "active": "e14df16eb30f3d6e",
   "lastOpenFiles": [
+    "data/WeedDB.db-journal",
     "update_log.txt",
     "CHANGELOG/RELEASE_NOTES_V0.1.0.md",
     "CHANGELOG/_README.md",
@@ -195,7 +196,6 @@
     "data/price_history/2025-11-15.json",
     "docs/SORTEN_ÜBERSICHT.md",
     "START.md",
-    "data/WeedDB.db-journal",
     "data/additional_products.txt",
     "docs/ai-assistants/KI_LÖSUNGSANSATZ.md",
     "docs/DATEN_VISUALISIERUNGEN.md",

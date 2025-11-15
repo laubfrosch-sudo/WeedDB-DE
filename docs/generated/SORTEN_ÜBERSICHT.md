@@ -5,7 +5,7 @@
 # Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
 Diese Übersicht wird automatisch aus der `../data/WeedDB.db` Datenbank generiert.
-**Letzte Aktualisierung:** 15.11.2025 03:57
+**Letzte Aktualisierung:** 15.11.2025 04:01
 
 Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
 
@@ -53,7 +53,7 @@ Sorten, die in einer der Top-Kategorien die besten sind, sind in der folgenden T
 | [Mac Doughnut](https://shop.dransay.com/product/p/622) | Cantourage | 25.0 | Indica | 3.8 | 499 | 4.99 |
 | [Island Sweet Skunk](https://shop.dransay.com/product/p/845) | Aurora Cannabis | 20.0 | Indica | 3.9 | 470 | 4.7 |
 | [Tropic Thunder](https://shop.dransay.com/product/p/1113) | Cantourage | 25.0 | Indica | 4.0 | 461 | 4.99 |
-| [Tubitti Frubitti](https://shop.dransay.com/product/p/3426990) | Avaay | 31.0 | Indica | 4.2 | 440 | 5.3 |
+| [Tubitti Frubitti](https://shop.dransay.com/product/p/3426990) | Avaay | 31.0 | Indica | 4.2 | 440 | 8.49 |
 | [Pink Kush](https://shop.dransay.com/product/p/751) 🏆 **Günstigster Preis** | enua Pharma | 22.0 | Indica | 3.9 | 300 | 3.5 |
 | [Ultra Dosed Candy](https://shop.dransay.com/product/p/3429693) | Barongo | 24.0 | Indica | 4.3 | 229 | 5.99 |
 | [Haymaker Haze](https://shop.dransay.com/product/p/1495373) | Tyson | 32.0 | Indica | 4.1 | 202 | 8.38 |
