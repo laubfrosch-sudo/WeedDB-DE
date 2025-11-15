@@ -22,9 +22,12 @@ from typing import Dict, List, Any, Optional, Union
 from pathlib import Path
 import hashlib
 
+DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'WeedDB.db')
+PRICE_HISTORY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'price_history')
+
 def get_current_prices() -> Dict[str, Any]:
     """Get current prices snapshot"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
 
     # Get latest prices for each product/category combination
@@ -70,9 +73,9 @@ def get_changes_since_last_export(last_export_file: Optional[str] = None) -> Dic
         'last_export_date': None
     }
 
-    if last_export_file and os.path.exists(f'../data/price_history/{last_export_file}'):
+    if last_export_file and os.path.exists(os.path.join(PRICE_HISTORY_DIR, last_export_file)):
         try:
-            with open(f'../data/price_history/{last_export_file}', 'r') as f:
+            with open(os.path.join(PRICE_HISTORY_DIR, last_export_file), 'r', encoding='utf-8') as f:
                 last_export = json.load(f)
                 changes['last_export_date'] = last_export.get('export_timestamp')
 
@@ -108,7 +111,7 @@ def get_changes_since_last_export(last_export_file: Optional[str] = None) -> Dic
 
 def get_historical_prices(days_back: int = 30) -> Dict[str, Any]:
     """Get historical price data"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     
     # Get price history for the last N days
@@ -150,9 +153,9 @@ def get_historical_prices(days_back: int = 30) -> Dict[str, Any]:
 
 def export_to_json(data: Dict[str, Any], filename: str) -> None:
     """Export data to JSON file"""
-    os.makedirs('../data/price_history', exist_ok=True)
+    os.makedirs(PRICE_HISTORY_DIR, exist_ok=True)
     
-    filepath = f'../data/price_history/{filename}'
+    filepath = os.path.join(PRICE_HISTORY_DIR, filename)
     
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False, default=str)
@@ -316,7 +319,7 @@ def main() -> None:
         }
 
         try:
-            with open('../data/price_history/export_errors.json', 'a') as f:
+            with open(os.path.join(PRICE_HISTORY_DIR, 'export_errors.json'), 'a') as f:
                 json.dump(error_log, f, default=str)
                 f.write('\n')
         except:

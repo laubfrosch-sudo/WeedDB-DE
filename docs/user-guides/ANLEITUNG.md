@@ -65,13 +65,25 @@ Der Assistent wird daraufhin das Skript `update_prices.py` ausführen, das alle 
 
 Führt das neue `fix_producers.py` Script aus, das automatisch fehlende Producer-Informationen korrigiert.
 
-### Einzelne Produkte hinzufügen
+### Neue Produkte finden und hinzufügen
 
-Du kannst neue Sorten von `shop.dransay.com` hinzufügen, indem du dem Assistenten einfach die URL gibst.
+Um neue Produkte von `shop.dransay.com` zu finden, die noch nicht in der Datenbank sind, und diese dann hinzuzufügen:
+
+**1. Neue Produkte identifizieren (`find_new_products.py`)**
+Bitte den Assistenten, neue Produkte zu finden. Du kannst Filter wie `vendorId`, `producerId` oder `search` verwenden.
 
 **Beispiel-Anweisung:**
+*   `Finde neue Produkte auf shop.dransay.com.`
+*   `Finde neue Haze-Sorten von Top-Apotheken.`
 
-*   `Füge dieses Produkt hinzu: <URL des Produkts>`
+Der Assistent wird das Skript `find_new_products.py` ausführen und dir eine Liste der gefundenen neuen Produkte präsentieren.
+
+**2. Produkte zur Datenbank hinzufügen (`add_product.py`)**
+Sobald du neue Produkte identifiziert hast, kannst du sie einzeln hinzufügen. Das Skript `add_product.py` prüft automatisch, ob das Produkt bereits existiert. Wenn ja, werden nur die Preise aktualisiert; andernfalls wird ein neues Produkt hinzugefügt.
+
+**Beispiel-Anweisung:**
+*   `Füge das Produkt "Pink Diesel" hinzu.`
+*   `Füge das Produkt mit der ID 12345 hinzu.`
 
 ### Daten korrigieren
 

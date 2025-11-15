@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 """
 Add cannabis product to WeedDB from shop.dransay.com
-Finds the cheapest price for a given product name in two categories:
+
+This script scrapes product details and the cheapest prices for a given product name
+in two categories:
 1. Top shipping pharmacies (vendorId=top)
 2. All shipping pharmacies (vendorId=all)
+
+Before adding, it checks if the product already exists in the database.
+If it exists, it updates the product details and prices; otherwise, it adds a new product.
+
+💡 It is recommended to use 'find_new_products.py' first to identify truly new products
+before using this script to add them.
 """
 
 import json
@@ -628,6 +636,15 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]]) -> bool:
     cursor = conn.cursor()
 
     try:
+        # Check if product already exists
+        cursor.execute("SELECT id FROM products WHERE id = ?", (product_data['id'],))
+        existing_product = cursor.fetchone()
+
+        if existing_product:
+            print(f"ℹ️ Product '{product_data['name']}' (ID: {product_data['id']}) already exists. Updating product details and prices.")
+        else:
+            print(f"✨ Adding new product '{product_data['name']}' (ID: {product_data['id']}).")
+
         # Insert or get producer
         producer_id = None
         final_producer_name = product_data.get('producer_name')
@@ -638,7 +655,7 @@ def insert_product_to_db(product_data: Optional[Dict[str, Any]]) -> bool:
             result = cursor.fetchone()
             producer_id = result[0] if result else None
 
-        # Insert product
+        # Insert product (using INSERT OR REPLACE to update if exists)
         cursor.execute("""
             INSERT OR REPLACE INTO products
             (id, name, variant, genetics, thc_percent, cbd_percent, producer_id,

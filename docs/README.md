@@ -133,6 +133,20 @@ Sourdough|6.77|top|Sanvivo Cannabis Apotheke (=Senftenauer)
 
 ## 💡 Verwendungsbeispiele
 
+### Neue Produkte finden
+Verwenden Sie das Skript `find_new_products.py`, um Produkte auf shop.dransay.com zu identifizieren, die noch nicht in Ihrer Datenbank sind. Dies hilft, doppelte Einträge zu vermeiden und gezielt neue Sorten hinzuzufügen.
+
+```bash
+# Alle neuen Produkte finden
+python3 scripts/find_new_products.py
+
+# Neue Produkte von Top-Apotheken mit Suchbegriff "Haze" finden
+python3 scripts/find_new_products.py --vendorId top --search "Haze"
+
+# Neue Produkte von bestimmten Herstellern finden
+python3 scripts/find_new_products.py --producerId 37,56
+```
+
 ### Mehrere Produkte hinzufügen
 ```bash
 python3 add_product.py 'gelato'
@@ -140,12 +154,20 @@ python3 add_product.py 'wedding cake'
 python3 add_product.py 'amnesia haze'
 ```
 
-### Bestehendes Produkt aktualisieren (Preise aktualisieren)
-Führe das Skript einfach erneut aus:
+### Einzelnes Produkt hinzufügen/aktualisieren
+Verwenden Sie das Skript `add_product.py` mit dem Produktnamen als Argument. Das Skript prüft automatisch, ob das Produkt bereits existiert. Wenn ja, werden nur die Preise aktualisiert; andernfalls wird ein neues Produkt hinzugefügt.
+
 ```bash
 python3 add_product.py 'sourdough'
 ```
-Dies fügt neue Preiseinträge mit aktuellem Zeitstempel hinzu und bewahrt historische Daten.
+
+### Einzelnes Produkt hinzufügen/aktualisieren
+Verwenden Sie das Skript `add_product.py` mit dem Produktnamen als Argument. Das Skript prüft automatisch, ob das Produkt bereits existiert. Wenn ja, werden nur die Preise aktualisiert; ansonsten wird ein neues Produkt hinzugefügt.
+
+```bash
+python3 scripts/add_product.py 'sourdough'
+```
+
 
 ### Alle Produkte aktualisieren (Massen-Preisaktualisierung)
 ```bash

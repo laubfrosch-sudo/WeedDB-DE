@@ -7,12 +7,15 @@ import sqlite3
 import asyncio
 from playwright.async_api import async_playwright
 import re
+import os
+
+DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'WeedDB.db')
 
 async def fix_missing_producers() -> None:
     """Find products with missing producers and try to fix them"""
     
     # Get products with missing producers
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     
     cursor.execute("""
@@ -77,7 +80,7 @@ async def fix_missing_producers() -> None:
                 
                 # If found, update database
                 if producer_name:
-                    conn = sqlite3.connect('../data/WeedDB.db')
+                    conn = sqlite3.connect(DATABASE_PATH)
                     cursor = conn.cursor()
                     
                     # Insert producer if not exists

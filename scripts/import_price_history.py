@@ -15,8 +15,11 @@ Example:
 import sqlite3
 import json
 import sys
+import os
 from datetime import datetime
 from typing import Dict, List, Any
+
+DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'WeedDB.db')
 
 def validate_price_data(data: Dict[str, Any]) -> bool:
     """Validate the structure of imported price data"""
@@ -62,7 +65,7 @@ def validate_price_data(data: Dict[str, Any]) -> bool:
 
 def import_current_snapshot(data: Dict[str, Any]) -> int:
     """Import a current price snapshot"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     
     imported_count = 0
@@ -111,7 +114,7 @@ def import_current_snapshot(data: Dict[str, Any]) -> int:
 
 def import_complete_history(data: Dict[str, Any]) -> int:
     """Import complete price history"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     
     imported_count = 0

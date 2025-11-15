@@ -137,19 +137,36 @@ This approach minimizes storage while capturing the most relevant price informat
 
 ### Workflow for Adding Products
 
-**Use the `add_product.py` script** to automatically scrape and add products by product name:
+**1. Find New Products (`find_new_products.py`)**
+Use this script to identify products on shop.dransay.com that are not yet in your database. This helps to avoid duplicate entries and efficiently find new strains.
+
+```bash
+python3 find_new_products.py [--vendorId <id>] [--producerId <id>] [--search <term>]
+```
+- Scrapes product names and IDs from the product overview page.
+- Compares them with existing products in the database.
+- Lists new products that can be added.
+- Supports filtering by vendor, producer, and search term.
+
+**2. Add/Update Individual Products (`add_product.py`)**
+Use this script to automatically scrape and add products by product name. It now includes an existence check.
 
 ```bash
 python3 add_product.py <product_name>
 ```
+- **New:** Before adding, it checks if the product already exists in the database. If it exists, it updates the product details and prices; otherwise, it adds a new product.
+- Searches shop.dransay.com for product.
+- Scrapes product details (name, URL, THC%, genetics, ratings, etc.).
+- Extracts cheapest prices from two categories: "top" and "all" pharmacies.
+- Stores complete product data with all attributes.
+- Creates historical price entries.
 
-**Examples:**
+**Examples for `add_product.py`:**
 ```bash
 python3 add_product.py 'sourdough'
 python3 add_product.py 'gelato'
 python3 add_product.py 'wedding cake'
 ```
-
 ### How the Script Works
 
 The script uses a **two-category approach** to find the best prices:

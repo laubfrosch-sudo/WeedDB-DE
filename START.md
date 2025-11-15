@@ -144,12 +144,17 @@ WeedDB/
 ## 🎯 Häufige Aufgaben
 
 ### Neue Produkte hinzufügen
+Um neue Produkte zu finden, die noch nicht in der Datenbank sind, verwenden Sie:
+```bash
+python3 scripts/find_new_products.py
+```
+Anschließend können Sie die gefundenen Produkte einzeln hinzufügen:
 ```bash
 # Einzelnes Produkt
-python3 add_product.py 'sourdough'
+python3 scripts/add_product.py 'sourdough'
 
 # Mehrere Produkte aus Datei
-python3 add_products_batch.py products.txt --yes
+python3 scripts/add_products_batch.py products.txt --yes
 ```
 
 ### Preise aktualisieren

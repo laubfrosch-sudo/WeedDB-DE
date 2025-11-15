@@ -337,10 +337,20 @@ ORDER BY p.name, pr.category;
 
 ### Core Scripts
 
+**find_new_products.py** - Script to identify new products
+```bash
+python3 find_new_products.py [--vendorId <id>] [--producerId <id>] [--search <term>]
+```
+- Scrapes product names and IDs from the product overview page.
+- Compares them with existing products in the database.
+- Lists new products that can be added.
+- Supports filtering by vendor, producer, and search term.
+
 **add_product.py** - Main script to scrape and add/update individual products
 ```bash
 python3 add_product.py <product_name>
 ```
+- **New:** Before adding, it checks if the product already exists in the database. If it exists, it updates the product details and prices; otherwise, it adds a new product.
 - Searches shop.dransay.com for product
 - Scrapes product details (name, URL, THC%, genetics, ratings, etc.)
 - Extracts cheapest prices from two categories: "top" and "all" pharmacies

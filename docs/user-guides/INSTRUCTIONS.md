@@ -65,14 +65,25 @@ The assistant will then run the `update_prices.py` script, which processes all p
 
 Runs the new `fix_producers.py` script, which automatically corrects missing producer information.
 
-### Adding a Single Product
+### Finding and Adding New Products
 
-You can add new strains from `shop.dransay.com` by simply providing the URL to the assistant.
+To find new products from `shop.dransay.com` that are not yet in the database, and then add them:
+
+**1. Identify New Products (`find_new_products.py`)
+Ask the assistant to find new products. You can use filters like `vendorId`, `producerId`, or `search`.
 
 **Example Prompt:**
+*   `Find new products on shop.dransay.com.`
+*   `Find new Haze strains from top pharmacies.`
 
-*   `Add this product: <product_url>`
+The assistant will run the `find_new_products.py` script and present you with a list of newly found products.
 
+**2. Add Products to the Database (`add_product.py`)
+Once you have identified new products, you can add them individually. The `add_product.py` script automatically checks if the product already exists. If it exists, it updates the product details and prices; otherwise, it adds a new product.
+
+**Example Prompt:**
+*   `Add the product "Pink Diesel".`
+*   `Add the product with ID 12345.`
 ### Correcting Data
 
 If you find an error in the data (e.g., an incorrect THC value), you can ask the assistant to correct it.

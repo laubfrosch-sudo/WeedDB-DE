@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "START.md",
+                "file": "CHANGELOG/RELEASE_NOTES_V0.1.0.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "START"
+              "title": "RELEASE_NOTES_V0.1.0"
             }
           }
         ]
@@ -186,11 +186,13 @@
   },
   "active": "e14df16eb30f3d6e",
   "lastOpenFiles": [
+    "scripts/find_new_products.py",
+    "data/price_history/2025-11-15.json",
     "docs/SORTEN_ÜBERSICHT.md",
+    "START.md",
     "data/WeedDB.db-journal",
     "data/additional_products.txt",
     "docs/ai-assistants/KI_LÖSUNGSANSATZ.md",
-    "START.md",
     "docs/DATEN_VISUALISIERUNGEN.md",
     "docs/generated/_README.md",
     "docs/assets/charts/rating_distribution.png",

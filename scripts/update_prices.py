@@ -12,12 +12,15 @@ Usage:
 import sqlite3
 import asyncio
 import sys
+import os
 from typing import List, Tuple, Optional, Dict, Any
 from datetime import datetime
 import re
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout, Page
 
 BASE_URL = "https://shop.dransay.com"
+
+DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'WeedDB.db')
 
 def extract_product_id_from_url(url: str) -> Optional[int]:
     """Extract product ID from dransay URL"""
@@ -195,7 +198,7 @@ async def scrape_price_for_product(page: Page, product_name: str, vendor_id: str
 
 def get_all_products() -> List[Tuple[int, str, str]]:
     """Fetch all products from database with their URLs"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
 
     cursor.execute("SELECT id, name, url FROM products ORDER BY name")
@@ -206,7 +209,7 @@ def get_all_products() -> List[Tuple[int, str, str]]:
 
 def update_product_price(product_id: int, pharmacy_name: str, price_per_g: float, category: str) -> bool:
     """Update price for a specific product"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
 
     try:

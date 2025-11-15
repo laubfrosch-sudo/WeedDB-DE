@@ -43,6 +43,20 @@ This is the foundational release of WeedDB-DE, marking the re-entry into Alpha d
 - **AI Assistant Guidelines**: Updated for Alpha phase
 - **Repository Setup**: Git and GitHub integration for WeedDB-DE
 
+#### New Features & Improvements
+- **`find_new_products.py`**: New script to identify products not yet in DB.
+- **Path Handling**: All Python scripts updated to use dynamic absolute paths for improved portability.
+- **Type Safety**: All Python scripts are now strictly type-checked with `mypy --strict`.
+- **`add_product.py`**: Implemented existence check before adding/updating products.
+- **`find_new_products.py`**: Improved product name extraction from URLs.
+- **`README.md`**: Consolidated and translated to German.
+- **`SORTEN_ÜBERSICHT.md`**: Generation fixed and updated.
+
+#### Bug Fixes
+- Numerous `mypy --strict` type errors across all Python scripts.
+- Database connection and file path issues in various scripts.
+- `generate_overview.py` output path.
+
 ### Changed
 - **Repository Reset**: All previous version references removed
 - **Alpha Phase**: Project status set to Alpha development

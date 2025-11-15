@@ -18,6 +18,10 @@ import json
 import os
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Any, Dict, Optional
+
+DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'WeedDB.db')
+PRICE_HISTORY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'price_history')
 
 def create_price_snapshot(date_str: Optional[str] = None) -> bool:
     """Create a price snapshot"""
@@ -26,7 +30,7 @@ def create_price_snapshot(date_str: Optional[str] = None) -> bool:
     
     try:
         # Get current prices
-        conn = sqlite3.connect('../data/WeedDB.db')
+        conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
         
         cursor.execute("""
@@ -63,7 +67,7 @@ def create_price_snapshot(date_str: Optional[str] = None) -> bool:
         conn.close()
         
         # Export to JSON
-        os.makedirs('../data/price_history', exist_ok=True)
+        os.makedirs(PRICE_HISTORY_DIR, exist_ok=True)
         
         export_data = {
             'export_type': 'current_snapshot',
@@ -72,7 +76,7 @@ def create_price_snapshot(date_str: Optional[str] = None) -> bool:
             'products': prices_data
         }
         
-        filepath = f'../data/price_history/{date_str}.json'
+        filepath = os.path.join(PRICE_HISTORY_DIR, f'{date_str}.json')
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(export_data, f, indent=2, ensure_ascii=False, default=str)
         
@@ -85,7 +89,7 @@ def create_price_snapshot(date_str: Optional[str] = None) -> bool:
 
 def cleanup_old_history(days_to_keep: int = 365) -> int:
     """Remove price history older than specified days"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     
     cutoff_date = datetime.now() - timedelta(days=days_to_keep)
@@ -106,7 +110,7 @@ def cleanup_old_history(days_to_keep: int = 365) -> int:
 
 def cleanup_old_files(days_to_keep: int = 90) -> int:
     """Remove old export files"""
-    history_dir = Path('../data/price_history')
+    history_dir = Path(PRICE_HISTORY_DIR)
     if not history_dir.exists():
         return 0
     

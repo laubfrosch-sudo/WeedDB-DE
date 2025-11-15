@@ -14,10 +14,12 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.dates import DateFormatter
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 import os
 from pathlib import Path
 
+DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'WeedDB.db')
+CHARTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'assets', 'charts')
 
 def setup_matplotlib_style() -> None:
     """Configure matplotlib for better-looking charts"""
@@ -32,7 +34,7 @@ def setup_matplotlib_style() -> None:
 
 def get_price_history_data() -> List[Dict[str, Any]]:
     """Get price history data for top products"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -62,7 +64,7 @@ def get_price_history_data() -> List[Dict[str, Any]]:
 
 def get_product_distribution_data() -> Dict[str, Any]:
     """Get data for product distribution charts"""
-    conn = sqlite3.connect('../data/WeedDB.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
 
     # Genetics distribution
@@ -291,8 +293,8 @@ def main() -> None:
 
     # Setup
     setup_matplotlib_style()
-    charts_dir = Path('../docs/assets/charts')
-    charts_dir.mkdir(exist_ok=True)
+    charts_dir = Path(CHARTS_DIR)
+    charts_dir.mkdir(parents=True, exist_ok=True) # Use parents=True to create parent directories if they don't exist
 
     # Get data
     print("📥 Lade Daten aus Datenbank...")
@@ -316,7 +318,8 @@ def main() -> None:
     create_rating_distribution_chart(distribution_data['rating'], str(charts_dir / 'rating_distribution.png'))
 
     print("📝 Erstelle Visualisierungs-Seite...")
-    create_visualization_markdown(distribution_data, '../docs/DATEN_VISUALISIERUNGEN.md')
+    markdown_output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'DATEN_VISUALISIERUNGEN.md')
+    create_visualization_markdown(distribution_data, markdown_output_path)
 
     print("✅ Alle Diagramme erfolgreich generiert!")
     print(f"   📁 Gespeichert in: {charts_dir}")
