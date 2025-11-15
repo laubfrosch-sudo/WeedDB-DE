@@ -1,7 +1,7 @@
 ---
 created: 2024-01-15
 updated: 2025-11-15
-version: 0.1.0
+version: 0.1.1
 author: laubfrosch-sudo
 status: alpha
 description: Technical documentation and guidelines for Gemini AI when working with WeedDB

@@ -5,7 +5,7 @@
 # Sortenübersicht (Sortiert nach Anzahl der Bewertungen)
 
 Diese Übersicht wird automatisch aus der `../data/WeedDB.db` Datenbank generiert.
-**Letzte Aktualisierung:** 15.11.2025 14:17
+**Letzte Aktualisierung:** 15.11.2025 14:45
 
 Um diese Datei zu aktualisieren, führe aus: `python3 generate_overview.py`
 
@@ -43,7 +43,7 @@ Sorten, die in einer der Top-Kategorien die besten sind, sind in der folgenden T
 | [Ghost Train Haze](https://shop.dransay.com/product/p/934) | Aurora Cannabis | 22.0 | Indica | 3.8 | 1269 | 3.69 |
 | [Amnesia Haze Cake](https://shop.dransay.com/product/p/460) 🏆 **Community-Liebling** 🏆 **Höchster THC-Gehalt** | Avaay | 32.0 | Indica | 4.3 | 1267 | 9.45 |
 | [White Widow](https://shop.dransay.com/product/p/808) | Weeco | 16.0 | Indica | 3.5 | 1136 | 4.05 |
-| [Big Purple Dragon](https://shop.dransay.com/product/p/174099) | Cantourage | 25.0 | Indica | 3.9 | 1103 | 4.59 |
+| [Big Purple Dragon](https://shop.dransay.com/product/p/174099) | Cantourage | 25.0 | Indica | 3.9 | 1105 | 4.59 |
 | [Blue Z](https://shop.dransay.com/product/p/423) | Bathera | 28.0 | Indica | 4.2 | 1043 | 7.07 |
 | [Pink Diesel](https://shop.dransay.com/product/p/237) | Aurora Cannabis | 31.0 | Indica | 4.1 | 779 | 6.89 |
 | [OG Kush](https://shop.dransay.com/product/p/882) | Cannamedical | 24.0 | Indica | 3.9 | 756 | 4.98 |
