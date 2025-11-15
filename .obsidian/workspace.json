@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/SORTEN_ÜBERSICHT.md",
+                "file": "docs/generated/_README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SORTEN_ÜBERSICHT"
+              "title": "_README"
             }
           }
         ]
@@ -184,10 +184,18 @@
       "bases:Create new base": false
     }
   },
-  "active": "e14df16eb30f3d6e",
+  "active": "b14c8fd453b21afa",
   "lastOpenFiles": [
-    "docs/README.md",
+    "docs/DATEN_VISUALISIERUNGEN.md",
+    "docs/assets/charts/rating_distribution.png",
+    "docs/assets/charts/thc_distribution.png",
+    "docs/assets/charts/genetics_distribution.png",
+    "docs/assets/charts/price_trends.png",
+    "docs/assets/charts",
+    "scripts/generate_charts.py",
+    "docs/generated/SORTEN_ÜBERSICHT.md",
     "docs/SORTEN_ÜBERSICHT.md",
+    "docs/README.md",
     "START.md",
     "RELEASE_NOTES_V1.5.0.md",
     "CHANGELOG.md",

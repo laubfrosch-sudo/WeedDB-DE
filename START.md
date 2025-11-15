@@ -90,6 +90,7 @@ Mach dein WeedDB-Vault richtig schick mit Themes, Plugins und Custom CSS!
 - 📖 [[INSTRUCTIONS|Englische Anleitung]] - Complete setup and usage guide
 - 📖 [[ANLEITUNG|Deutsche Anleitung]] - Vollständige Installations- und Nutzungsanleitung
 - 🌿 [[SORTEN_ÜBERSICHT|Sortenübersicht]] - Automatisch generierte Produktliste
+- 📊 [[DATEN_VISUALISIERUNGEN|Datenvisualisierungen]] - Diagramme und Charts der Produktdaten
 
 ### Für Entwickler
 - 🤖 [[CLAUDE|Claude AI Dokumentation]] - Technische Dokumentation für Claude Code
