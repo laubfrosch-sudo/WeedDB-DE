@@ -243,6 +243,6 @@ Diese Datei wurde automatisch generiert. Für die aktuellste Version siehe:
 
 <div align="center">
 
-**[GitHub Repository](https://github.com/laubfrosch-sudo/WeedDB)** | **[[README|Projekt-Übersicht]]** | **[[QUERY_EXAMPLES|SQL-Beispiele]]**
+**[GitHub Repository](https://github.com/laubfrosch-sudo/WeedDB-DE)** | **[[README|Projekt-Übersicht]]** | **[[QUERY_EXAMPLES|SQL-Beispiele]]**
 
 </div>

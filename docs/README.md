@@ -5,7 +5,7 @@ version: 0.1.1
 author: laubfrosch-sudo
 status: alpha
 description: WeedDB - Cannabis Preis-Tracking Datenbank für den deutschen medizinischen Markt
-repository: https://github.com/laubfrosch-sudo/WeedDB
+repository: https://github.com/laubfrosch-sudo/WeedDB-DE
 ---
 
 <div align="center">
@@ -16,7 +16,7 @@ repository: https://github.com/laubfrosch-sudo/WeedDB
 
 Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Markt. Scrapt und verwaltet Produktdaten von `shop.dransay.com` mit intelligentem Preisvergleich über Apotheken-Kategorien.
 
-**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB-DE](https://github.com/laubfrosch-sudo/WeedDB-DE)
 
 > *Logo created with Google Gemini*
 
@@ -52,7 +52,7 @@ Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Mar
 
 ### 1. Repository klonen
 ```bash
-git clone https://github.com/laubfrosch-sudo/WeedDB.git
+git clone https://github.com/laubfrosch-sudo/WeedDB-DE.git
 cd WeedDB
 ```
 

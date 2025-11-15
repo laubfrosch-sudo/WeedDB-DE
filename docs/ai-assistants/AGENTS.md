@@ -10,7 +10,7 @@ related_docs: [CLAUDE.md, GEMINI.md, KI_LÖSUNGSANSATZ.md]
 
 # AGENTS.md - WeedDB Development Guidelines
 
-**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB-DE](https://github.com/laubfrosch-sudo/WeedDB-DE)
 
 **IMPORTANT FOR AI ASSISTANTS:** When editing this file (AGENTS.md), always synchronize the corresponding instructions in GEMINI.md and CLAUDE.md. All files must remain consistent regarding schema definitions, dependencies, and core functionality.
 

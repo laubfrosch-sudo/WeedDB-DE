@@ -14,7 +14,7 @@ sync_with: AGENTS.md, GEMINI.md
 
 # CLAUDE.md
 
-**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB-DE](https://github.com/laubfrosch-sudo/WeedDB-DE)
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 

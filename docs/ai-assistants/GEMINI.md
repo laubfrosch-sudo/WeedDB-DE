@@ -14,7 +14,7 @@ sync_with: AGENTS.md, CLAUDE.md
 
 # WeedDB Project
 
-**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB](https://github.com/laubfrosch-sudo/WeedDB)
+**GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB-DE](https://github.com/laubfrosch-sudo/WeedDB-DE)
 
 > *Logo created with Google Gemini*
 
