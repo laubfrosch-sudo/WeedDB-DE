@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/ai-assistants/KI_LÖSUNGSANSATZ.md",
+                "file": "docs/SORTEN_ÜBERSICHT.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "KI_LÖSUNGSANSATZ"
+              "title": "SORTEN_ÜBERSICHT"
             }
           }
         ]
@@ -186,6 +186,9 @@
   },
   "active": "e14df16eb30f3d6e",
   "lastOpenFiles": [
+    "CLEANUP_PLAN.md",
+    "START.md",
+    "docs/ai-assistants/KI_LÖSUNGSANSATZ.md",
     "debug_screenshot.png",
     "debug_page.py",
     "test_playwright.py",
@@ -205,14 +208,12 @@
     "scripts/cron/monthly_cleanup.sh",
     "scripts/cron/daily_update.sh",
     "scripts/cron",
-    "START.md",
     "CHANGELOG.md",
     "RELEASE_CHECKLIST.md",
     "docs/README.md",
     "docs/generated/SORTEN_ÜBERSICHT.md",
     "CHANGELOG/RELEASE_NOTES_V0.1.0.md",
     "CHANGELOG/_README.md",
-    "docs/ai-assistants/KI_LÖSUNGSANSATZ.md",
     "docs/generated/_README.md",
     "docs/assets/charts/rating_distribution.png",
     "docs/assets/charts/thc_distribution.png",
