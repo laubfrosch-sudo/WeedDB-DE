@@ -1,2 +1,12 @@
+# Core dependencies
 playwright==1.48.0
 mypy==1.13.0
+
+# Additional dependencies for enhanced functionality
+tqdm>=4.64.0        # Progress bars for batch operations
+pathlib>=1.0.1      # Path handling (usually included in Python 3.4+)
+
+# Optional dependencies for development
+pytest>=7.0.0       # Testing framework
+black>=22.0.0       # Code formatting
+flake8>=4.0.0       # Linting

@@ -8,11 +8,43 @@ WeedDB.db
 *.log
 update_log.txt
 data/logs/
+logs/
 
-# Cache
+# Cache and temporary files
 data/cache.db
+data/cache.db-*
 *.db-journal
+*.tmp
+*.temp
+
+# Reports and generated content
+data/reports/
+*.pyc
 
 # Python cache
 .mypy_cache/
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+secrets.json
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

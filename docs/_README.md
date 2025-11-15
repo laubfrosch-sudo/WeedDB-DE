@@ -33,6 +33,13 @@ Entwicklungsunterlagen und Projektinformationen:
 Automatisch generierte Dateien:
 - `SORTEN_ÜBERSICHT.md` - Produktübersicht (wird von Scripts generiert)
 
+### Live-Monitoring
+- `PROCESS_STATUS.md` - **NEU**: Live-Dashboard mit aktuellen Metriken
+  - Datenbank-Status und Produktzahlen
+  - Batch-Verarbeitungs-Status
+  - Performance-Metriken und Cache-Statistiken
+  - Automatische Updates via `update_status_dashboard.py`
+
 ### assets/
 Bilder, Diagramme und andere Medien-Dateien für die Dokumentation.
 

@@ -11,6 +11,13 @@ Dieser Ordner enthält alle Python-Scripts für die Automatisierung und Verwaltu
 - `update_prices.py` - Alle Produktpreise aktualisieren
 - `find_new_products.py` - **🔍 NEU**: Neue Produkte auf shop.dransay.com finden
 
+### Automatisierung & Monitoring
+- `scheduler.py` - **⏰ NEU**: Automatisierte Tasks (daily/weekly/monthly)
+- `update_status_dashboard.py` - **📊 NEU**: Obsidian Status-Dashboard aktualisieren
+- `cache_manager.py` - **🗄️ NEU**: Intelligentes Caching-System
+- `error_handler.py` - **🛡️ NEU**: Robuste Fehlerbehandlung mit Retry
+- `logger.py` - **📋 NEU**: Umfassendes Logging-System
+
 ### Automatisierung & Scheduling
 - `scheduler.py` - **⏰ NEU**: Automatisierte Tasks (daily/weekly/monthly)
 - `update_status_dashboard.py` - **📊 NEU**: Obsidian Status-Dashboard aktualisieren

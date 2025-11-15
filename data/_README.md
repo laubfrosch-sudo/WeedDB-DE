@@ -18,6 +18,16 @@ Dieser Ordner enthält alle Datenbankdateien und Beispieldateien des WeedDB-Proj
   - `{YYYY-MM-DD}.json` - Tägliche Preis-Snapshots
   - `complete_history.json` - Vollständige Historie
 
+### Cache & Logs
+- `cache.db` - SQLite Cache für Web-Requests (Performance-Optimierung)
+- `logs/` - Strukturierte JSON-Logs aller Operationen
+- `reports/` - Automatisch generierte Performance-Reports
+
+### Backup-Strategien
+- **Datenbank:** Tägliche Exports in `price_history/`
+- **Logs:** Automatische Rotation (30 Tage Aufbewahrung)
+- **Cache:** Automatische Cleanup von abgelaufenen Einträgen
+
 ## 🔧 Verwendung
 
 ### Datenbank-Operationen
