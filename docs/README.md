@@ -12,9 +12,18 @@ repository: https://github.com/laubfrosch-sudo/WeedDB-DE
   <img src="docs/assets/icons/WeedDB.jpeg" alt="WeedDB Logo" width="300"/>
 </div>
 
-# WeedDB v0.1.2 (Alpha) - Cannabis Preis-Tracking Datenbank für den deutschen Markt
+# 🌿 WeedDB v0.1.2 - Cannabis Preis-Tracking für Deutschland
 
-Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Markt. Scrapt und verwaltet Produktdaten von `shop.dransay.com` mit intelligentem Preisvergleich über Apotheken-Kategorien.
+**🎯 Finde die besten Cannabis-Preise in Deutschland automatisch!**
+
+WeedDB ist ein intelligentes Preis-Tracking-System für medizinisches Cannabis in Deutschland. Es scrapt kontinuierlich `shop.dransay.com`, vergleicht Preise über 30+ Apotheken und liefert dir die besten Angebote mit nur einem Befehl.
+
+**✨ Warum WeedDB?**
+- **🚀 3x schnellere Preis-Updates** mit paralleler Verarbeitung
+- **🗄️ 80% weniger Web-Requests** durch intelligentes Caching
+- **🌐 Modernes Web-Interface** mit Live-Dashboard
+- **📊 Umfassende Preis-Analysen** und Markt-Insights
+- **⏰ Automatisierte Updates** via Cron-Jobs
 
 **GitHub Repository:** [https://github.com/laubfrosch-sudo/WeedDB-DE](https://github.com/laubfrosch-sudo/WeedDB-DE)
 
@@ -28,31 +37,85 @@ Eine umfassende Cannabis-Produkt-Preis-Tracking-Datenbank für den deutschen Mar
 
 ---
 
-## 🌟 Funktionen
+## ⚡ Was WeedDB kann
 
-- **🧠 Intelligente Preisverfolgung**: Findet automatisch die günstigste Apotheke in zwei Kategorien:
-  - 🏆 **Top-Apotheken** - Kuratierte Auswahl vertrauenswürdiger Apotheken
-  - 🌍 **Alle Apotheken** - Vollständige Marktübersicht
-- **🏥 Echte Apothekennamen**: Speichert tatsächliche Apothekennamen (z.B. "Paracelsus Apotheke")
-- **📈 Historische Daten**: Verfolge Preisänderungen über die Zeit mit vollständiger Audit-Trail
-- **💾 Optimierter Speicherplatz**: Nur 2 Preiseinträge pro Produkt pro Scrape
-- **⚡ SQLite Datenbank**: Schnell, portabel, ohne Konfiguration
-- **🔄 Batch-Verarbeitung**: Zuverlässige Massenoperationen mit Timeout-Schutz
-- **🚀 Parallele Verarbeitung**: 3x schnellere Batch-Operationen mit konfigurierbarer Concurrency
-- **🔧 Auto-Recovery**: Automatische Korrektur fehlender Daten mit Retry-Mechanismen
-- **📊 Smarte Analysen**: Best-Value-Berechnungen und Marktkenntnisse
-- **🗄️ Intelligentes Caching**: Reduziert wiederholte Web-Requests um 80%
-- **📋 Vollständiges Logging**: Strukturiertes JSON-Logging mit Performance-Metriken
-- **⏰ Automatisierte Updates**: Cron-basierte tägliche/weekly/monthly Tasks
-- **🎯 Obsidian Integration**: Live-Status-Tracking und Visualisierung
-- **🌐 Web-Interface**: Moderne responsive Weboberfläche (v0.1.2)
-- **🔄 Live-Updates**: Automatische Daten-Aktualisierung (v0.1.2)
-- **📊 Erweiterte APIs**: Filtern, Sortieren, Paginierung (v0.1.3)
-- **🔗 Script-Integration**: Nahtlose CLI ↔ Web Zusammenarbeit (v0.1.3)
+### 🎯 **Kernfunktionen**
+- **🔍 Automatische Preis-Suche**: Finde die günstigsten Cannabis-Preise in Deutschland
+- **📊 Intelligente Analyse**: Vergleicht Preise über 30+ zertifizierte Apotheken
+- **📈 Preis-Historie**: Verfolge Preisänderungen über Monate
+- **🏆 Beste Angebote**: "Top-Apotheken" vs. "Alle Apotheken" Kategorien
+
+### 🚀 **Performance & Automation**
+- **⚡ 3x schnellere Updates**: Parallele Verarbeitung mit konfigurierbarer Concurrency
+- **🗄️ Smart Caching**: 80% weniger Web-Requests durch intelligente Zwischenspeicherung
+- **⏰ Automatisierte Tasks**: Tägliche Preis-Updates via Cron-Jobs
+- **📋 Vollständiges Monitoring**: Live-Status und Performance-Metriken
+
+### 🌐 **Moderne Benutzeroberfläche**
+- **💻 Web-Dashboard**: Responsive Interface mit Live-Metriken
+- **🔄 Echtzeit-Updates**: Automatische Daten-Aktualisierung
+- **📊 Erweiterte APIs**: Filtern, Sortieren, Paginierung
+- **🔗 CLI ↔ Web Integration**: Nahtlose Zusammenarbeit
+
+### 🛠️ **Entwickler-Features**
+- **🐍 Python-basiert**: SQLite Datenbank, kein externer Server nötig
+- **📝 Vollständige Logs**: Strukturiertes JSON-Logging
+- **🔧 Obsidian Integration**: Knowledge-Management mit Live-Status
+- **📚 Open Source**: Vollständig dokumentiert und erweiterbar
 
 ---
 
-## Schnellstart
+## 🚀 Schnellstart - In 3 Minuten einsatzbereit
+
+### 1. Repository klonen & Setup
+```bash
+git clone https://github.com/laubfrosch-sudo/WeedDB-DE.git
+cd WeedDB-DE
+pip install -r requirements.txt
+```
+
+### 2. Erste Preis-Suche
+```bash
+# Einzelnes Produkt suchen
+python3 scripts/add_product.py "Sourdough"
+
+# Mehrere Produkte parallel verarbeiten
+python3 scripts/add_products_parallel.py data/example_products.txt --concurrency 3 --yes
+```
+
+### 3. Web-Interface starten
+```bash
+cd web
+python3 -m uvicorn app:app --reload --host 0.0.0.0 --port 8000
+# Öffne: http://localhost:8000
+```
+
+### 4. Automatisierung einrichten
+```bash
+# Cron-Jobs für automatische Updates erstellen
+python3 scripts/scheduler.py --create-cron-scripts
+```
+
+**🎉 Fertig!** Dein persönliches Cannabis-Preis-Tracking-System läuft.
+
+---
+
+## 💡 Warum WeedDB wählen?
+
+| Problem | WeedDB Lösung |
+|---------|---------------|
+| **Teure Apotheken-Suche** | Automatische Preisvergleiche über 30+ Apotheken |
+| **Preisänderungen verpassen** | Tägliche automatische Updates |
+| **Keine Preis-Historie** | Vollständige Audit-Trail über Monate |
+| **Manuelle Dateneingabe** | Vollautomatisches Scraping |
+| **Keine Markt-Insights** | Umfassende Analysen und Trends |
+| **Technische Komplexität** | Einfache CLI + Web-Interface |
+
+**🌟 WeedDB spart dir Zeit und Geld bei der Cannabis-Beschaffung!**
+
+---
+
+## 📖 Detaillierte Anleitung
 
 ### 1. Repository klonen
 ```bash
